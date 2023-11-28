@@ -1,23 +1,15 @@
 const express = require('express');
+const db = require('./models') // gets db model from models folder
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-const mysql = require('mysql');
 
-const db = mysql.createConnection({
-  host: 'your_database_host',
-  user: 'your_database_user',
-  password: 'your_database_password',
-  database: 'your_database_name',
+db.sequelize.sync().then(() => { // when api is ready check model folder and sync the database every table
+  app.listen(PORT, () => {        // starts the server
+    console.log(`Server is running on port ${PORT}`);
+  });
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error('MySQL connection error: ' + err.stack);
-    return;
-  }
-  console.log('Connected to MySQL database');
-});
+
+

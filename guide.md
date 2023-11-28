@@ -133,3 +133,7 @@ This is a starter kit for web development using Node.js, Express.js, React, and 
 3. Open your web browser and go to `http://localhost:3000` to view your React app.
 
 Congratulations! You've now set up a basic web development project with Node.js, Express.js, React, and MySQL in Visual Studio Code. From here, you can continue building and expanding your application.
+
+server runs port 5000
+mysql db port 4000
+react port 3000

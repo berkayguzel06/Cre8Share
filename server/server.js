@@ -5,11 +5,15 @@ const cors = require('cors'); // allows cross origin resource sharing
 const app = express();
 const PORT = process.env.PORT || 5000;
 const postRouter = require('./Routers/Posts'); // gets posts router from router folder
-app.use("/posts", postRouter); // uses posts router
+// Enable CORS with a custom configuration
 app.use(cors({
-  origin: 'http://localhost:3000', // allows cross origin resource sharing from localhost:3000
-  credentials: true
+  origin: 'http://localhost:3000',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
 }));
+
+app.use("/posts", postRouter);
 
 db.sequelize.sync().then(() => { // when api is ready check model folder and sync the database every table
   app.listen(PORT, () => {        // starts the server

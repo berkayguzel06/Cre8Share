@@ -42,8 +42,11 @@ module.exports = (sequelize, DataTypes) => {
     });
     User.associate = (models) => {
         User.hasMany(models.Post, {
-            onDelete:"cascade",
+            onDelete: 'cascade',
         });
-    };
+        User.hasMany(models.Friend, {
+            onDelete: 'cascade',
+        });
+    }
     return User;
 }

@@ -5,17 +5,12 @@ module.exports = (sequelize, DataTypes) => {
         postid:{
             type: DataTypes.INTEGER,
             primaryKey: true,
-            allowNull: false,
-        },
-        userid:{
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            foreignkey: true,
+            allowNull: false
         },
         content:{
             type: DataTypes.STRING,
-            allowNull: true,
-        },
-    })
+            allowNull: true
+        }
+    });
     return Post;
 }

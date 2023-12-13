@@ -6,7 +6,7 @@ function App() {
   // useEffect hook is used to perform side effects in function components
   useEffect(() => {
     // Axios is used to make an HTTP GET request to 'http://127.0.0.1:5000/Posts'
-    axios.get('http://127.0.0.1:5000/Posts').then((response) => {
+    axios.get('http://127.0.0.1:5000/post').then((response) => {
       // Log the data received from the server to the console
       console.log(response.data);
     });

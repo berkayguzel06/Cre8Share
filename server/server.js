@@ -4,6 +4,7 @@ const cors = require('cors'); // Importing the CORS middleware
 const app = express(); // Creating an instance of the Express application
 const PORT = process.env.PORT || 5000; // Setting the port for the server
 const postRouter = require('./Routers/Posts'); // Importing the router for handling posts
+const userRouter = require('./Routers/Users'); // Importing the router for handling users
 
 // Enable CORS with a custom configuration
 app.use(cors({
@@ -13,7 +14,8 @@ app.use(cors({
   optionsSuccessStatus: 204, // Setting the HTTP status code for preflight requests
 }));
 
-app.use("/posts", postRouter); // Using the postRouter for requests starting with '/posts'
+app.use("/post", postRouter); // Using the postRouter for requests starting with '/posts'
+app.use("/user", userRouter); // Using the userRouter for requests starting with '/users'
 
 db.sequelize.sync().then(() => {
   // Synchronizing the database models and starting the server

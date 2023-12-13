@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         content:{
-            type: DataTypes.STRING,
-            allowNull: true
+            type: DataTypes.BLOB,
+            allowNull: false
         }
     });
     Post.associate = (models) => {

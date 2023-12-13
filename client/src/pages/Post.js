@@ -1,0 +1,1 @@
+// Shows when the user click a post

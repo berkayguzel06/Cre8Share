@@ -7,7 +7,7 @@ function App() {
   useEffect(() => {
     // Axios is used to make an HTTP GET request to 'http://127.0.0.1:5000/post'
     axios.get('http://127.0.0.1:5000/post').then((response) => {
-      // Log the data received from the server to the console
+      // Log the data received from the server to the console..
       console.log(response.data);
     });
   }, []); // The empty dependency array ensures that this effect runs once after the initial render

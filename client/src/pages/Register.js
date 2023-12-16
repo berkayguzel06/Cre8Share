@@ -12,14 +12,23 @@ const Register = () => {
                 <form action>
                     <h1>Register</h1>
                     <div className="input-box">
+                        <input type="text" placeholder="First Name" required />
+                    </div>
+                    <div className="input-box">
+                        <input type="text" placeholder="Last Name" required />
+                    </div>
+                    <div className="input-box">
                         <input type="text" placeholder="Email" required />
                     </div>
                     <div className="input-box">
                         <input type="password" placeholder="Password" required />
                     </div>
+                    <div className="input-box">
+                        <input type="text" placeholder="Username" required />
+                    </div>
                     <button type="submit" className="btn">Register</button>
                     <div className="register-link">
-                        <p>Don't have an account? <a href="http://localhost:3000/login">Login</a></p>
+                        <p>You already have an account? <a href="http://localhost:3000/login">Login</a></p>
                     </div>
                 </form>
             </div>

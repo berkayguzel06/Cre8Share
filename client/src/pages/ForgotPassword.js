@@ -1,6 +1,11 @@
 import React from 'react';
 import '../css/Login.css';
-const AppLogin = () => {
+import { Formik, Form, Field, ErrorMessage } from "formik";
+const ForgotPassword = () => {
+    const onSubmit = (data) => {
+        axios.post("http://localhost:3000/ForgotPassword", data).then((response) => {
+          console.log("IT WORKED");
+        })};
     return(
         <div>
             <meta charSet="UTF-8" />
@@ -15,19 +20,14 @@ const AppLogin = () => {
                         <input type="text" placeholder="Email" required />
                     </div>
                     <div className="input-box">
-                        <input type="password" placeholder="Password" required />
-                    </div>
-                    <div className="remember-forgot">
-                        <label><input type="checkbox" />Remember Me</label>
-                        <a href="http://localhost:3000/forgotpassword">Forgot Password</a>
+                        <input type="text" placeholder="Username" required />
                     </div>
                     <button type="submit" className="btn">Login</button>
-                    <div className="register-link">
-                        <p>Don't have an account? <a href="http://localhost:3000/register">Register</a></p>
-                    </div>
+
+
                 </form>
             </div>
         </div>
     );
 }
-export default AppLogin;
+export default ForgotPassword;

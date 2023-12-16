@@ -1,20 +1,20 @@
-import './App.css';
-import axios from 'axios';
-import React, { useEffect } from 'react';
+import "./App.css";
+import { BrowserRouter as Router, Route, Switch, Link, Routes } from "react-router-dom";
+import Login from "./pages/Login.js";
+import Home from "./pages/Home.js";
 
 function App() {
-  // useEffect hook is used to perform side effects in function components
-  useEffect(() => {
-    // Axios is used to make an HTTP GET request to 'http://127.0.0.1:5000/post'
-    axios.get('http://127.0.0.1:5000/post').then((response) => {
-      // Log the data received from the server to the console..
-      console.log(response.data);
-    });
-  }, []); // The empty dependency array ensures that this effect runs once after the initial render
-
-  // Render an empty div with the 'App' class
   return (
-    <div className="App"></div>
+    <div className="App">
+      <Router>
+        <Link to="/login">Login</Link>
+        <Link to="/"> Home Page</Link>
+        <Routes>
+          <Route path="/login" element={<Login/>} />
+          <Route path="/" element={<Home/>} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 export default App;

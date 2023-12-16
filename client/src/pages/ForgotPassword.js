@@ -1,33 +1,48 @@
 import React from 'react';
 import '../css/Login.css';
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+
 const ForgotPassword = () => {
-    const onSubmit = (data) => {
-        axios.post("http://localhost:3000/ForgotPassword", data).then((response) => {
-          console.log("IT WORKED");
-        })};
-    return(
-        <div>
-            <meta charSet="UTF-8" />
-            <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>Log In</title>
-            <link rel="stylesheet" href="style.css" />
-            <div className="wrapper">
-                <form action>
-                    <h1>Login</h1>
-                    <div className="input-box">
-                        <input type="text" placeholder="Email" required />
-                    </div>
-                    <div className="input-box">
-                        <input type="text" placeholder="Username" required />
-                    </div>
-                    <button type="submit" className="btn">Login</button>
+    const onSubmit = (values) => {
+        // Now, values.email and values.username contain the input values
+        axios.post('http://localhost:5000/forgotpassword', values)
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(error => {
+            console.error('Error submitting form:', error);
+          });
+      };
 
-
-                </form>
+  return (
+    <div>
+      <meta charSet="UTF-8" />
+      <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Log In</title>
+      <link rel="stylesheet" href="style.css" />
+      <div className="wrapper">
+        <Formik initialValues={{ email: '', username: '' }} onSubmit={onSubmit}>
+          <Form>
+            <h1>Login</h1>
+            <div className="input-box">
+              {/* Use Field component for email input */}
+              <Field type="text" name="email" placeholder="Email" required />
             </div>
-        </div>
-    );
-}
+            <div className="input-box">
+              {/* Use Field component for username input */}
+              <Field type="text" name="username" placeholder="Username" required />
+            </div>
+            <button type="submit" className="btn">
+              Login
+            </button>
+          </Form>
+        </Formik>
+      </div>
+    </div>
+  );
+};
+
 export default ForgotPassword;

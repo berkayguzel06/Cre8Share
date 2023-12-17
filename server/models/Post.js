@@ -2,11 +2,6 @@
 
 module.exports = (sequelize, DataTypes) => {
     const Post = sequelize.define("Post", {
-        postid:{
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            allowNull: false
-        },
         content:{
             type: DataTypes.BLOB,
             allowNull: false

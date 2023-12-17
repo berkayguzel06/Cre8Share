@@ -10,11 +10,18 @@ router.get("/", async (req, res) => {
     res.json(listofUsers);
 });
 
-// Handling HTTP POST requests to the root path ("/")
+// Update your user router
 router.post("/", async (req, res) => {
-    const post = req.body; // Extracting the request body, which should contain data for creating a new user
-    await User.create(post); // Using Sequelize's 'create' method to add a new user to the database
-    res.send(post); // Sending the created user data as a response
-});
+    try {
+      const userData = req.body; // Extracting the request body, which contains user data
+      const newUser = await User.create(userData); // Using Sequelize's 'create' method to add a new user to the database
+      // Print the created user data to the console
+      console.log('Created user:', newUser);
+      res.status(201).json(newUser); // Sending the created user data as a response
+    } catch (error) {
+      console.error('Error during user registration:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
 module.exports = router;

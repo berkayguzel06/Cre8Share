@@ -21,12 +21,12 @@ const ForgotPassword = () => {
       <meta charSet="UTF-8" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Log In</title>
+      <title>Forgot Password</title>
       <link rel="stylesheet" href="style.css" />
       <div className="wrapper">
         <Formik initialValues={{ email: '', username: '' }} onSubmit={onSubmit}>
           <Form>
-            <h1>Login</h1>
+            <h1>Forgot Password</h1>
             <div className="input-box">
               {/* Use Field component for email input */}
               <Field type="text" name="email" placeholder="Email" required />
@@ -36,7 +36,7 @@ const ForgotPassword = () => {
               <Field type="text" name="username" placeholder="Username" required />
             </div>
             <button type="submit" className="btn">
-              Login
+              Send Email
             </button>
           </Form>
         </Formik>

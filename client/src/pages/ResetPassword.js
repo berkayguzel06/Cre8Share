@@ -6,7 +6,7 @@ const ResetPassword = () => {
             <meta charSet="UTF-8" />
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>Log In</title>
+            <title>Reset Password</title>
             <link rel="stylesheet" href="style.css" />
             <div className="wrapper">
                 <form action>

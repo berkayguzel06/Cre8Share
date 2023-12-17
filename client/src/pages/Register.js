@@ -6,8 +6,8 @@ import '../css/Login.css';
 const Register = () => {
   // State to hold form data
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
+    lastname: '',
     email: '',
     password: '',
     username: '',
@@ -25,7 +25,7 @@ const Register = () => {
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(formData)
     try {
       // Send a POST request to register the user
       const response = await axios.post('http://localhost:5000/user', formData);
@@ -58,14 +58,13 @@ const Register = () => {
         {/* Registration form */}
         <form onSubmit={handleSubmit}>
           <h1>Register</h1>
-
           {/* Input fields for first name, last name, email, password, and username */}
           <div className="input-box">
             <input
               type="text"
               placeholder="First Name"
-              name="firstName"
-              value={formData.firstName}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               required
             />
@@ -74,8 +73,8 @@ const Register = () => {
             <input
               type="text"
               placeholder="Last Name"
-              name="lastName"
-              value={formData.lastName}
+              name="lastname"
+              value={formData.lastname}
               onChange={handleChange}
               required
             />
@@ -110,17 +109,8 @@ const Register = () => {
               required
             />
           </div>
-
-          {/* Submit button */}
-          <button type="submit" className="btn">
-            Register
-          </button>
-
-          {/* Link to login page */}
-          <div className="register-link">
-            <p>
-              You already have an account? <a href="http://localhost:3000/login">Login</a>
-            </p>
+          <button type="submit" className="btn">Register</button>
+          <div className="register-link"><p>You already have an account? <a href="http://localhost:3000/login">Login</a></p>
           </div>
         </form>
       </div>

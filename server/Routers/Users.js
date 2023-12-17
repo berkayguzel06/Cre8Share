@@ -14,9 +14,9 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     try {
       const userData = req.body; // Extracting the request body, which contains user data
+      console.log('Created user:', userData);
       const newUser = await User.create(userData); // Using Sequelize's 'create' method to add a new user to the database
       // Print the created user data to the console
-      console.log('Created user:', newUser);
       res.status(201).json(newUser); // Sending the created user data as a response
     } catch (error) {
       console.error('Error during user registration:', error);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import '../css/Home.css';
 
@@ -39,6 +40,18 @@ const Home = () => {
     return `${hoursAgo} hours ago`;
   };
 
+  const navigate = useNavigate();
+
+  const navigateLogin = () => {
+    // navigate to /login
+    navigate('/login');
+  };
+
+  const navigateRegister = () => {
+    // navigate to /register
+    navigate('/register');
+  };
+  
   return (
     <div>
       <meta charSet="UTF-8" />
@@ -48,7 +61,6 @@ const Home = () => {
       <link rel="stylesheet" href="style.css" />
       <div className="wrapper">
         <form action="">
-          <h1>Cre8Share</h1>
           {/* Display the latest posts */}
           <div>
             <h2>Latest Posts</h2>
@@ -72,8 +84,8 @@ const Home = () => {
           </div>
           {/* Add sign-in and sign-up buttons */}
           <div>
-            <button onClick={() => console.log('Sign In')}>Sign In</button>
-            <button onClick={() => console.log('Sign Up')}>Sign Up</button>
+            <button onClick={navigateLogin}>Sign In</button>
+            <button onClick={navigateRegister}>Sign Up</button>
           </div>
         </form>
       </div>

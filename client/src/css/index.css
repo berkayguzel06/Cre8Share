@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0;
+  padding: 10px; /* Add padding for some space around the text */
+  color: white;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  text-decoration: none;
+  border-radius: 5px; /* Add rounded corners for a softer look */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+  transition: background-color 0.3s ease; /* Add a smooth transition for hover effect */
+
+  /* Hover effect */
+  &:hover {
+    background-color: #00000075; /* Change background color on hover */
+  }
+}

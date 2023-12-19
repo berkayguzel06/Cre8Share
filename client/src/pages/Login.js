@@ -13,8 +13,14 @@ const AppLogin = () => {
             email: email,
             password: password
         };
+        // Send a POST request to register the user, and return token.
         await axios.post('http://localhost:5000/user/login', loginData).then((response)=>{
-            console.log(response.data);
+            // If there is an error, alert the user.
+            if(response.data.error) {
+                alert(response.data.error);
+            }else{
+                sessionStorage.setItem("accessToken", response.data);
+            }
         });
     };
 

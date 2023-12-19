@@ -6,7 +6,7 @@ const Home = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/')  // Assuming you're using GET to retrieve posts
+    axios.get('http://localhost:5000/post')  // Assuming you're using GET to retrieve posts
       .then(response => {
         console.log('Response:', response.data);
         // Ensure that the response.data is an array before calling setListOfPosts

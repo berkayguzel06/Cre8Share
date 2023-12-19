@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
     CommentReport.associate = (models) => {
-        Post.belongsTo(models.Comment);
+        CommentReport.belongsTo(models.Comment);
     }
     return CommentReport;
 }

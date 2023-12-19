@@ -1,13 +1,22 @@
 const express = require('express'); // Importing the 'express' library to create a router 
 const router = express.Router(); // Creating an instance of an Express router
-const { Post } = require('../models'); // Importing the 'User' model from the '../models' directory
+const { Post, User } = require('../models'); // Importing the 'User' model from the '../models' directory
 
-// Handling HTTP GET requests to the root path ("/")
 router.get("/", async (req, res) => {
-    // Using Sequelize's 'findAll' method to retrieve all users from the database
-    const listofPosts = await Post.findAll();
-    // Sending the list of users as a JSON response
-    res.json(listofPosts);
+    try {
+        // Using Sequelize's 'findAll' method to retrieve all posts from the database
+        const listOfPosts = await Post.findAll({
+            include: {
+                model: User,
+                attributes: ['username'], // Include only the 'username' attribute of the User model
+            },
+        });
+        // Sending the list of posts as a JSON response
+        res.json(listOfPosts);
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 // Handling HTTP POST requests to the root path ("/")

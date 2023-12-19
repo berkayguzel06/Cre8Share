@@ -16,8 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         });
         Post.hasMany(models.PostReport, {
             onDelete:"cascade",
-        })
+        });
+        Post.belongsTo(models.User);
     }
-
+    
     return Post;
 }

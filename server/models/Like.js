@@ -7,5 +7,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     });
+    Like.associate = (models) => {
+        Like.belongsTo(models.Post);
+    }
     return Like;
 }

@@ -65,22 +65,23 @@ const Home = () => {
           <div>
             <h2>Latest Posts</h2>
             {listOfPosts.length > 0 ? (
-              <ul>
-                {listOfPosts.map(post => (
-                  <li key={post.id}>
-                    <p>Posted by {post.UserId}</p>
-                    <p>Posted {getTimeAgo(post.createdAt)} ago</p>
-                    {/* Convert the binary data to base64 and set as src */}
-                    <img
-                      src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
-                      alt={`Post: ${post.id}`}
-                    />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No posts available.</p>
-            )}
+    <ul>
+        {listOfPosts.map(post => (
+            <li key={post.id}>
+                {/* Display user's name instead of user ID */}
+                <p>Posted by {post.User.username}</p>
+                <p>Posted {getTimeAgo(post.createdAt)} ago</p>
+                {/* Convert the binary data to base64 and set as src */}
+                <img
+                    src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
+                    alt={`Post: ${post.id}`}
+                />
+            </li>
+        ))}
+    </ul>
+    ) : (
+        <p>No posts available.</p>
+    )}
           </div>
           {/* Add sign-in and sign-up buttons */}
           <div>

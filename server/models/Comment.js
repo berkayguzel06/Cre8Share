@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         Comment.hasMany(models.CommentReport, {
             onDelete:"cascade",
         })
+        Comment.belongsTo(models.Post);
     }
     return Comment;
 }

@@ -6,5 +6,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     });
+    Friend.associate = (models) => {
+        Friend.belongsTo(models.User);
+    }
     return Friend;
 }

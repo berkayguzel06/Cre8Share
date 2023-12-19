@@ -1,6 +1,23 @@
 import React from 'react';
+import { useState } from 'react';
+import axios from 'axios';
 import '../css/Login.css';
+
 const AppLogin = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const login = async (e) => {
+        e.preventDefault();
+        const loginData = {
+            email: email,
+            password: password
+        };
+        await axios.post('http://localhost:5000/user/login', loginData).then((response)=>{
+            console.log(response.data);
+        });
+    };
+
     return(
         <div>
             <meta charSet="UTF-8" />
@@ -12,16 +29,26 @@ const AppLogin = () => {
                 <form action>
                     <h1>Login</h1>
                     <div className="input-box">
-                        <input type="text" placeholder="Email" required />
+                        <input 
+                        type="text" 
+                        placeholder="Email" 
+                        required 
+                        onChange={(e) => setEmail(e.target.value)}
+                        />
                     </div>
                     <div className="input-box">
-                        <input type="password" placeholder="Password" required />
+                        <input 
+                        type="password" 
+                        placeholder="Password" 
+                        required 
+                        onChange={(e) => setPassword(e.target.value)}
+                        />
                     </div>
                     <div className="remember-forgot">
                         <label><input type="checkbox" />Remember Me</label>
                         <a href="http://localhost:3000/forgotpassword">Forgot Password</a>
                     </div>
-                    <button type="submit" className="btn">Login</button>
+                    <button type="submit" className="btn" onClick={login}>Login</button>
                     <div className="register-link">
                         <p>Don't have an account? <a href="http://localhost:3000/register">Register</a></p>
                     </div>

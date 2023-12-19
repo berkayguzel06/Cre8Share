@@ -10,6 +10,35 @@ router.get("/", async (req, res) => {
     res.json(listofUsers);
 });
 
+// Handling HTTP POST requests to the "/login" path
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  console.log(password);
+
+  try {
+    // Using Sequelize's 'findOne' method to retrieve a user from the database based on email
+    const user = await User.findOne({ where: { email: email } });
+
+    // Check if user exists
+    if (!user) {
+      return res.json({ error: 'User not found' });
+    }
+
+    // Check if the provided password matches the user's password
+    if (user.password && password !== user.password) {
+      return res.json({ error: 'Wrong email or password' });
+    }
+
+    // If everything is fine, send a success message
+    return res.json("Logged in");
+  } catch (error) {
+    console.error('Error during login:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 // Update your user router
 router.post("/", async (req, res) => {
     try {

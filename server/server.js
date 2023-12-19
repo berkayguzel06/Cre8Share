@@ -19,6 +19,8 @@ app.use(bodyParser.json());
 app.use("/post", postRouter); // Using the postRouter for requests starting with '/posts'
 app.use("/forgotpassword", forgotpasswordRouter); // Using the postRouter for requests starting with '/posts'
 app.use("/user", userRouter); // Using the userRouter for requests starting with '/users'
+//app.use("/", postRouter); // Using the postRouter for requests starting with '/'
+
 
 
 db.sequelize.sync().then(() => {

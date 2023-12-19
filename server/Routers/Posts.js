@@ -17,4 +17,6 @@ router.post("/", async (req, res) => {
     res.send(post); // Sending the created user data as a response
 });
 
+
+
 module.exports = router;

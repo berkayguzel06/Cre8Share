@@ -2,10 +2,13 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import '../css/Login.css';
+import {useNavigate} from 'react-router-dom';
 
 const AppLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const navigate = useNavigate();
 
     const login = async (e) => {
         e.preventDefault();
@@ -20,6 +23,7 @@ const AppLogin = () => {
                 alert(response.data.error);
             }else{
                 sessionStorage.setItem("accessToken", response.data);
+                navigate('/home');
             }
         });
     };

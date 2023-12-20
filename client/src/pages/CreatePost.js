@@ -85,13 +85,14 @@ const CreatePost = () => {
     }
   
     setError('');
-  
     const id = JSON.parse(atob(token.split('.')[1]))['id'];
-    const formData = new FormData();
-    formData.append('id', id);
-    formData.append('content', image);
-  
-    axios.post('http://localhost:5000/post/createpost', formData, {
+    const post = {
+      title:title,
+      content:image,
+      userid:id
+    }
+    
+    axios.post('http://localhost:5000/post/createpost', post, {
       headers: {
         'accessToken': accessToken,
       },

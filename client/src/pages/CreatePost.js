@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import '../css/Home.css';
+import '../css/CreatePost.css';
 
-const Home = () => {
+const CreatePost = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
 
   useEffect(() => {
@@ -102,4 +102,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default CreatePost;

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import '../css/Home.css';
+import '../css/GuestPage.css';
 
-const Home = () => {
+const GuestPage = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
 
   useEffect(() => {
@@ -55,18 +55,13 @@ const Home = () => {
     // navigate to /register
     navigate('/register');
   };
-
-  const navigateCreatePost = () => {
-    // navigate to /login
-    navigate('/createpost');
-  };
   
   return (
     <div>
       <meta charSet="UTF-8" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Home</title>
+      <title>GuestPage</title>
       <link rel="stylesheet" href="style.css" />
       <div className="wrapper">
         <form action="">
@@ -94,7 +89,8 @@ const Home = () => {
           </div>
           {/* Add sign-in and sign-up buttons */}
           <div>
-            <button onClick={navigateCreatePost}>Create a Post</button>
+            <button onClick={navigateLogin}>Sign In</button>
+            <button onClick={navigateRegister}>Sign Up</button>
           </div>
         </form>
       </div>
@@ -102,4 +98,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default GuestPage;

@@ -1,0 +1,52 @@
+/* CreatePost.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1f1f1f; /* Dark background color */
+    color: #fff; /* Text color */
+  }
+  
+  .wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  form {
+    background-color: #333; /* Dark form background color */
+    border: 1px solid #555; /* Border color */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1, h2 {
+    color: #fff; /* Heading text color */
+  }
+  
+  label {
+    color: #ccc; /* Label text color */
+  }
+  
+  input, textarea {
+    background-color: #444; /* Input background color */
+    color: #fff; /* Input text color */
+    border: 1px solid #555; /* Input border color */
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    background-color: #4CAF50; /* Button background color */
+    color: #fff; /* Button text color */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049; /* Button hover color */
+  }
+  

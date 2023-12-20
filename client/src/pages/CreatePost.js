@@ -17,7 +17,7 @@ const CreatePost = () => {
   
   const getUsernameById = async (userId) => {
     try {
-      const response = await axios.post('http://localhost:5000/user/getusernamewithid', { id: userId });
+      const response = await axios.post('http://localhost:5000/user/usernamewithid', { id: userId });
       console.log(response);
       // Extract the username from the response data
       const username = response.data.username;
@@ -77,20 +77,22 @@ const CreatePost = () => {
     console.log('Preview:', { title, username, imagePreview: preview });
   };
 
+  
   const handleSubmit = () => {
     if (!title || !image) {
       setError('Title and image are required for submission');
       return;
     }
-
+  
     setError('');
+  
+    const id = JSON.parse(atob(token.split('.')[1]))['id'];
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('image', image);
-
-    axios.post('http://localhost:5000/post', formData, {
+    formData.append('id', id);
+    formData.append('content', image);
+  
+    axios.post('http://localhost:5000/post/createpost', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
         'accessToken': accessToken,
       },
     })

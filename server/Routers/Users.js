@@ -42,7 +42,7 @@ router.post("/login", async (req, res) => {
 });
 
 
-router.post("/pullusernamewithid", async (req, res) => {
+router.post("/usernamewithid", async (req, res) => {
   const { id } = req.body;
 
   try {

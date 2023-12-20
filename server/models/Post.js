@@ -5,7 +5,11 @@ module.exports = (sequelize, DataTypes) => {
         content:{
             type: DataTypes.BLOB,
             allowNull: false
-        }
+        },
+        title:{
+            type: DataTypes.STRING,
+            allowNull: false
+        },
     });
     Post.associate = (models) => {
         Post.hasMany(models.Comment, {

@@ -28,6 +28,20 @@ router.post("/", async (req, res) => {
     res.send(post); // Sending the created user data as a response
 });
 
+// Assuming you have an Express route for handling the post creation
+router.post('/createpost', async (req, res) => {
+  const { id } = req.body;
+  const content = req.files.content.data; // Assuming the image data is in req.files.content.data
+
+  try {
+    const post = await Post.create({ content, UserId: id });
+    res.status(201).json({ post });
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 module.exports = router;

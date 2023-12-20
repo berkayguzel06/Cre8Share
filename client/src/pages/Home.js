@@ -45,17 +45,7 @@ const Home = () => {
   };
 
   const navigate = useNavigate();
-
-  const navigateLogin = () => {
-    // navigate to /login
-    navigate('/login');
-  };
-
-  const navigateRegister = () => {
-    // navigate to /register
-    navigate('/register');
-  };
-
+  
   const navigateCreatePost = () => {
     // navigate to /login
     navigate('/createpost');

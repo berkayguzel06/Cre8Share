@@ -42,6 +42,27 @@ router.post("/login", async (req, res) => {
 });
 
 
+router.post("/pullusernamewithid", async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    
+    const user = await User.findOne({ where: { id:id } });
+
+    
+    if (!user) {
+      return res.json({ error: 'User not found' });
+    }
+    
+    return res.json({ username: user.username });
+
+  } catch (error) {
+    console.error('Error during login:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 // Update your user router
 router.post("/", async (req, res) => {
     try {

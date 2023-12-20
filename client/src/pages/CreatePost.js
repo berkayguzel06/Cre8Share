@@ -1,105 +1,149 @@
 import React, { useState, useEffect } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/CreatePost.css';
 
 const CreatePost = () => {
-  const [listOfPosts, setListOfPosts] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:5000/post',
-    { // Add the token to the request headers before calling axios.get.
-      headers:{accessToken:sessionStorage.getItem("accessToken")}
-    })  // Assuming you're using GET to retrieve posts
-      .then(response => {
-        console.log('Response:', response.data);
-        console.log('Token:', sessionStorage.getItem("accessToken"));
-        // Ensure that the response.data is an array before calling setListOfPosts
-        if (Array.isArray(response.data)) {
-          setListOfPosts(response.data);
-        } else {
-          console.error('Invalid data format:', response.data);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching posts:', error);
-      });
-  }, []);
-
-  // Function to convert binary data to base64
-  const arrayBufferToBase64 = (buffer) => {
-    const binary = new Uint8Array(buffer.data).reduce(
-      (binaryString, byte) => binaryString + String.fromCharCode(byte),
-      ''
-    );
-    return window.btoa(binary);
-  };
-
-  // Function to format the time difference
-  const getTimeAgo = (createdAt) => {
-    const now = new Date();
-    const createdDate = new Date(createdAt);
-    const timeDifference = now - createdDate;
-    const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
-    return `${hoursAgo} hours ago`;
-  };
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState('');
+  const [error, setError] = useState('');
+  const [showPreview, setShowPreview] = useState(false);
 
   const navigate = useNavigate();
+  const accessToken = sessionStorage.getItem('accessToken');
+  const token = sessionStorage.getItem('accessToken');
 
-  const navigateLogin = () => {
-    // navigate to /login
-    navigate('/login');
-  };
-
-  const navigateRegister = () => {
-    // navigate to /register
-    navigate('/register');
-  };
-
-  const navigateCreatePost = () => {
-    // navigate to /login
-    navigate('/createpost');
+  
+  const getUsernameById = async (userId) => {
+    try {
+      const response = await axios.post('http://localhost:5000/user/getusernamewithid', { id: userId });
+      console.log(response);
+      // Extract the username from the response data
+      const username = response.data.username;
+      return username;
+    } catch (error) {
+      console.error('Error getting username by ID:', error);
+      throw error; // Rethrow the error to be handled by the caller
+    }
   };
   
-  return (
+  
+
+
+  const getUsernameFromToken = () => {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    //console.log('Token Payload:', payload); // Log the payload to check its structure
+    console.log('Token Payload:', getUsernameById(payload['id'])); // Log the payload to check its structure
+
+    
+    return payload.id;
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return null;
+  }
+};
+
+  const username = getUsernameFromToken(token);
+
+  useEffect(() => {
+    if (image) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(image);
+    } else {
+      setPreview('');
+    }
+  }, [image]);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+  };
+
+  const handlePreview = () => {
+    if (!title || !image) {
+      setError('Title and image are required for preview');
+      return;
+    }
+
+    setError('');
+    setShowPreview(true);
+    console.log('Preview:', { title, username, imagePreview: preview });
+  };
+
+  const handleSubmit = () => {
+    if (!title || !image) {
+      setError('Title and image are required for submission');
+      return;
+    }
+
+    setError('');
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('image', image);
+
+    axios.post('http://localhost:5000/post', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'accessToken': accessToken,
+      },
+    })
+      .then((response) => {
+        console.log('Post submitted successfully:', response.data);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('Error submitting post:', error);
+        setError('Error submitting post. Please try again.');
+      });
+  };
+
+  return accessToken ? (
     <div>
-      <meta charSet="UTF-8" />
-      <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Home</title>
-      <link rel="stylesheet" href="style.css" />
-      <div className="wrapper">
-        <form action="">
-          {/* Display the latest posts */}
-          <div>
-            <h2>Latest Posts</h2>
-            {listOfPosts.length > 0 ? (
-    <ul>
-        {listOfPosts.map(post => (
-            <li key={post.id}>
-                {/* Display user's name instead of user ID */}
-                <p>Posted by {post.User.username}</p>
-                <p>Posted {getTimeAgo(post.createdAt)} ago</p>
-                {/* Convert the binary data to base64 and set as src */}
-                <img
-                    src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
-                    alt={`Post: ${post.id}`}
-                />
-            </li>
-        ))}
-    </ul>
-    ) : (
-        <p>No posts available.</p>
-    )}
-          </div>
-          {/* Add sign-in and sign-up buttons */}
-          <div>
-            <button onClick={navigateCreatePost}>Create a Post</button>
-          </div>
+      <h1>Create a Post</h1>
+      {showPreview ? (
+        <div>
+          <h2>Post Preview</h2>
+          <p>Title: {title}</p>
+          <p>Username: {username}</p>
+          <img src={preview} alt="Post Preview" style={{ maxWidth: '100%' }} />
+          {/* You can add more details from the preview if needed */}
+          <button type="button" onClick={() => setShowPreview(false)}>
+            Back to Edit
+          </button>
+        </div>
+      ) : (
+        <form>
+          <label>
+            Title:
+            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          </label>
+          <br />
+          <label>
+            Upload Image:
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+          </label>
+          <br />
+          {preview && <img src={preview} alt="Post Preview" style={{ maxWidth: '100%' }} />}
+          <br />
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <button type="button" onClick={handlePreview}>
+            Preview
+          </button>
+          <button type="button" onClick={handleSubmit}>
+            Submit
+          </button>
         </form>
-      </div>
+      )}
     </div>
-  );
+  ) : null;
 };
 
 export default CreatePost;
+

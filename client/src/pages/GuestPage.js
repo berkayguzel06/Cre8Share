@@ -7,10 +7,7 @@ const GuestPage = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/post',
-    { // Add the token to the request headers before calling axios.get.
-      headers:{accessToken:sessionStorage.getItem("accessToken")}
-    })  // Assuming you're using GET to retrieve posts
+    axios.get('http://localhost:5000/post/guestpage')  // Assuming you're using GET to retrieve posts
       .then(response => {
         console.log('Response:', response.data);
         console.log('Token:', sessionStorage.getItem("accessToken"));

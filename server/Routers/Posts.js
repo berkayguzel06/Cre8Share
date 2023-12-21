@@ -20,6 +20,22 @@ router.get("/", validateToken, async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+router.get("/guestpage", async (req, res) => {
+    try {
+        // Using Sequelize's 'findAll' method to retrieve all posts from the database
+        const listOfPosts = await Post.findAll({
+            include: {
+                model: User,
+                attributes: ['username'], // Include only the 'username' attribute of the User model
+            },
+        });
+        // Sending the list of posts as a JSON response
+        res.json(listOfPosts);
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 // Handling HTTP POST requests to the root path ("/")
 router.post("/", async (req, res) => {

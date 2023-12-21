@@ -3,7 +3,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Post = sequelize.define("Post", {
         content:{
-            type: DataTypes.BLOB,
+            type: DataTypes.BLOB('long'),
             allowNull: false
         },
         title:{

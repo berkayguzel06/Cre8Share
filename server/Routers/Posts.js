@@ -28,11 +28,17 @@ router.post("/", async (req, res) => {
     res.send(post); // Sending the created user data as a response
 });
 
-// Assuming you have an Express route for handling the post creation
 router.post('/createpost', async (req, res) => {
-    const { title, content , userid } = req.body;
+    const { title, content, userid } = req.body;
     try {
-      const post = await Post.create({content: content, title: title, UserId: req.body.userid });
+      // Decode base64 to binary
+      const binaryContent = Buffer.from(String(content), 'base64');
+
+      
+  
+      // Create the post in the database
+      const post = await Post.create({ title, content: binaryContent, UserId: userid });
+  
       res.status(201).json({ post });
     } catch (error) {
       console.error('Error creating post:', error);

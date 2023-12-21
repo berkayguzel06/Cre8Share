@@ -28,9 +28,6 @@ const CreatePost = () => {
     }
   };
   
-  
-
-
   const getUsernameFromToken = () => {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
@@ -65,7 +62,7 @@ const CreatePost = () => {
       setImage(file);
     }
   };
-
+  
   const handlePreview = () => {
     if (!title || !image) {
       setError('Title and image are required for preview');
@@ -85,26 +82,36 @@ const CreatePost = () => {
     }
   
     setError('');
-    const id = JSON.parse(atob(token.split('.')[1]))['id'];
-    const post = {
-      title:title,
-      content:image,
-      userid:id
-    }
-    
-    axios.post('http://localhost:5000/post/createpost', post, {
-      headers: {
-        'accessToken': accessToken,
-      },
-    })
-      .then((response) => {
-        console.log('Post submitted successfully:', response.data);
-        navigate('/');
+  
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result.split(',')[1]; // Extract the base64-encoded string
+      const id = JSON.parse(atob(token.split('.')[1]))['id'];
+      
+      const post = {
+        title: title,
+        content: base64String, // Use the base64-encoded string directly
+        userid: id
+      };
+  
+      axios.post('http://localhost:5000/post/createpost', post, {
+        headers: {
+          'accessToken': accessToken,
+          'Content-Type': 'application/json',
+        },
       })
-      .catch((error) => {
-        console.error('Error submitting post:', error);
-        setError('Error submitting post. Please try again.');
-      });
+        .then((response) => {
+          console.log('Post submitted successfully:', response.data);
+          navigate('/home');
+        })
+        .catch((error) => {
+          console.error('Error submitting post:', error);
+          setError('Error submitting post. Please try again.');
+        });
+    };
+  
+    // Read the image data
+    reader.readAsDataURL(image);
   };
 
   return accessToken ? (

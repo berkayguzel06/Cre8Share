@@ -1,20 +1,44 @@
-const express = require('express'); // Importing the 'express' library to create a router 
-const router = express.Router(); // Creating an instance of an Express router
-const { Like } = require('../models'); // Importing the 'Likes' model from the '../models' directory
+const express = require('express');
+const router = express.Router();
+const { Like } = require('../models');
 
-// Handling HTTP GET requests to the root path ("/")
-router.get("/", async (req, res) => {
-    // Using Sequelize's 'findAll' method to retrieve all likes from the database
-    const listofLikes = await Like.findAll();
-    // Sending the list of users as a JSON response
-    res.json(listofLikes);
+router.get("/likecount", async (req, res) => {
+    try {
+        const postID = req.body.postID;
+        const likeCount = await Like.count({ where: { PostID: postID } });
+        res.json({ likeCount });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
-// Handling HTTP POST requests to the root path ("/")
-router.post("/", async (req, res) => {
-    const post = req.body; // Extracting the request body, which should contain data for creating a new user
-    await Like.create(post); // Using Sequelize's 'create' method to add a new like to the database
-    res.send(post); // Sending the like data as a response
+// Handling HTTP POST requests to the "/like" path
+router.post("/like", async (req, res) => {
+    try {
+        const { postID, userID } = req.body;
+        await Like.create({ PostID: postID, UserID: userID });
+        const likeCount = await Like.count();
+        res.json({ likeCount });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Handling HTTP POST requests to the "/dislike" path
+router.post("/dislike", async (req, res) => {
+    try {
+        const { postID, userID } = req.body;
+        // Delete dislike entry
+        await Like.destroy({ where: { PostID: postID, UserID: userID } });
+        // Recalculate like count
+        const likeCount = await Like.count();
+        res.json({ likeCount });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 module.exports = router;

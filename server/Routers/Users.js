@@ -14,9 +14,6 @@ router.get("/", async (req, res) => {
 // Handling HTTP POST requests to the "/login" path
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
-  console.log(password);
-
   try {
     // Using Sequelize's 'findOne' method to retrieve a user from the database based on email
     const user = await User.findOne({ where: { email: email } });
@@ -31,10 +28,7 @@ router.post("/login", async (req, res) => {
       return res.json({ error: 'Wrong email or password' });
     }
     // Create a token for the user
-    const accessToken = sign({email:user.email,id:user.id},
-      "importantsecret");
-    // If everything is fine, send a token to the client
-    res.json(accessToken)
+    const accessToken = sign({email:user.email,id:user.id},"importantsecret");
   } catch (error) {
     console.error('Error during login:', error);
     return res.status(500).json({ error: 'Internal server error' });
@@ -44,18 +38,12 @@ router.post("/login", async (req, res) => {
 
 router.post("/usernamewithid", async (req, res) => {
   const { id } = req.body;
-
   try {
-    
     const user = await User.findOne({ where: { id:id } });
-
-    
     if (!user) {
       return res.json({ error: 'User not found' });
     }
-    
     return res.json({ username: user.username });
-
   } catch (error) {
     console.error('Error during login:', error);
     return res.status(500).json({ error: 'Internal server error' });

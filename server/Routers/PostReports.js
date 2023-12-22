@@ -1,6 +1,6 @@
 const express = require('express'); // Importing the 'express' library to create a router 
 const router = express.Router(); // Creating an instance of an Express router
-const { Post } = require('../models'); // Importing the 'postreport' model from the '../models' directory
+const { PostReport } = require('../models'); // Importing the 'postreport' model from the '../models' directory
 
 // Handling HTTP GET requests to the root path ("/")
 router.get("/", async (req, res) => {

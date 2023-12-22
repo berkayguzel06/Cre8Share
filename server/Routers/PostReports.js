@@ -11,9 +11,9 @@ router.get("/", async (req, res) => {
 });
 // Handling HTTP POST requests to the root path ("/")
 router.post("/", async (req, res) => {
-    const post = req.body; // Extracting the request body, which should contain data for creating a new user
-    await PostReport.create(post); // Using Sequelize's 'create' method to add a postreport to the database
-    res.send(post); // Sending the created postreport data as a response
+    const postID = req.body; // Extracting the request body, which should contain data for creating a new user
+    await Post.create({ PostID: postID });
+    res.send("Report count created successfully");
 });
 // Handling HTTP POST requests to the root path ("/")
 router.post("/update", async (req, res) => {

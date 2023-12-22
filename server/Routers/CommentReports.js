@@ -12,9 +12,14 @@ router.get("/", async (req, res) => {
 
 // Handling HTTP POST requests to the root path ("/")
 router.post("/", async (req, res) => {
-    const post = req.body; // Extracting the request body, which should contain data for creating a new user
-    await CommentReport.create(post); // Using Sequelize's 'create' method to add a new comment report to the database
-    res.send(post); // Sending the comment report data as a response
+    const commentID = req.body; // Extracting the request body, which should contain data for creating a new user
+    await CommentReport.create({ CommentID: commentID });
+    res.send("Report count created successfully");
+});
+router.post("/update", async (req, res) => {
+    const { commentID } = req.body; // Extracting the body if the user clicks on a button request, returning post id
+    await CommentReport.update({ reportCount: sequelize.literal('reportCount + 1') },{ where: { CommentID: commentID } });
+    res.send("Report count updated successfully");
 });
 
 module.exports = router;

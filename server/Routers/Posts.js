@@ -49,9 +49,6 @@ router.post('/createpost', async (req, res) => {
     try {
       // Decode base64 to binary
       const binaryContent = Buffer.from(String(content), 'base64');
-
-      
-  
       // Create the post in the database
       const post = await Post.create({ title, content: binaryContent, UserId: userid });
   

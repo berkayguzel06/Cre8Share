@@ -1,0 +1,53 @@
+.image-grid{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    
+}
+.row {
+    display: flex;
+    margin-bottom: 30px;
+    
+}
+body { 
+    background-color: #DBF9FC; 
+}
+.column{
+    width: 512px;
+    height: 700px;
+    flex: 33.33%;
+    padding: 5px;
+}
+.prof-pic{
+    
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 75px;
+    height: auto;
+    display: inline-block;
+    border-radius: 30px;
+}
+.description{
+    margin-left: 20px;
+    
+}
+.poster{
+    margin-left: 20px;
+}
+.post-info{
+    height: 75px;
+    
+}
+.prof-pic-info{
+    display: flex;
+    
+    
+}
+.picture{
+    display: flex;
+}
+.post{
+    display: flex;
+}
+
+

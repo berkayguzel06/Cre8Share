@@ -1,0 +1,82 @@
+
+.header{
+    height:55px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: black;
+}
+.left-section{
+    
+    
+    display: flex;
+    align-items: center;
+    
+}
+.cre8share-logo{
+    height: 40px;
+}
+.middle-section{
+    
+    flex:1;
+    max-width: 700px;
+    display: flex;
+    align-items: center;
+    
+
+}
+.right-section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+
+}
+.search-bar{
+    flex: 1;
+    padding-left: 10px;
+    height: 34px;
+    font-size: 16px;
+    margin-right: 8px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: white;
+    border-radius: 30px;
+    
+}
+.options{
+    height: 40px;
+    margin-left: 3px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.search-button{
+    height: 40px;
+    width: 60px;
+    border-radius: 30px;
+    margin-right: 8px;
+}
+.search-icon{
+    height: 25px;
+}
+.notification-icon{
+    height: 40px;
+    background-color: white;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.profile-picture{
+    height: 40px;
+    background-color: white;
+    border-radius: 60px;
+    margin-left: 10px;
+    cursor: pointer;
+    
+}
+#lang{
+    margin-right: 10px;
+    height: 40px;
+    border-radius: 15px;
+}
+

@@ -18,7 +18,7 @@ router.get("/commentcount", async (req, res) => {
 });
 
 // Handling HTTP POST requests to the "/delete" path
-router.delete("/", async (req, res) => {
+router.delete("/:commentID", async (req, res) => {
     const { commentID } = req.body;
     await Comment.destroy({ where: { id: commentID } });
     res.send(`Comment with ID ${commentID} deleted successfully`);

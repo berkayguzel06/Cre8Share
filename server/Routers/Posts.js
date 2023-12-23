@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
     res.send(post); // Sending the created user data as a response
 });
 
-router.delete("/", async (req, res) => {
+router.delete("/:postID", async (req, res) => {
     const { postID } = req.body;
     const post = req.body; // Extracting the request body, which should contain data for creating a new user
     await Post.destroy({ where: { id: postID } });

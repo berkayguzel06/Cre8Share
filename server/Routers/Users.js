@@ -2,6 +2,7 @@ const express = require('express'); // Importing the 'express' library to create
 const router = express.Router(); // Creating an instance of an Express router
 const { User } = require('../models'); // Importing the 'User' model from the '../models' directory
 const {sign} = require("jsonwebtoken")
+const {validateToken} = require("../middlewares/UserAuth")
 
 // Handling HTTP GET requests to the root path ("/")
 router.get("/", async (req, res) => {
@@ -31,7 +32,7 @@ router.post("/login", async (req, res) => {
     // Create a token for the user
     const accessToken = sign({email:user.email,id:user.id},"importantsecret");
     // If everything is fine, send a token to the client
-    res.json(accessToken)
+    res.json({ token: accessToken, email: email, id: user.id });
   } catch (error) {
     console.error('Error during login:', error);
     return res.status(500).json({ error: 'Internal server error' });
@@ -66,6 +67,10 @@ router.post("/", async (req, res) => {
       console.error('Error during user registration:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
-  });
+});
+
+router.get("/auth", validateToken, (req, res) => {
+  res.json(req.user);
+});
 
 module.exports = router;

@@ -84,8 +84,9 @@ const Home = () => {
       Switch
     </button>
     {/* Move the "Create a Post" button to the header */}
-    <button onClick={navigateCreatePost}>Create a Post</button>
+    
   </div>
+  <button className="create-post-button" onClick={navigateCreatePost}>Create a Post</button>
   {/* Right side with user actions and profile picture */}
   <div className="header-right">
     <div className="profile-picture" onClick={toggleProfileMenu}>

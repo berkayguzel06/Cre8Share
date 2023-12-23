@@ -62,4 +62,18 @@ body {
   .profile-menu button:hover {
     background-color: #1b1a1a;
   }
+  .create-post-button {
+    background-color: #ac3030;
+    color: #1d0477;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative; /* Add position property */
+    left: -100px; /* Adjust the left value as needed */
+  }
+  
+  .create-post-button:hover {
+    background-color: #b34b4b;
+  }
   

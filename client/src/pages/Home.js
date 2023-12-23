@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/Home.css';
+import '../css/Header.css';
+import logoImage from '../images/cre8share-logo12.png';
+import profileImage from '../images/pp1.png';
 
 const Home = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
+  const [searchType, setSearchType] = useState('username'); // 'username' or 'post'
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/post',
-    { // Add the token to the request headers before calling axios.get.
-      headers:{accessToken:sessionStorage.getItem("accessToken")}
-    })  // Assuming you're using GET to retrieve posts
+    axios.get('http://localhost:5000/post', {
+      headers: { accessToken: sessionStorage.getItem('accessToken') },
+    })
       .then(response => {
-        console.log('Response:', response.data);
-        console.log('Token:', sessionStorage.getItem("accessToken"));
-        // Ensure that the response.data is an array before calling setListOfPosts
         if (Array.isArray(response.data)) {
           setListOfPosts(response.data);
         } else {
@@ -45,49 +46,83 @@ const Home = () => {
   };
 
   const navigate = useNavigate();
-  
+
   const navigateCreatePost = () => {
-    // navigate to /login
     navigate('/createpost');
   };
-  
+
+  const toggleProfileMenu = (e) => {
+    e.stopPropagation(); // Prevent the event from propagating to the document
+    setShowProfileMenu((prev) => !prev);
+  };
+
+  const handleProfileMenuClick = option => {
+    if (option === 'profile') {
+      navigate('/profile');
+    } else if (option === 'settings') {
+      navigate('/settings');
+    } else if (option === 'logout') {
+      navigate('/logout');
+    }
+    // Close the profile menu after clicking an option
+    setShowProfileMenu(false);
+  };
+
   return (
     <div>
-      <meta charSet="UTF-8" />
-      <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Home</title>
-      <link rel="stylesheet" href="style.css" />
-      <div className="wrapper">
-        <form action="">
-          {/* Display the latest posts */}
-          <div>
-            <h2>Latest Posts</h2>
-            {listOfPosts.length > 0 ? (
-    <ul>
-        {listOfPosts.map(post => (
-            <li key={post.id}>
-                {/* Display user's name instead of user ID */}
-                <p>Posted by {post.User.username}</p>
-                <p>Posted {getTimeAgo(post.createdAt)} ago</p>
-                {/* Convert the binary data to base64 and set as src */}
-                <img
-                    src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
-                    alt={`Post: ${post.id}`}
-                />
-            </li>
-        ))}
-    </ul>
-    ) : (
-        <p>No posts available.</p>
-    )}
-          </div>
-          {/* Add sign-in and sign-up buttons */}
-          <div>
-            <button onClick={navigateCreatePost}>Create a Post</button>
-          </div>
-        </form>
+      <div className="header">
+  {/* Left side with logo */}
+  <div className="header-left">
+    <a href="/">
+      <img src={logoImage} alt="Logo" />
+    </a>
+  </div>
+  {/* Middle part with search bar, switch button, and create post button */}
+  <div className="header-middle">
+    <input type="text" placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`} />
+    <button onClick={() => setSearchType(prevType => (prevType === 'username' ? 'post' : 'username'))}>
+      Switch
+    </button>
+    {/* Move the "Create a Post" button to the header */}
+    <button onClick={navigateCreatePost}>Create a Post</button>
+  </div>
+  {/* Right side with user actions and profile picture */}
+  <div className="header-right">
+    <div className="profile-picture" onClick={toggleProfileMenu}>
+      {/* Replace "/path-to-your-profile-pic.jpg" with the actual path to your profile picture */}
+      <img src={profileImage} alt="Profile" />
+    </div>
+    {showProfileMenu && (
+      <div className="profile-menu">
+        <button onClick={() => handleProfileMenuClick('profile')}>My Profile</button>
+        <button onClick={() => handleProfileMenuClick('settings')}>Settings</button>
+        <button onClick={() => handleProfileMenuClick('logout')}>Log Out</button>
       </div>
+          )}
+        </div>
+      </div>
+
+      {/* Display the latest posts */}
+      <div className="posts-container">
+  {listOfPosts.length > 0 ? (
+    <ul className="posts-list">
+      {listOfPosts.map(post => (
+        <li key={post.id} className="post-item">
+          <p>Posted by {post.User.username}</p>
+          <p>Posted {getTimeAgo(post.createdAt)} ago</p>
+          <p>{post.title} </p>
+          <img
+            src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
+            alt={`Post ID: ${post.id}`}
+            className="post-image"
+          />
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No posts available.</p>
+  )}
+</div>
     </div>
   );
 };

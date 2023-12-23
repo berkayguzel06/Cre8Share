@@ -51,7 +51,7 @@ img {
 }
 
 button {
-  background-color: #4CAF50;
+  background-color: #2b2626;
   color: #000000;
   padding: 10px 15px;
   border: none;
@@ -61,5 +61,5 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #252121;
 }

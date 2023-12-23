@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Link id="title" to="/">Cre8Share</Link>
+        <Link id="title" to="/"></Link>
         <Routes>
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />

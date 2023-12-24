@@ -12,9 +12,9 @@ body {
   
   form {
     background-color: #200c0c;
-    border: 1px solid #220909;
+    border: 1px solid #220909 auto;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) auto;
   }
   
   h1 {
@@ -23,23 +23,23 @@ body {
   }
   
   h2 {
-    margin-bottom: 10px;
+    margin-bottom: 10px auto;
     color: #333;
   }
   
   ul {
     list-style: none;
-    padding: 0;
+    padding: 0 auto;
     display: flex;
     flex-wrap: wrap;
   }
   
   li {
-    margin: 10px;
-    width: 320px; /* Adjust as needed */
-    height: 411px; /* Adjust as needed */
+    margin: 10px auto;
+    width: 320px ; /* Adjust as needed */
+    max-height: 411px ; /* Adjust as needed */
     border: 1px solid #3c1e49;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) auto;
     display: flex;
     flex-direction: column;
   }

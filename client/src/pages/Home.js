@@ -105,24 +105,33 @@ const Home = () => {
 
       {/* Display the latest posts */}
       <div className="posts-container">
-  {listOfPosts.length > 0 ? (
-    <ul className="posts-list">
-      {listOfPosts.map(post => (
-        <li key={post.id} className="post-item">
-          <p>Posted by {post.User.username}</p>
-          <p>Posted {getTimeAgo(post.createdAt)} ago</p>
-          <p>{post.title} </p>
-          <img
-            src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
-            alt={`Post ID: ${post.id}`}
-            className="post-image"
-          />
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p>No posts available.</p>
-  )}
+      {listOfPosts.length > 0 ? (
+  <ul className="posts-list">
+    {listOfPosts.map(post => (
+      <li key={post.id} className="post-container">
+        {/* Display username overlay */}
+        
+        <a href="/profiles/userxxx">
+        <div className="username-overlay">{post.User.username}</div>
+        </a>
+
+        <a href="/posts/postxxx">
+        <img
+          src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
+          alt={`Post ID: ${post.id}`}
+        />
+        </a>
+
+
+        {/* <p>Posted by {post.User.username}</p> */}
+        {/* <p>Posted {getTimeAgo(post.createdAt)} ago</p> */}
+        {/* <p>{post.title}</p> */}
+      </li>
+    ))}
+  </ul>
+) : (
+  <p>No posts available.</p>
+)}
 </div>
     </div>
   );

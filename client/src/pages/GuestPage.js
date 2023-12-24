@@ -69,9 +69,11 @@ const GuestPage = () => {
     <ul>
         {listOfPosts.map(post => (
             <li key={post.id}>
+                {/* <p>Posted by {post.User.username}</p> */}
+                {/* <p>Posted {getTimeAgo(post.createdAt)} ago</p> */}
                 {/* Display user's name instead of user ID */}
-                <p>Posted by {post.User.username}</p>
-                <p>Posted {getTimeAgo(post.createdAt)} ago</p>
+                
+                
                 {/* Convert the binary data to base64 and set as src */}
                 <img
                     src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}

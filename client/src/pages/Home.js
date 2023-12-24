@@ -89,7 +89,6 @@ const Home = () => {
     <button onClick={() => setSearchType(prevType => (prevType === 'username' ? 'post' : 'username'))}>
       Switch
     </button>
-    {/* Move the "Create a Post" button to the header */}
     
   </div>
   <button className="create-post-button" onClick={navigateCreatePost}>Create a Post</button>

@@ -28,7 +28,8 @@ const AppLogin = () => {
           token: response.data.token,
           id: response.data.id,
         });
-        sessionStorage.setItem('accessToken', response.data.token);
+        console.log(response.data);
+        localStorage.setItem('accessToken', response.data.token);
         navigate('/home');
       }
     } catch (error) {

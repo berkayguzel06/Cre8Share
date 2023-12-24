@@ -6,16 +6,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true
         },
-        userid:{
-            type: DataTypes.INTEGER,
-            allowNull: false
-        }
     });
     Comment.associate = (models) => {
         Comment.hasMany(models.CommentReport, {
             onDelete:"cascade",
         })
         Comment.belongsTo(models.Post);
+        Comment.belongsTo(models.User);
     }
     return Comment;
 }

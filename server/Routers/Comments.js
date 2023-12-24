@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Comment } = require('../models');
+const { Comment, User } = require('../models');
 
 // Handling HTTP GET requests to the "/commentcount" path for a specific post
 router.get("/commentcount", async (req, res) => {
@@ -20,7 +20,11 @@ router.get("/commentcount", async (req, res) => {
 router.get("/:postID", async (req, res) => {
     const postID = req.params.postID; // Extracting the post ID from the URL parameters
     try {
-        const listOfComments = await Comment.findAll({ where: { PostID: postID } });
+        const listOfComments = await Comment.findAll({ where: { PostID: postID },
+            include: {
+                model: User,
+                attributes: ['username'], // Include only the 'username' attribute of the User model
+             }});
       if (listOfComments) {
         res.json(listOfComments);
       } else {
@@ -44,9 +48,11 @@ router.delete("/:commentID", async (req, res) => {
 
 // Handling HTTP POST requests to the "/create" path
 router.post("/create", async (req, res) => {
-    const { postID, userID, content } = req.body;
+  console.log('Request Body:', req.body);
+  const { content, userID, postID } = req.body;
+  console.log('UserID:', userID); // Add this line to check the value of userID
     try {
-        const newComment = await Comment.create({ PostID: postID, userid: userID, content: content });
+        const newComment = await Comment.create({ content: content, UserId: userID, PostId: postID });  
         res.status(201).json({ newComment });
     } catch (error) {
         console.error('Error creating comment:', error);

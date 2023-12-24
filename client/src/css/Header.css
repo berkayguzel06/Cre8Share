@@ -27,7 +27,7 @@ body {
   
   .header-middle {
     flex-grow: 1;
-    margin: 0 750px; /* Adjust margin as needed */
+    margin: 0 20px; /* Adjust margin as needed */
   }
   
   .profile-picture {

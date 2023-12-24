@@ -11,8 +11,7 @@ const CreatePost = () => {
   const [showPreview, setShowPreview] = useState(false);
 
   const navigate = useNavigate();
-  const accessToken = sessionStorage.getItem('accessToken');
-  const token = sessionStorage.getItem('accessToken');
+  const token = localStorage.getItem('accessToken');
 
   
   const getUsernameById = async (userId) => {
@@ -96,7 +95,7 @@ const CreatePost = () => {
   
       axios.post('http://localhost:5000/post/createpost', post, {
         headers: {
-          'accessToken': accessToken,
+          'accessToken': token,
           'Content-Type': 'application/json',
         },
       })
@@ -114,7 +113,7 @@ const CreatePost = () => {
     reader.readAsDataURL(image);
   };
 
-  return accessToken ? (
+  return token ? (
     <div>
       <h1>Create a Post</h1>
       {showPreview ? (

@@ -2,7 +2,6 @@ const express = require('express'); // Importing the 'express' library to create
 const router = express.Router(); // Creating an instance of an Express router
 const { Post, User } = require('../models'); // Importing the 'User' model from the '../models' directory
 const {validateToken} = require("../middlewares/UserAuth");
-const { where } = require('sequelize');
 
 // (validation) validateToken is a middleware that checks if the user is logged in then return posts
 router.get("/", validateToken, async (req, res) => {

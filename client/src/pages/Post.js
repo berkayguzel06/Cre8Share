@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { UserContext } from '../Helpers/UserContext.js';
+import { useContext } from 'react';
 
 const Post = () => {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState('');
-  
+  const { userData, setUserData } = useContext(UserContext);
+
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
       (binaryString, byte) => binaryString + String.fromCharCode(byte),
@@ -56,20 +59,21 @@ const Post = () => {
   };
 
   const handleCommentSubmit = async () => {
+    const comment={
+      content: newComment,
+      userID: userData.id,
+      postID: postId,
+    }
+    console.log(comment);
     try {
         // Assuming you have the user ID from somewhere, replace 'USER_ID' with the actual user ID
-
-        console.log('postId:', postId)
-        console.log('newComment:', newComment)
-        axios.post('http://localhost:5000/comment/create', {
-            postID: postId,
-            userID: 1,
-            content: newComment,
+        axios.post('http://localhost:5000/comment/create',comment).then((response) => {
+          console.log(response);
+        }, (error) => {
+          console.log(error);
         });
-
         // Refetch comments after submitting a new comment
         fetchComments();
-
         // Clear the input field after submitting
         setNewComment('');
     } catch (error) {
@@ -110,7 +114,7 @@ const Post = () => {
             {comments.map(comment => (
               <li key={comment.id}>
                 {/* Display comment details as needed */}
-                <p>User: {comment.username}</p>
+                <p>User: {comment.User.username}</p>
                 <p>{comment.content}</p>
               </li>
             ))}

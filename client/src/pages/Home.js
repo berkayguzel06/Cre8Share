@@ -15,10 +15,9 @@ const Home = () => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [username, setUsername] = useState('');
   const { userData, setUserData } = useContext(UserContext);
-  console.log(userData);
   useEffect(() => {
     axios.get('http://localhost:5000/post', {
-      headers: { accessToken: sessionStorage.getItem('accessToken') },
+      headers: { accessToken: localStorage.getItem('accessToken') },
     })
       .then(response => {
         if (Array.isArray(response.data)) {
@@ -67,7 +66,7 @@ const Home = () => {
     } else if (option === 'settings') {
       navigate('/settings');
     } else if (option === 'logout') {
-      sessionStorage.removeItem('accessToken');
+      localStorage.removeItem('accessToken');
       navigate('/');
     }
     // Close the profile menu after clicking an option

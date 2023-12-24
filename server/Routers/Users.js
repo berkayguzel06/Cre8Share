@@ -54,6 +54,22 @@ router.post("/usernamewithid", async (req, res) => {
   }
 });
 
+router.get('/:username', async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const user = await User.findOne({where: { username: username }});
+    if (user) {
+      res.json(user);
+    } else {
+      console.log("User not found with username:", username);
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // Update your user router
 router.post("/", async (req, res) => {

@@ -5,6 +5,7 @@ import '../css/Home.css';
 import '../css/Header.css';
 import logoImage from '../images/cre8share-logo12.png';
 import profileImage from '../images/pp1.png';
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
@@ -73,7 +74,7 @@ const Home = () => {
       <div className="header">
   {/* Left side with logo */}
   <div className="header-left">
-    <a href="/">
+    <a href="/home">
       <img src={logoImage} alt="Logo" />
     </a>
   </div>
@@ -111,18 +112,15 @@ const Home = () => {
       <li key={post.id} className="post-container">
         {/* Display username overlay */}
         
-        <a href="/profiles/userxxx">
-        <div className="username-overlay">{post.User.username}</div>
-        </a>
-
-        <a href="/posts/postxxx">
+        <Link to={`/user/${post.User.username}`}>
+          <div className="username-overlay">{post.User.username}</div>
+        </Link>
+        <Link to={`/post/${post.id}`}>
         <img
           src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
           alt={`Post ID: ${post.id}`}
         />
-        </a>
-
-
+        </Link>
         {/* <p>Posted by {post.User.username}</p> */}
         {/* <p>Posted {getTimeAgo(post.createdAt)} ago</p> */}
         {/* <p>{post.title}</p> */}

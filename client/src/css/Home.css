@@ -56,8 +56,9 @@ ul {
   margin: 10px auto;
   width: 320px ; /* Adjust as needed */
   max-height: 411px ; /* Adjust as needed */
-  border: 1px solid #3c1e49;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) auto;
+  border: none;
+  box-shadow: none;
+  overflow:clip;
   display: flex ;
   flex-direction: column ;
   position: relative ;

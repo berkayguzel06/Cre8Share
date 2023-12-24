@@ -63,7 +63,8 @@ const Home = () => {
     } else if (option === 'settings') {
       navigate('/settings');
     } else if (option === 'logout') {
-      navigate('/logout');
+      sessionStorage.removeItem('accessToken');
+      navigate('/guestpage');
     }
     // Close the profile menu after clicking an option
     setShowProfileMenu(false);

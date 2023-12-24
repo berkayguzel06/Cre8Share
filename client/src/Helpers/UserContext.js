@@ -7,6 +7,7 @@ export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState({
     email: '',
     token: '',
+    id: '',
   });
 
   return (

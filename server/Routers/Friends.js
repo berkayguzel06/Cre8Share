@@ -12,10 +12,12 @@ router.get("/", async (req, res) => {
 
 // Handling HTTP POST requests to the root path ("/")
 router.post("/", async (req, res) => {
-    const userID = req.body; // Extracting the request body, which should contain data for creating a new user
-    await Friend.create({UserID:userID}); // Using Sequelize's 'create' method to add a new friend to the database
+    console.log(req.body);
+    const {friendID, userid, status} = req.body; // Extracting the request body, which should contain data for creating a new user
+    await Friend.create({UserId:userid, status:status, friendID:friendID}); // Using Sequelize's 'create' method to add a new friend to the database
     res.send("Succesfully Send"); // Sending the friend data as a response
 });
+
 // Handling HTTP POST requests to the root path ("/")
 router.post("/update", async (req, res) => {
     const { status, userID } = req.body; // Extracting the body if the user clicks on a button request, returning post id

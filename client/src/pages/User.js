@@ -2,11 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useContext } from 'react';
+import { UserContext } from '../Helpers/UserContext.js';
 
 const User = () => {
   const { username } = useParams();
   const [user, setUser] = useState(null);
-
+  const { userData, setUserData } = useContext(UserContext);
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -26,6 +28,22 @@ const User = () => {
     fetchUser();
   }, [username]);
 
+  const addFriend = async () => {
+    const friendship = {
+      friendID: user.id,
+      userid: userData.id,
+      status: false
+    };
+    console.log(friendship);
+    const response = await axios.post('http://localhost:5000/friend',friendship).then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
+    console.log(response);
+  };
+  
+
   if (!user) {
     return <p>Loading...</p>;
   }
@@ -36,7 +54,8 @@ const User = () => {
       <p>Username: {user.username}</p>
       <p>Name: {user.name}</p>
       <p>Lastname: {user.lastname}</p>
-      <p>email: {user.email}</p>
+      <p>Email: {user.email}</p>
+      <button onClick={addFriend}>Add Friend</button>
       {/* Add more user details as needed */}
     </div>
   );

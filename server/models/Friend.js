@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
         status:{
             type: DataTypes.BOOLEAN,
             allowNull: false
+        },
+        friendID:{
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     });
     Friend.associate = (models) => {

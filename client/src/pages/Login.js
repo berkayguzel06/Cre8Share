@@ -26,6 +26,7 @@ const AppLogin = () => {
         setUserData({
           username: response.data.username,
           token: response.data.token,
+          id: response.data.id,
         });
         sessionStorage.setItem('accessToken', response.data.token);
         navigate('/home');

@@ -6,12 +6,16 @@ import '../css/Header.css';
 import logoImage from '../images/cre8share-logo12.png';
 import profileImage from '../images/pp1.png';
 import { Link } from "react-router-dom";
+import { useContext } from 'react';
+import { UserContext } from '../Helpers/UserContext.js';
 
 const Home = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
-  const [searchType, setSearchType] = useState('username'); // 'username' or 'post'
+  const [searchType, setSearchType] = useState('username');
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-
+  const [username, setUsername] = useState('');
+  const { userData, setUserData } = useContext(UserContext);
+  console.log(userData);
   useEffect(() => {
     axios.get('http://localhost:5000/post', {
       headers: { accessToken: sessionStorage.getItem('accessToken') },
@@ -59,12 +63,12 @@ const Home = () => {
 
   const handleProfileMenuClick = option => {
     if (option === 'profile') {
-      navigate('/profile');
+      navigate(`/profile/${userData.username}`);
     } else if (option === 'settings') {
       navigate('/settings');
     } else if (option === 'logout') {
       sessionStorage.removeItem('accessToken');
-      navigate('/guestpage');
+      navigate('/');
     }
     // Close the profile menu after clicking an option
     setShowProfileMenu(false);

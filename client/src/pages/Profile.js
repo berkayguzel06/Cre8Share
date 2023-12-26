@@ -39,8 +39,9 @@ const Profile = () => {
   const handleUserDelete = async () => {
     try {
       const response = await axios.delete(`http://localhost:5000/user/${userProfile.id}`);
-      const firendDelete = await axios.delete(`http://localhost:5000/friend/${userProfile.id}`);
-      console.log(response); // Log the entire response object
+      const friendDelete = await axios.delete(`http://localhost:5000/friend/${userProfile.id}`);
+      console.log(response);
+      console.log(friendDelete);
       if (response.data && response.data.message === 'User deleted') {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('userData');

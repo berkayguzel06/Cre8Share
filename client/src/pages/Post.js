@@ -3,9 +3,10 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../Helpers/UserContext.js';
 import { useContext } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 const Post = () => {
+  const navigate = useNavigate();
   const { postId } = useParams();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState(null);
@@ -108,7 +109,7 @@ const handlePostDelete = async (postID) => {
     
     console.log("Deleted successfully");
     console.log(response);
-
+    navigate("/home")
   } catch (error) {
     console.error('Error deleting comment:', error);
   }

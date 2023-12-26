@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { username } = useParams();
@@ -10,7 +11,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/user/${username}`);
+        const response = await axios.get(`http://localhost:5000/user/profile/${username}`);
         console.log(response.data);
         
         if (response.data) {
@@ -25,6 +26,15 @@ const Profile = () => {
 
     fetchUserProfile();
   }, [username]);
+
+  // Function to convert binary data to base64
+  const arrayBufferToBase64 = (buffer) => {
+    const binary = new Uint8Array(buffer.data).reduce(
+      (binaryString, byte) => binaryString + String.fromCharCode(byte),
+      ''
+    );
+    return window.btoa(binary);
+  };
 
   const handleUserDelete = async () => {
     try {
@@ -54,6 +64,21 @@ const Profile = () => {
       <p>Username: {userProfile.username}</p>
       <button onClick={handleUserDelete}>Delete account</button>
       {/* Add more user details as needed */}
+      {userProfile.Posts.map(post => (
+        <li key={post.id} className="post-container">
+          <Link to={`/post/${post.id}`}>
+            <img
+              src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
+              alt={`Post ID: ${post.id}`}
+            />
+          </Link>
+        </li>
+      ))}
+      {userProfile.Comments.map(comments => (
+        <li key={comments.id} className="post-container">
+          <p>{comments.content}</p>
+        </li>
+      ))}
     </div>
   );
 };

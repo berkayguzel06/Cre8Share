@@ -2,8 +2,10 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios'; // Import Axios
 import '../css/Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate();
   // State to hold form data
   const [formData, setFormData] = useState({
     name: '',
@@ -33,6 +35,7 @@ const Register = () => {
       if (response.status === 201) {
         console.log('User registered successfully');
         console.log('User data:', response.data);
+        navigate('/login');
         // You can redirect the user or perform other actions here
       } else {
         console.error('Failed to register user');

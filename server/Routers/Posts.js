@@ -45,7 +45,7 @@ router.get("/:postID", async (req, res) => {
         where: { id: postID },
         include: {
           model: User,
-          attributes: ['username'],
+          attributes: ['username', 'id'],
         },
       });
   
@@ -62,12 +62,16 @@ router.get("/:postID", async (req, res) => {
     }
   });
   
-  
 
 router.delete("/:postID", async (req, res) => {
-    const { postID } = req.body;
-    const post = req.body; // Extracting the request body, which should contain data for creating a new user
-    await Post.destroy({ where: { id: postID } });
+  const { postID } = req.params; // Use req.params to get parameters from the URL path
+  try {
+      await Post.destroy({ where: { id: postID } });
+      res.send(`Comment with ID ${postID} deleted successfully`);
+  } catch (error) {
+      console.error('Error deleting comment:', error);
+      res.status(500).send('Internal Server Error');
+  }
 });
 
 router.post('/createpost', async (req, res) => {

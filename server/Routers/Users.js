@@ -12,6 +12,21 @@ router.get("/", async (req, res) => {
     res.json(listofUsers);
 });
 
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ where: { id: id } });
+    if (!user) {
+      return res.json({ error: 'User not found' });
+    }
+    await user.destroy();
+    return res.json({ message: 'User deleted' });
+  } catch (error) {
+    console.error('Error during login:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Handling HTTP POST requests to the "/login" path
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;

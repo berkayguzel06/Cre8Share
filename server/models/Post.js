@@ -21,7 +21,9 @@ module.exports = (sequelize, DataTypes) => {
         Post.hasMany(models.PostReport, {
             onDelete:"cascade",
         });
-        Post.belongsTo(models.User);
+        Post.belongsTo(models.User, {
+            onDelete:"cascade",
+        });
     }
     
     return Post;

@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
     PostReport.associate = (models) => {
-        PostReport.belongsTo(models.Post);
+        PostReport.belongsTo(models.Post, {
+            onDelete:"cascade",
+        });
     }
     return PostReport;
 }

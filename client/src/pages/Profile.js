@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const { username } = useParams();
   const [userProfile, setUserProfile] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/user/${username}`);
         console.log(response.data);
-
+        
         if (response.data) {
           setUserProfile(response.data);
         } else {
@@ -25,6 +26,24 @@ const Profile = () => {
     fetchUserProfile();
   }, [username]);
 
+  const handleUserDelete = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/user/${userProfile.id}`);
+      console.log(response); // Log the entire response object
+  
+      if (response.data && response.data.message === 'User deleted') {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('userData');
+        alert('User deleted');
+        navigate('/');
+      } else {
+        console.error('Invalid data format:', response.data);
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+  
   if (!userProfile) {
     return <p>Loading...</p>;
   }
@@ -33,6 +52,7 @@ const Profile = () => {
     <div>
       <h2>User Profile</h2>
       <p>Username: {userProfile.username}</p>
+      <button onClick={handleUserDelete}>Delete account</button>
       {/* Add more user details as needed */}
     </div>
   );

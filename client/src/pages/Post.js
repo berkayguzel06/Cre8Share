@@ -4,6 +4,7 @@ import axios from 'axios';
 import { UserContext } from '../Helpers/UserContext.js';
 import { useContext } from 'react';
 
+
 const Post = () => {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
@@ -67,13 +68,14 @@ const Post = () => {
     console.log(comment);
     try {
         // Assuming you have the user ID from somewhere, replace 'USER_ID' with the actual user ID
-        axios.post('http://localhost:5000/comment/create',comment).then((response) => {
+        const response = axios.post('http://localhost:5000/comment/create',comment).then((response) => {
           console.log(response);
+          fetchComments();
         }, (error) => {
           console.log(error);
         });
         // Refetch comments after submitting a new comment
-        fetchComments();
+        
         // Clear the input field after submitting
         setNewComment('');
     } catch (error) {
@@ -81,10 +83,42 @@ const Post = () => {
     }
 };
 
+const handleCommentDelete = async (commentID) => {
+  try {
+    console.log('Deleting comment with ID:', commentID);
+
+    // Assuming you have the user ID from somewhere, replace 'USER_ID' with the actual user ID
+    const response = await axios.delete(`http://localhost:5000/comment/${commentID}`);
+    
+    console.log("Deleted successfully");
+    console.log(response);
+
+    // Refetch comments after deleting a comment
+    fetchComments();
+  } catch (error) {
+    console.error('Error deleting comment:', error);
+  }
+};
+const handlePostDelete = async (postID) => {
+  try {
+    console.log('Deleting post with ID:', postID);
+
+    // Assuming you have the user ID from somewhere, replace 'USER_ID' with the actual user ID
+    const response = await axios.delete(`http://localhost:5000/post/${postID}`);
+    
+    console.log("Deleted successfully");
+    console.log(response);
+
+  } catch (error) {
+    console.error('Error deleting comment:', error);
+  }
+};
+
+
+
   if (!post) {
     return <p>Loading...</p>;
   }
-
   return (
     <div>
       <h2>Post Details</h2>
@@ -104,17 +138,23 @@ const Post = () => {
           onChange={handleCommentChange}
         />
         <button onClick={handleCommentSubmit}>Submit</button>
+        {userData.id === post.User.id && (
+          <button onClick={() => handlePostDelete(post.id)}>Delete Post</button>
+        )}
       </div>
 
       {/* Display comments */}
       <div>
         <h3>Comments</h3>
-        {comments.length >= 0 ? (
+        {comments !== null && comments.length >= 0 ? (
           <ul>
             {comments.map(comment => (
               <li key={comment.id}>
                 {/* Display comment details as needed */}
                 <p>User: {comment.User.username}</p>
+                {comment.User.id === userData.id && (
+                  <button onClick={() => handleCommentDelete(comment.id)}>Delete</button>
+                )}
                 <p>{comment.content}</p>
               </li>
             ))}

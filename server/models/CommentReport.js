@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
     CommentReport.associate = (models) => {
-        CommentReport.belongsTo(models.Comment);
+        CommentReport.belongsTo(models.Comment,{
+            onDelete: "cascade", // Enable cascading delete for the association with User
+        });
     }
     return CommentReport;
 }

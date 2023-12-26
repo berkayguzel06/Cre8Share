@@ -23,7 +23,7 @@ router.get("/:postID", async (req, res) => {
         const listOfComments = await Comment.findAll({ where: { PostID: postID },
             include: {
                 model: User,
-                attributes: ['username'], // Include only the 'username' attribute of the User model
+                attributes: ['id','username'], // Include only the 'username' attribute of the User model
              }});
       if (listOfComments) {
         res.json(listOfComments);
@@ -39,12 +39,18 @@ router.get("/:postID", async (req, res) => {
   });
 
 
-// Handling HTTP POST requests to the "/delete" path
+// Handling HTTP DELETE requests to the "/delete" path
 router.delete("/:commentID", async (req, res) => {
-    const { commentID } = req.body;
-    await Comment.destroy({ where: { id: commentID } });
-    res.send(`Comment with ID ${commentID} deleted successfully`);
+  const { commentID } = req.params; // Use req.params to get parameters from the URL path
+  try {
+      await Comment.destroy({ where: { id: commentID } });
+      res.send(`Comment with ID ${commentID} deleted successfully`);
+  } catch (error) {
+      console.error('Error deleting comment:', error);
+      res.status(500).send('Internal Server Error');
+  }
 });
+
 
 // Handling HTTP POST requests to the "/create" path
 router.post("/create", async (req, res) => {

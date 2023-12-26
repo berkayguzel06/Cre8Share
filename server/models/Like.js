@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
     Like.associate = (models) => {
-        Like.belongsTo(models.Post);
+        Like.belongsTo(models.Post, {
+            onDelete : "cascade",
+        });
     }
     return Like;
 }

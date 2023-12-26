@@ -10,6 +10,24 @@ router.get("/", async (req, res) => {
     res.json(listofFriends);
 });
 
+// Handling HTTP GET requests to the root path ("/")
+router.get("/:userID", async (req, res) => {
+    const userID = req.params.userID; // Extracting the post ID from the URL parameters
+    console.log(userID);
+    // Using Sequelize's 'findAll' method to retrieve all friends from the database
+    const user = await Friend.findOne({ where: { UserId: userID }});
+    const friend = await Friend.findOne({ where: { friendID: userID }});
+    if(user!=null){
+        res.json(user);
+        console.log("user: ",user);
+    }else if(friend!=null){
+        console.log("friend: ",friend);
+        res.json(friend);
+    }else{
+        res.json(user);
+    }
+});
+
 // Handling HTTP POST requests to the root path ("/")
 router.post("/", async (req, res) => {
     console.log(req.body);

@@ -35,6 +35,17 @@ const User = () => {
       status: false
     };
     console.log(friendship);
+    const isAddedResponse  = await axios.get(`http://localhost:5000/friend/${userData.id}`);
+    console.log("isAddedResponse:", isAddedResponse);
+    const isAdded = isAddedResponse.data;
+    console.log("isadded: ", isAdded);
+    if(isAdded != null && isAdded.status === true){
+      alert("Already added");
+      return;
+    }else if(isAdded != null && isAdded.status === false){
+      alert("Pending");
+      return;
+    }
     const response = await axios.post('http://localhost:5000/friend',friendship).then((response) => {
       console.log(response);
     }, (error) => {
@@ -43,7 +54,6 @@ const User = () => {
     console.log(response);
   };
   
-
   if (!user) {
     return <p>Loading...</p>;
   }

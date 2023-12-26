@@ -10,7 +10,7 @@ router.get("/", validateToken, async (req, res) => {
         const listOfPosts = await Post.findAll({
             include: {
                 model: User,
-                attributes: ['username'], // Include only the 'username' attribute of the User model
+                attributes: ['username','id'], // Include only the 'username' attribute of the User model
             },
         });
         // Sending the list of posts as a JSON response

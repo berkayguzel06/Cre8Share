@@ -66,6 +66,7 @@ const Home = () => {
     } else if (option === 'settings') {
       navigate('/settings');
     } else if (option === 'logout') {
+      localStorage.removeItem('userData');
       localStorage.removeItem('accessToken');
       navigate('/');
     }
@@ -74,6 +75,7 @@ const Home = () => {
   };
 
   return (
+    
     <div>
       <div className="header">
   {/* Left side with logo */}
@@ -112,17 +114,25 @@ const Home = () => {
       {listOfPosts.length > 0 ? (
   <ul className="posts-list">
     {listOfPosts.map(post => (
+      
       <li key={post.id} className="post-container">
         {/* Display username overlay */}
-        
-        <Link to={`/user/${post.User.username}`}>
-          <div className="username-overlay">{post.User.username}</div>
-        </Link>
+        {/* If user tab own username navigate to profile */}
+        {post.User.id === userData.id ? (
+          <Link to={`/profile/${post.User.username}`}>
+            <div className="username-overlay">{post.User.username}</div>
+          </Link>
+        ) : (
+          <Link to={`/user/${post.User.username}`}>
+            <div className="username-overlay">{post.User.username}</div>
+          </Link>
+        )}
+
         <Link to={`/post/${post.id}`}>
-        <img
-          src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
-          alt={`Post ID: ${post.id}`}
-        />
+          <img
+            src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
+            alt={`Post ID: ${post.id}`}
+          />
         </Link>
         {/* <p>Posted by {post.User.username}</p> */}
         {/* <p>Posted {getTimeAgo(post.createdAt)} ago</p> */}

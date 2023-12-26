@@ -1,13 +1,70 @@
 const express = require('express'); // Importing the 'express' library to create a router 
 const router = express.Router(); // Creating an instance of an Express router
-const { Friend } = require('../models'); // Importing the 'friend' model from the '../models' directory
-
+const { User, Friend } = require('../models'); // Importing the 'friend' model from the '../models' directory
+const { Op } = require('sequelize');
 // Handling HTTP GET requests to the root path ("/")
-router.get("/", async (req, res) => {
-    // Using Sequelize's 'findAll' method to retrieve all friends from the database
-    const listofFriends = await Friend.findAll();
-    // Sending the list of users as a JSON response
-    res.json(listofFriends);
+router.get("/profile/username/:userid", async (req, res) => {
+    const userID = req.params.userid; // Extracting the post ID from the URL parameters
+    const listofFriends = await Friend.findAll({
+        where: {
+            [Op.or]: [
+                { UserId: userID },
+                { friendID: userID }
+            ]
+        }
+    });
+    const uniqueFriendIDs = new Set();
+    listofFriends.forEach(friend => {
+        uniqueFriendIDs.add(friend.UserId);
+        uniqueFriendIDs.add(friend.friendID);
+    });
+    console.log(uniqueFriendIDs);
+    // Fetch usernames based on unique friend IDs
+    const friendUsernames = await User.findAll({
+        where: {
+            id: Array.from(uniqueFriendIDs)
+        },
+        attributes: ['id', 'username'] // Adjust attributes as needed
+    });
+    console.log(friendUsernames);
+    
+    res.json(friendUsernames);
+});
+
+router.get("/profile/:userid", async (req, res) => {
+    const userID = req.params.userid;
+    const listofFriends = await Friend.findAll({
+        where: {
+            [Op.or]: [
+                { UserId: userID },
+                { friendID: userID }
+            ]
+        }
+    });
+
+    // Use a Set to store unique friend IDs
+    const uniqueFriendIDs = new Set();
+
+    // Use a Map to store friend data (key: friendID, value: friend object)
+    const uniqueFriendsMap = new Map();
+
+    listofFriends.forEach(friend => {
+        const friendID = friend.UserId === userID ? friend.friendID : friend.UserId;
+
+        // Check if friendID is not in the set (not a duplicate)
+        if (!uniqueFriendIDs.has(friendID)) {
+            uniqueFriendIDs.add(friendID);
+            uniqueFriendsMap.set(friendID, {
+                id: friendID,
+                status: friend.status
+            });
+        }
+    });
+
+    // Convert the Map values to an array
+    const uniqueFriendData = Array.from(uniqueFriendsMap.values());
+    
+    res.json(uniqueFriendData);
 });
 
 // Handling HTTP GET requests to the root path ("/")

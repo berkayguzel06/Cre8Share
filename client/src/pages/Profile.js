@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 const Profile = () => {
   const { username } = useParams();
   const [userProfile, setUserProfile] = useState(null);
+  const [firendList, setFirendList] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -23,9 +24,24 @@ const Profile = () => {
         console.error('Error fetching user profile details:', error);
       }
     };
-
+    
     fetchUserProfile();
   }, [username]);
+
+  const fetchFriends = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/friend/profile/username/${userProfile.id}`);
+      console.log(response.data);
+      
+      if (response.data) {
+        setFirendList(response.data);
+      } else {
+        console.error('Invalid data format:', response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching user profile details:', error);
+    }
+  };
 
   // Function to convert binary data to base64
   const arrayBufferToBase64 = (buffer) => {
@@ -55,6 +71,22 @@ const Profile = () => {
     }
   };
   
+  const addFriend = async () => {
+    try{
+      const response = await axios.put(`http://localhost:5000/friend/${userProfile.id}`);
+      console.log(response);
+      if (response.data && response.data.message === 'Friend added') {
+        alert('Friend added');
+      } else {
+        console.error('Invalid data format:', response.data);
+      }
+
+    }
+    catch(error){
+      console.error('Error adding friend:', error);
+    }
+  }
+
   if (!userProfile) {
     return <p>Loading...</p>;
   }
@@ -64,6 +96,25 @@ const Profile = () => {
       <h2>User Profile</h2>
       <p>Username: {userProfile.username}</p>
       <button onClick={handleUserDelete}>Delete account</button>
+      {/* Dropdown for Friend List */}
+      <div>
+        <button onClick={fetchFriends}>Toggle Friend List</button>
+        {firendList && (
+          <ul>
+            {firendList.map(friend => (
+              (friend.id !== userProfile.id) && (
+                <li key={friend.id} className="post-container">
+                  <Link to={`/user/${friend.username}`}>
+                   <p>Friend Username: {friend.username}</p>
+                   {friend.status === false && (
+                      <button onClick={addFriend}>Add Friend</button>
+                    )}
+                  </Link>
+                </li>)
+            ))}
+          </ul>
+        )}
+      </div>
       {/* Add more user details as needed */}
       {userProfile.Posts.map(post => (
         <li key={post.id} className="post-container">
@@ -75,11 +126,13 @@ const Profile = () => {
           </Link>
         </li>
       ))}
+      
       {userProfile.Comments.map(comments => (
         <li key={comments.id} className="post-container">
           <p>{comments.content}</p>
         </li>
       ))}
+      
     </div>
   );
 };

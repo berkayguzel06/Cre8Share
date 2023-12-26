@@ -39,12 +39,16 @@ const User = () => {
     console.log("isAddedResponse:", isAddedResponse);
     const isAdded = isAddedResponse.data;
     console.log("isadded: ", isAdded);
-    if(isAdded != null && isAdded.status === true){
-      alert("Already added");
-      return;
-    }else if(isAdded != null && isAdded.status === false){
-      alert("Pending");
-      return;
+    if(isAdded != null ){
+      if(isAdded.UserId===userData.id && isAdded.friendID===user.id || isAdded.UserId===user.id && isAdded.friendID===userData.id){
+        if(isAdded.status === true){
+          alert("Already added");
+          return;
+        }else{
+          alert("Pending");
+          return;
+        }
+      }
     }
     const response = await axios.post('http://localhost:5000/friend',friendship).then((response) => {
       console.log(response);

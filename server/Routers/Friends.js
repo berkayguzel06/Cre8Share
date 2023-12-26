@@ -28,6 +28,24 @@ router.get("/:userID", async (req, res) => {
     }
 });
 
+router.delete("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+      const friend = await Friend.findOne({ where: { id: id } });
+      if (!friend) {
+        friend = await Friend.findOne({ where: { friendID: id } });
+        if(!friend){
+            return res.json({ error: 'Friend not found' });
+        }
+      }
+      await friend.destroy();
+      return res.json({ message: 'Friend deleted' });
+    } catch (error) {
+      console.error('Error during login:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // Handling HTTP POST requests to the root path ("/")
 router.post("/", async (req, res) => {
     console.log(req.body);

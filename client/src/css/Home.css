@@ -53,20 +53,26 @@ ul {
 
 .post-container {
   bottom: -90px;
-  margin: 10px auto;
+  margin: 10px;
   width: 320px ; /* Adjust as needed */
-  max-height: 411px ; /* Adjust as needed */
+  height: auto; /* Adjust as needed */
   border: none;
   box-shadow: none;
   overflow:clip;
   display: flex ;
-  flex-direction: column ;
+  flex-direction: row ;
   position: relative ;
 }
 
 .post-container img {
-  max-height: 800px auto; /* Adjust as needed */
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  /*
+  max-height: 800px auto; 
   object-fit: cover ;
+  */
 }
 
 button {

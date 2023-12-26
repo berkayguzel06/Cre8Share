@@ -4,6 +4,8 @@ import axios from 'axios';
 import { UserContext } from '../Helpers/UserContext.js';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/Post.css';
+
 
 const Post = () => {
   const navigate = useNavigate();
@@ -27,7 +29,8 @@ const Post = () => {
       console.log(response.data);
 
       if (response.data && response.data.content) {
-        setPost(response.data);
+          setPost(response.data);
+        
       } else {
         console.error('Invalid data format or missing content:', response.data);
       }
@@ -121,12 +124,14 @@ const handlePostDelete = async (postID) => {
     return <p>Loading...</p>;
   }
   return (
-    <div>
-      <h2>Post Details</h2>
-      <p>Title: {post.title}</p>
+    <div className='postbox'>
+      <h2 className='post-details'>Post Details</h2>
+      <p className='title'>Title: {post.title}</p>
       <img
+
         src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
         alt={`Post ID: ${post.id}`}
+        className='image'
       />
 
       {/* Comment input and submit button */}
@@ -146,7 +151,7 @@ const handlePostDelete = async (postID) => {
 
       {/* Display comments */}
       <div>
-        <h3>Comments</h3>
+        <h3 className='comment-title'>Comments</h3>
         {comments !== null && comments.length >= 0 ? (
           <ul>
             {comments.map(comment => (

@@ -1,0 +1,18 @@
+.postbox{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+
+}
+.image{
+    height: 250px;
+    width: auto;
+    margin-bottom: 10px;
+}
+.post-details,.title{
+    margin-bottom: 10px;
+}
+.comment-title{
+    text-align: center;
+}

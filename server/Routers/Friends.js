@@ -31,42 +31,6 @@ router.get("/profile/username/:userid", async (req, res) => {
     res.json(friendUsernames);
 });
 
-router.get("/profile/:userid", async (req, res) => {
-    const userID = req.params.userid;
-    const listofFriends = await Friend.findAll({
-        where: {
-            [Op.or]: [
-                { UserId: userID },
-                { friendID: userID }
-            ]
-        }
-    });
-
-    // Use a Set to store unique friend IDs
-    const uniqueFriendIDs = new Set();
-
-    // Use a Map to store friend data (key: friendID, value: friend object)
-    const uniqueFriendsMap = new Map();
-
-    listofFriends.forEach(friend => {
-        const friendID = friend.UserId === userID ? friend.friendID : friend.UserId;
-
-        // Check if friendID is not in the set (not a duplicate)
-        if (!uniqueFriendIDs.has(friendID)) {
-            uniqueFriendIDs.add(friendID);
-            uniqueFriendsMap.set(friendID, {
-                id: friendID,
-                status: friend.status
-            });
-        }
-    });
-
-    // Convert the Map values to an array
-    const uniqueFriendData = Array.from(uniqueFriendsMap.values());
-    
-    res.json(uniqueFriendData);
-});
-
 // Handling HTTP GET requests to the root path ("/")
 router.get("/:userID", async (req, res) => {
     const userID = req.params.userID; // Extracting the post ID from the URL parameters

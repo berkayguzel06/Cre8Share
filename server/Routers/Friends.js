@@ -43,23 +43,28 @@ router.get("/:userID", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
-    const { id } = req.params;
+router.delete("/", async (req, res) => {
+    const { userid, friendID } = req.body;
+    console.log(userid, friendID);
+
     try {
-      let friend = await Friend.findOne({ where: { id: id } });
-      if (!friend) {
-        friend = await Friend.findOne({ where: { friendID: id } });
-        if(!friend){
-            return res.json({ error: 'Friend not found' });
+        // Assuming Friend is your Sequelize model
+        const friend = await Friend.findOne(
+            { where: { UserId: userid, friendID: friendID } }
+        );
+        console.log(friend);
+        if (friend) {
+            await friend.destroy();
+            res.send("Friendship declined.");
+        } else {
+            res.status(404).send("Friendship not found.");
         }
-      }
-      await friend.destroy();
-      return res.json({ message: 'Friend deleted' });
     } catch (error) {
-      console.error('Error during login:', error);
-      return res.status(500).json({ error: 'Internal server error' });
+        console.error("Error deleting friendship:", error);
+        res.status(500).send("Internal Server Error");
     }
 });
+
 
 // Handling HTTP POST requests to the root path ("/")
 router.post("/", async (req, res) => {
@@ -71,7 +76,6 @@ router.post("/", async (req, res) => {
 // Handling HTTP POST requests to the root path ("/")
 router.post("/update", async (req, res) => {
     const { userid, friendID, status } = req.body;
-    console.log(req.body);
     try {
         // Assuming Friend is your Sequelize model
         const updatedRows = await Friend.update(

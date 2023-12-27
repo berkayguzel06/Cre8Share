@@ -94,6 +94,25 @@ const User = () => {
     checkFriend();
   };
 
+  const declineFriend = async () => {
+    const friendship = {
+      userid: user.id,
+      friendID: userData.id,
+    };
+  
+    try {
+      const response = await axios.delete('http://localhost:5000/friend/', {
+        data: friendship,  // Send data in the request body
+      });
+  
+      console.log(response);
+      checkFriend();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+
   if (!user) {
     return <p>Loading...</p>;
   }
@@ -109,7 +128,10 @@ const User = () => {
         <button onClick={addFriend}>Add Friend</button>
       )}
       {isFriend && isFriend.status === false && isFriend.friendID===userData.id && (
+        <div>
         <button onClick={acceptFriend}>Accept</button>
+        <button onClick={declineFriend}>Decline</button>
+        </div>
       )}
       {/* Add more user details as needed */}
     </div>

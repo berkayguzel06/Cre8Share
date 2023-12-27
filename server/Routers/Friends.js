@@ -70,6 +70,26 @@ router.delete("/", async (req, res) => {
     }
 });
 
+router.delete("/:id", async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    try {
+        const friends = await Friend.findAll({ where: { friendID: id } });
+
+        if (friends.length > 0) {
+            for (const friend of friends) {
+                await friend.destroy();
+            }
+            res.status(200).send("Friendships deleted successfully");
+        } else {
+            res.status(404).send("Friendships not found");
+        }
+    } catch (error) {
+        console.error("Error deleting friendships:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 
 // Handling HTTP POST requests to the root path ("/")
 router.post("/", async (req, res) => {

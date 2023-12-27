@@ -71,22 +71,6 @@ const Profile = () => {
     }
   };
   
-  const addFriend = async () => {
-    try{
-      const response = await axios.put(`http://localhost:5000/friend/${userProfile.id}`);
-      console.log(response);
-      if (response.data && response.data.message === 'Friend added') {
-        alert('Friend added');
-      } else {
-        console.error('Invalid data format:', response.data);
-      }
-
-    }
-    catch(error){
-      console.error('Error adding friend:', error);
-    }
-  }
-
   if (!userProfile) {
     return <p>Loading...</p>;
   }
@@ -106,9 +90,6 @@ const Profile = () => {
                 <li key={friend.id} className="post-container">
                   <Link to={`/user/${friend.username}`}>
                    <p>Friend Username: {friend.username}</p>
-                   {friend.status === false && (
-                      <button onClick={addFriend}>Add Friend</button>
-                    )}
                   </Link>
                 </li>)
             ))}

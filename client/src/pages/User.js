@@ -8,7 +8,9 @@ import { UserContext } from '../Helpers/UserContext.js';
 const User = () => {
   const { username } = useParams();
   const [user, setUser] = useState(null);
+  const [ isFriend, setIsFriend ] = useState(null);
   const { userData, setUserData } = useContext(UserContext);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -24,40 +26,74 @@ const User = () => {
         console.error('Error fetching user details:', error);
       }
     };
-
     fetchUser();
   }, [username]);
+  
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+      checkFriend();
+    }
+  }, [user]);
+
+  const checkFriend = async () => {
+    const friendship = {
+      friendID: user.id,
+      userid: userData.id,
+    };
+    const isAddedResponse = await axios.get(`http://localhost:5000/friend/${userData.id}`, { params: friendship });
+    const isAdded = isAddedResponse.data;
+    console.log("set is freind: ",isAdded);
+    setIsFriend(isAdded);
+  };
 
   const addFriend = async () => {
     const friendship = {
       friendID: user.id,
       userid: userData.id,
-      status: false
+      status: false,
     };
-    console.log(friendship);
-    const isAddedResponse  = await axios.get(`http://localhost:5000/friend/${userData.id}`);
-    console.log("isAddedResponse:", isAddedResponse);
-    const isAdded = isAddedResponse.data;
-    console.log("isadded: ", isAdded);
-    if(isAdded != null ){
-      if(isAdded.UserId===userData.id && isAdded.friendID===user.id || isAdded.UserId===user.id && isAdded.friendID===userData.id){
-        if(isAdded.status === true){
+    console.log(isFriend);
+    if(isFriend != null ){
+      if(isFriend.UserId===userData.id && isFriend.friendID===user.id || isFriend.UserId===user.id && isFriend.friendID===userData.id){
+        if(isFriend.status === true){
+          setIsFriend(isFriend);
           alert("Already added");
-          return;
-        }else{
-          alert("Pending");
           return;
         }
       }
+      if(isFriend.UserId===userData.id && isFriend.friendID===user.id){
+        alert("Already sended");
+        return;
+      }
     }
-    const response = await axios.post('http://localhost:5000/friend',friendship).then((response) => {
+    else{
+      const response = await axios.post('http://localhost:5000/friend',friendship).then((response) => {
+      console.log(response);
+      }, (error) => {
+          console.log(error);
+      });
+      console.log(response);
+      return;
+    }
+    checkFriend();
+  };
+  
+  const acceptFriend = async () => {
+    const friendship = {
+      friendID: userData.id,
+      userid: user.id,
+      status: true,
+    };
+    const response = await axios.post('http://localhost:5000/friend/update', friendship ).then((response) => {
       console.log(response);
     }, (error) => {
       console.log(error);
     });
     console.log(response);
+    checkFriend();
   };
-  
+
   if (!user) {
     return <p>Loading...</p>;
   }
@@ -69,7 +105,12 @@ const User = () => {
       <p>Name: {user.name}</p>
       <p>Lastname: {user.lastname}</p>
       <p>Email: {user.email}</p>
-      <button onClick={addFriend}>Add Friend</button>
+      {isFriend === null && (
+        <button onClick={addFriend}>Add Friend</button>
+      )}
+      {isFriend && isFriend.status === false && isFriend.friendID===userData.id && (
+        <button onClick={acceptFriend}>Accept</button>
+      )}
       {/* Add more user details as needed */}
     </div>
   );

@@ -18,7 +18,6 @@ router.get("/profile/username/:userid", async (req, res) => {
         uniqueFriendIDs.add(friend.UserId);
         uniqueFriendIDs.add(friend.friendID);
     });
-    console.log(uniqueFriendIDs);
     // Fetch usernames based on unique friend IDs
     const friendUsernames = await User.findAll({
         where: {
@@ -26,23 +25,18 @@ router.get("/profile/username/:userid", async (req, res) => {
         },
         attributes: ['id', 'username'] // Adjust attributes as needed
     });
-    console.log(friendUsernames);
-    
     res.json(friendUsernames);
 });
 
 // Handling HTTP GET requests to the root path ("/")
 router.get("/:userID", async (req, res) => {
-    const userID = req.params.userID; // Extracting the post ID from the URL parameters
-    console.log(userID);
+    const friendship = req.query; // Change this line to retrieve the object from the request body
     // Using Sequelize's 'findAll' method to retrieve all friends from the database
-    const user = await Friend.findOne({ where: { UserId: userID }});
-    const friend = await Friend.findOne({ where: { friendID: userID }});
+    const user = await Friend.findOne({ where: { UserId: friendship.userid, friendID: friendship.friendID }});
+    const friend = await Friend.findOne({ where: { UserId: friendship.friendID, friendID: friendship.userid }});
     if(user!=null){
         res.json(user);
-        console.log("user: ",user);
     }else if(friend!=null){
-        console.log("friend: ",friend);
         res.json(friend);
     }else{
         res.json(user);
@@ -69,7 +63,6 @@ router.delete("/:id", async (req, res) => {
 
 // Handling HTTP POST requests to the root path ("/")
 router.post("/", async (req, res) => {
-    console.log(req.body);
     const {friendID, userid, status} = req.body; // Extracting the request body, which should contain data for creating a new user
     await Friend.create({UserId:userid, status:status, friendID:friendID}); // Using Sequelize's 'create' method to add a new friend to the database
     res.send("Succesfully Send"); // Sending the friend data as a response
@@ -77,9 +70,23 @@ router.post("/", async (req, res) => {
 
 // Handling HTTP POST requests to the root path ("/")
 router.post("/update", async (req, res) => {
-    const { status, userID } = req.body; // Extracting the body if the user clicks on a button request, returning post id
-    await Friend.update({ status: status },{ where: { UserID: userID } });
-    res.send("Friendship updated successfully");
+    const { userid, friendID, status } = req.body;
+    console.log(req.body);
+    try {
+        // Assuming Friend is your Sequelize model
+        const updatedRows = await Friend.update(
+            { status: status },
+            { where: { UserId: userid, friendID: friendID } }
+        );
+
+        console.log(`Updated ${updatedRows[0]} rows`);
+
+        res.send("Friendship updated successfully");
+    } catch (error) {
+        console.error("Error updating friendship:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
+
 
 module.exports = router;

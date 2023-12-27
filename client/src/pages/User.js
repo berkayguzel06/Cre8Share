@@ -133,6 +133,9 @@ const User = () => {
         <button onClick={declineFriend}>Decline</button>
         </div>
       )}
+      {isFriend && isFriend.status === true &&(
+        <button onClick={declineFriend}>Remove Friend</button>
+      )}
       {/* Add more user details as needed */}
     </div>
   );

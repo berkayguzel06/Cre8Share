@@ -49,9 +49,14 @@ router.delete("/", async (req, res) => {
 
     try {
         // Assuming Friend is your Sequelize model
-        const friend = await Friend.findOne(
+        let friend = await Friend.findOne(
             { where: { UserId: userid, friendID: friendID } }
         );
+        if (!friend) {
+            friend = await Friend.findOne(
+                { where: { UserId: friendID, friendID: userid } }
+            );
+        }
         console.log(friend);
         if (friend) {
             await friend.destroy();

@@ -20,7 +20,7 @@ router.post('/generateImage', async (req, res) => {
     const imagePath = await generateImageInBackground(prompt, width, height);
 
     // Respond to the client with the generated image path
-    res.status(200).send("Image generated successfully. Image path: " + imagePath);
+    res.status(200).send("Image generated successfully.");
   } catch (error) {
     console.error(`Error in image generation: ${error.message}`);
     res.status(500).send({ error: 'Image generation failed' });

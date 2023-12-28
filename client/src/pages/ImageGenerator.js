@@ -1,10 +1,10 @@
 // ImageGenerator.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../css/ImageGenerator.css';
 
 const ImageGenerator = () => {
-    const defaultPrompt = 'Bears making a tea party in the forest';
+    const defaultPrompt = 'Promt: Bears making a tea party in the forest';
     const [prompt, setPrompt] = useState('');
     const [width, setWidth] = useState(512);
     const [height, setHeight] = useState(512);
@@ -12,6 +12,10 @@ const ImageGenerator = () => {
     const [error, setError] = useState('');
     const [imageData, setImageData] = useState('');
     
+    useEffect(() => {
+      getImage();
+    }, []);
+
     const getImage = async () => {
       axios.get('http://localhost:5000/getimages', { responseType: 'arraybuffer' })
       .then(response => {
@@ -23,56 +27,61 @@ const ImageGenerator = () => {
 
     const handleGenerateImage = async () => {
       try {
-        setStatus('Image generation started. You will be notified once it is complete.\n With prompt: ' + prompt + '\n With width: ' + width + '\n With height: ' + height);
-        setError('');
+          // Check if the entered width and height are within the allowed limits
+          if (width > 1280 || height > 512) {
+              setError('Image dimensions cannot exceed 1280x512 pixels.');
+              setStatus('');
+              return;
+          }
   
-        // Make a POST request to your backend endpoint
-        const response = await axios.post('http://localhost:5000/imagegen/generateImage', {
-          prompt,
-          width,
-          height,
-        });
+          setStatus('Image generation started. You will be notified once it is complete.\n With prompt: ' 
+              + prompt + '\n Sizes: ' + width + 'x' + height);
+          setError('');
   
-        setStatus(response.data);
-        getImage();
+          // Make a POST request to your backend endpoint
+          const response = await axios.post('http://localhost:5000/imagegen/generateImage', {
+              prompt,
+              width,
+              height,
+          });
+  
+          setStatus(response.data);
+          getImage();
       } catch (err) {
-        console.error('Error in image generation:', err.message);
-        setError('Error in image generation. Please try again.');
-        setStatus('');
+          console.error('Error in image generation:', err.message);
+          setError('Error in image generation. Please try again.');
+          setStatus('');
       }
-    };
+  };
 
-  return (
-    <div>
+  // ... your existing JSX
+
+return (
+  <div>
       <h1>Image Generator</h1>
-      {/* Empty space for the generated image */}
       <div className="generated-image">
-        {imageData ? (
-          <img src={imageData} alt="Generated Image" />
-        ) : (
-          <p>No image generated yet</p>
-        )}
+          {imageData ? (
+              <img src={imageData} alt="Generated Image" />
+          ) : (
+              <p>No image generated yet</p>
+          )}
       </div>
-      <label>
-        Prompt:
-        <textarea className="prompt-input" type="text" value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder={defaultPrompt}/>
-      </label>
+      <div className="status-container">
+          {status && <p>Status: {status}</p>}
+      </div>
+      <div className="error-container">
+          {error && <p>{error}</p>}
+      </div>
+      <textarea className="prompt-input" type="text" value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder={defaultPrompt} />
       <br />
-      <label>
-        Width:
-        <input type="number" value={width} onChange={(e) => setWidth(e.target.value)} />
-      </label>
+      <input type="number" onChange={(e) => setWidth(e.target.value)} placeholder={"Width: 512"} />
       <br />
-      <label>
-        Height:
-        <input type="number" value={height} onChange={(e) => setHeight(e.target.value)} />
-      </label>
+      <input type="number" onChange={(e) => setHeight(e.target.value)} placeholder={"Height: 512"} />
       <br />
       <button onClick={handleGenerateImage}>Generate Image</button>
-      {status && <p>Status: {status}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div>
-  );
+  </div>
+);
+
 };
 
 export default ImageGenerator;

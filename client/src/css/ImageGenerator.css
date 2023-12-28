@@ -2,27 +2,44 @@
 
 /* Style for the prompt input */
 .prompt-input {
-    width: 100%;
-    height: 100px;
+    width: 512px;
+    height: 150px;
     resize: vertical;
     margin-top: 10px;
-  }
-  
-  /* Style for the empty space for the generated image */
-  .generated-image {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Style for the empty space for the generated image */
+.generated-image {
     width: 100%;
-    height: 300px; /* Set a fixed height for the empty space, adjust as needed */
-    margin-top: 20px; /* Add margin to separate it from other elements */
-    background-color: #f0f0f0; /* Add a background color for visibility */
+    max-width: 512px;
+    height: auto;
+    margin-top: 20px;
+    background-color: #f0f0f0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-  
-  /* Style for the actual generated image */
-  .generated-image img {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Style for the actual generated image */
+.generated-image img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* Maintain aspect ratio */
-  }
-  
+    object-fit: contain;
+}
+
+/* Style for status and error messages */
+.status-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.error-container {
+    text-align: center;
+    color: red;
+    margin-top: 10px;
+}

@@ -10,6 +10,7 @@ import ResetPassword from './pages/ResetPassword.js';
 import Post from './pages/Post.js';
 import User from './pages/User.js';
 import Profile from './pages/Profile.js';
+import ImageGenerator from './pages/ImageGenerator.js';
 import { UserProvider } from './Helpers/UserContext.js'; // Update the path
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route path="/post/:postId" element={<Post />} />
             <Route path="/user/:username" element={<User />} />
             <Route path="/profile/:username" element={<Profile />} />
+            <Route path="/ImageGenerator" element={<ImageGenerator />} />
             <Route path="/" element={<GuestPage />} />
           </Routes>
         </UserProvider>

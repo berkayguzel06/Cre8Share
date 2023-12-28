@@ -1,6 +1,6 @@
 const express = require('express'); // Importing the 'express' library to create a router 
 const router = express.Router(); // Creating an instance of an Express router
-const { sendResetPasswordEmail } = require('../Mail');
+const { sendResetPasswordEmail } = require('../middlewares/Mail');
 
 
   router.post('/', (req, res) => {

@@ -12,6 +12,7 @@ const friendRouter = require('./Routers/Friends');
 const likeRouter = require('./Routers/Likes');
 const postReportRouter = require('./Routers/PostReports');
 const imageGen = require('./Routers/ImageGen');
+const getImageData = require('./Routers/GetImage');
 const bodyParser = require('body-parser');
 
 // Enable CORS with a custom configuration
@@ -22,7 +23,10 @@ app.use(cors({
   optionsSuccessStatus: 204, // Setting the HTTP status code for preflight requests
 }));
 
+
+
 app.use(bodyParser.json());
+app.use('/getimages', getImageData);
 app.use("/post", postRouter); // Using the postRouter for requests starting with '/posts'
 app.use("/user", userRouter); // Using the userRouter for requests starting with '/users'
 app.use("/forgotpassword", forgotpasswordRouter);

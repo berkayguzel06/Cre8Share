@@ -1,0 +1,28 @@
+/* ImageGenerator.css */
+
+/* Style for the prompt input */
+.prompt-input {
+    width: 100%;
+    height: 100px;
+    resize: vertical;
+    margin-top: 10px;
+  }
+  
+  /* Style for the empty space for the generated image */
+  .generated-image {
+    width: 100%;
+    height: 300px; /* Set a fixed height for the empty space, adjust as needed */
+    margin-top: 20px; /* Add margin to separate it from other elements */
+    background-color: #f0f0f0; /* Add a background color for visibility */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Style for the actual generated image */
+  .generated-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Maintain aspect ratio */
+  }
+  

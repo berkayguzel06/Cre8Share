@@ -1,8 +1,8 @@
 /* Style for the username overlay */
 .username-overlay {
-  position: absolute;
-  bottom: 5px; /* Adjust the bottom spacing as needed */
-  left: 5px; /* Adjust the left spacing as needed */
+  position: fixed;
+  bottom: 5px;
+  left: 5px;
   background-color: rgba(37, 33, 33, 0.8);
   color: #fff;
   padding: 5px;
@@ -10,15 +10,15 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  border-radius: 44%;
+  border-radius: 10px; /* Ovalleştirmek için istediğiniz piksel değeri */
 }
 
 /* Rest of the existing styles */
-
 body {
   font-family: 'Arial', sans-serif;
-  margin: 0 auto;
-  padding: 0 auto;
+  margin: 0;
+  padding: 0;
+  background: #f0f0f0; /* Düz mat gri arka plan rengi */
 }
 
 .wrapper {
@@ -51,29 +51,6 @@ ul {
   flex-wrap: wrap ;
 }
 
-.post-container {
-  bottom: -90px;
-  margin: 10px;
-  width: 320px ; /* Adjust as needed */
-  height: auto; /* Adjust as needed */
-  border: none;
-  box-shadow: none;
-  overflow:clip;
-  display: flex ;
-  flex-direction: row ;
-  position: relative ;
-}
-
-.post-container img {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
-  display: block;
-  /*
-  max-height: 800px auto; 
-  object-fit: cover ;
-  */
-}
 
 button {
   background-color: #2b2626;
@@ -87,4 +64,125 @@ button {
 
 button:hover {
   background-color: #252121;
+}
+
+
+.posts-list {
+  
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* İstediğiniz sütun genişliğine göre ayarlayın */
+  row-gap: 20px; /* İlgili elemanlar arasındaki boşluk */
+  column-gap: 20px; /* Sütunlar arasındaki boşluk */
+  margin: 0 auto;
+  max-width: 1300px;
+  padding: 20px;
+  background-color: #120d0d; /* Mat gri arka plan rengi */
+}
+
+.post-container {
+  margin-top: 100px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+  box-shadow: 0 16px 16px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.post-container img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease-in-out;
+  border-radius: 20px; /* Ovalleştirmek için istediğiniz piksel değeri */
+}
+
+.post-container:hover {
+  transform: scale(1.08);
+}
+
+/* Dikey kaydırma çubuğu */
+::-webkit-scrollbar {
+  width: 15px; /* Çubuk genişliği */
+}
+
+::-webkit-scrollbar-track {
+  background: #141212; /* Çubuk arkaplan rengi */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* Çubuk rengi */
+  border-radius: 6px; /* Çubuk köşe yuvarlaklığı */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Çubuk rengi (hover durumunda) */
+}
+
+/* Yatay kaydırma çubuğu (isteğe bağlı) */
+::-webkit-scrollbar-track-horizontal {
+  background: #000000; /* Çubuk arkaplan rengi (yatay) */
+}
+
+::-webkit-scrollbar-thumb-horizontal {
+  background: #888; /* Çubuk rengi (yatay) */
+  border-radius: 6px; /* Çubuk köşe yuvarlaklığı (yatay) */
+}
+
+::-webkit-scrollbar-thumb-horizontal:hover {
+  background: #555; /* Çubuk rengi (yatay, hover durumunda) */
+}
+
+.post-menu {
+  position: fixed;
+  top: 75px; /* Header'ın yüksekliği kadar bir mesafe bırakın */
+  left: 0px; /* Header'dan istediğiniz uzaklıkta bir mesafe bırakın */
+  height: calc(100vh - 60px); /* Header'ın yüksekliği kadar düşürülmüş viewport yüksekliği */
+  width: 190px; /* İstediğiniz genişliği ayarlayın */
+  background-color: #1e1919; /* İstediğiniz arkaplan rengini ayarlayın */
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(205, 205, 205, 0.1); /* İsteğe bağlı olarak gölge ekleyebilirsiniz */
+  z-index: 1000; /* İsteğe bağlı olarak z-index değerini ayarlayabilirsiniz */
+  overflow-y: auto; /* Eğer menü içeriği sığmazsa kaydırma çubuğu ekleyin */
+  
+}
+
+.post-menu h2 {
+  color: #d0c4c4; /* İstediğiniz başlık rengini ayarlayın */
+}
+
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+}
+
+.post-menu li {
+  margin-bottom: 10px;
+  cursor:pointer;
+}
+
+.post-menu a {
+  text-decoration: none;
+  color: #ddd; /* İstediğiniz bağlantı rengini ayarlayın */
+}
+
+.post-menu a:hover {
+  color: #fff; /* İstediğiniz bağlantı rengini hover durumunda ayarlayın */
+}
+
+
+.selected-category {
+  margin-top: 78px; /* İsteğe bağlı bir üst boşluk ekleyebilirsiniz */
+  padding: 10px;
+  background-color: #a9a9a9; /* Arka plan rengi */
+  border: 1px solid #ccc; /* Kenarlık rengi ve kalınlığı */
+  border-radius: 5px; /* Köşeleri yuvarlama */
+}
+
+.selected-category h3 {
+  color: #333; /* Başlık yazı rengi */
+  font-size: 18px; /* Başlık yazı boyutu */
 }

@@ -1,37 +1,45 @@
 import React, { useState, useEffect } from 'react';
+import Masonry from 'masonry-layout';
+import imagesLoaded from 'imagesloaded';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/Home.css';
 import '../css/Header.css';
 import logoImage from '../images/cre8share-logo12.png';
 import profileImage from '../images/pp1.png';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../Helpers/UserContext.js';
 
 const Home = () => {
+  const [originalListOfPosts, setOriginalListOfPosts] = useState([]);
   const [listOfPosts, setListOfPosts] = useState([]);
+  const [uniqueTitles, setUniqueTitles] = useState([]);
   const [searchType, setSearchType] = useState('username');
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [username, setUsername] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const { userData, setUserData } = useContext(UserContext);
+  const navigate = useNavigate();
+
   useEffect(() => {
-    axios.get('http://localhost:5000/post', {
-      headers: { accessToken: localStorage.getItem('accessToken') },
-    })
-      .then(response => {
+    axios
+      .get('http://localhost:5000/post', {
+        headers: { accessToken: localStorage.getItem('accessToken') },
+      })
+      .then((response) => {
         if (Array.isArray(response.data)) {
+          setOriginalListOfPosts(response.data);
           setListOfPosts(response.data);
+          setUniqueTitles([...new Set(response.data.map((post) => post.title))]);
         } else {
           console.error('Invalid data format:', response.data);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching posts:', error);
       });
   }, []);
 
-  // Function to convert binary data to base64
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
       (binaryString, byte) => binaryString + String.fromCharCode(byte),
@@ -40,27 +48,16 @@ const Home = () => {
     return window.btoa(binary);
   };
 
-  // Function to format the time difference
-  const getTimeAgo = (createdAt) => {
-    const now = new Date();
-    const createdDate = new Date(createdAt);
-    const timeDifference = now - createdDate;
-    const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
-    return `${hoursAgo} hours ago`;
-  };
-
-  const navigate = useNavigate();
-
   const navigateCreatePost = () => {
     navigate('/createpost');
   };
 
   const toggleProfileMenu = (e) => {
-    e.stopPropagation(); // Prevent the event from propagating to the document
+    e.stopPropagation();
     setShowProfileMenu((prev) => !prev);
   };
 
-  const handleProfileMenuClick = option => {
+  const handleProfileMenuClick = (option) => {
     if (option === 'profile') {
       navigate(`/profile/${userData.username}`);
     } else if (option === 'settings') {
@@ -70,80 +67,130 @@ const Home = () => {
       localStorage.removeItem('accessToken');
       navigate('/');
     }
-    // Close the profile menu after clicking an option
     setShowProfileMenu(false);
   };
 
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
+
+  useEffect(() => {
+    const grid = document.querySelector('.posts-list');
+    const masonry = new Masonry(grid, {
+      itemSelector: '.post-container',
+      columnWidth: '.post-container',
+      percentPosition: true,
+    });
+    imagesLoaded(grid).on('progress', () => {
+      masonry.layout();
+    });
+  }, [listOfPosts]);
+
+  useEffect(() => {
+    setListOfPosts((prevState) => {
+      const filteredPosts = selectedCategory
+        ? originalListOfPosts.filter((post) => post.title === selectedCategory)
+        : originalListOfPosts;
+
+      const grid = document.querySelector('.posts-list');
+      const masonry = new Masonry(grid, {
+        itemSelector: '.post-container',
+        columnWidth: '.post-container',
+        percentPosition: true,
+      });
+      imagesLoaded(grid).on('progress', () => {
+        masonry.layout();
+      });
+
+      return filteredPosts;
+    });
+  }, [selectedCategory, originalListOfPosts]);
+
+  useEffect(() => {
+    return () => {
+      setSelectedCategory(null);
+    };
+  }, []);
+
   return (
-    
     <div>
       <div className="header">
-  {/* Left side with logo */}
-  <div className="header-left">
-    <a href="/home">
-      <img src={logoImage} alt="Logo" />
-    </a>
-  </div>
-  {/* Middle part with search bar, switch button, and create post button */}
-  <div className="header-middle">
-    <input type="text" placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`} />
-    <button onClick={() => setSearchType(prevType => (prevType === 'username' ? 'post' : 'username'))}>
-      Switch
-    </button>
-    
-  </div>
-  <button className="create-post-button" onClick={navigateCreatePost}>Create a Post</button>
-  {/* Right side with user actions and profile picture */}
-  <div className="header-right">
-    <div className="profile-picture" onClick={toggleProfileMenu}>
-      {/* Replace "/path-to-your-profile-pic.jpg" with the actual path to your profile picture */}
-      <img src={profileImage} alt="Profile" />
-    </div>
-    {showProfileMenu && (
-      <div className="profile-menu">
-        <button onClick={() => handleProfileMenuClick('profile')}>My Profile</button>
-        <button onClick={() => handleProfileMenuClick('settings')}>Settings</button>
-        <button onClick={() => handleProfileMenuClick('logout')}>Log Out</button>
-      </div>
+        <div className="header-left">
+          <a href="/home">
+            <img src={logoImage} alt="Logo" />
+          </a>
+        </div>
+        <div className="header-middle">
+          <input type="text" placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`} />
+          <button
+            style={{
+              backgroundColor: '#4b4242',
+              color: '#000000',
+            }}
+            onClick={() => setSearchType((prevType) => (prevType === 'username' ? 'post' : 'username'))}
+          >
+            Switch
+          </button>
+        </div>
+        <button className="create-post-button" onClick={navigateCreatePost}>
+          Create a Post
+        </button>
+        <div className="header-right">
+          <div className="profile-picture" onClick={toggleProfileMenu}>
+            <img src={profileImage} alt="Profile" />
+          </div>
+          {showProfileMenu && (
+            <div className="profile-menu">
+              <button onClick={() => handleProfileMenuClick('profile')}>My Profile</button>
+              <button onClick={() => handleProfileMenuClick('settings')}>Settings</button>
+              <button onClick={() => handleProfileMenuClick('logout')}>Log Out</button>
+            </div>
           )}
         </div>
       </div>
 
-      {/* Display the latest posts */}
       <div className="posts-container">
-      {listOfPosts.length > 0 ? (
-  <ul className="posts-list">
-    {listOfPosts.map(post => (
-      
-      <li key={post.id} className="post-container">
-        {/* Display username overlay */}
-        {/* If user tab own username navigate to profile */}
-        {post.User.id === userData.id ? (
-          <Link to={`/profile/${post.User.username}`}>
-            <div className="username-overlay">{post.User.username}</div>
-          </Link>
-        ) : (
-          <Link to={`/user/${post.User.username}`}>
-            <div className="username-overlay">{post.User.username}</div>
-          </Link>
+        {listOfPosts.length > 0 && (
+          <div className="post-menu">
+            <h2>CATEGORIES</h2>
+            <ul>
+              <li onClick={() => handleCategoryClick(null)}>All</li>
+              {uniqueTitles.map((title, index) => (
+                <li key={index} onClick={() => handleCategoryClick(title)}>
+                  {title}
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
+        {selectedCategory && (
+          <div className="selected-category">
+            <h3>Selected Category: {selectedCategory}</h3>
+          </div>
+        )}
+        <ul className="posts-list">
+          {listOfPosts.map((post) => (
+            <li key={post.id} className="post-container">
+              {post.User.id === userData.id ? (
+                <Link to={`/profile/${post.User.username}`}>
+                  <div className="username-overlay">{post.User.username}</div>
+                </Link>
+              ) : (
+                <Link to={`/user/${post.User.username}`}>
+                  <div className="username-overlay">{post.User.username}</div>
+                </Link>
+              )}
 
-        <Link to={`/post/${post.id}`}>
-          <img
-            src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
-            alt={`Post ID: ${post.id}`}
-          />
-        </Link>
-        {/* <p>Posted by {post.User.username}</p> */}
-        {/* <p>Posted {getTimeAgo(post.createdAt)} ago</p> */}
-        {/* <p>{post.title}</p> */}
-      </li>
-    ))}
-  </ul>
-) : (
-  <p>No posts available.</p>
-)}
-</div>
+              <Link to={`/post/${post.id}`}>
+                <img
+                  src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
+                  alt={`Post ID: ${post.id}`}
+                />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

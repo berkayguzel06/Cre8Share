@@ -40,8 +40,8 @@ body {
     position: absolute;
     top: 60px; /* Adjust top position as needed */
     right: 20px; /* Adjust right position as needed */
-    background-color: #3b2f2f;
-    border: 1px solid #684e80;
+    background-color: #601515;
+    border: 1px solid #000000;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 10px;
@@ -63,8 +63,8 @@ body {
     background-color: #1b1a1a;
   }
   .create-post-button {
-    background-color: #ac3030;
-    color: #1d0477;
+    background-color: #4b4242;
+    color: #000000;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;

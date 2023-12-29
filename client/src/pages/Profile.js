@@ -108,11 +108,11 @@ const Profile = () => {
         </li>
       ))}
       
-      {userProfile.Comments.map(comments => (
+      {/*userProfile.Comments.map(comments => (
         <li key={comments.id} className="post-container">
           <p>{comments.content}</p>
         </li>
-      ))}
+      ))*/}
       
     </div>
   );

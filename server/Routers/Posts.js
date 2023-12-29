@@ -1,6 +1,6 @@
 const express = require('express'); // Importing the 'express' library to create a router 
 const router = express.Router(); // Creating an instance of an Express router
-const { Post, User } = require('../models'); // Importing the 'User' model from the '../models' directory
+const { Post, User, Like } = require('../models'); // Importing the 'User' model from the '../models' directory
 const {validateToken} = require("../middlewares/UserAuth");
 
 // (validation) validateToken is a middleware that checks if the user is logged in then return posts
@@ -8,10 +8,16 @@ router.get("/", validateToken, async (req, res) => {
     try {
         // Using Sequelize's 'findAll' method to retrieve all posts from the database
         const listOfPosts = await Post.findAll({
-            include: {
-                model: User,
-                attributes: ['username','id'], // Include only the 'username' attribute of the User model
+          include: [
+            {
+              model: User,
+              attributes: ['username', 'id'],
             },
+            {
+              model: Like,
+              attributes: [],
+            },
+          ],
         });
         // Sending the list of posts as a JSON response
         res.json(listOfPosts);

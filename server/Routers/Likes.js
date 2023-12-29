@@ -16,8 +16,15 @@ router.get("/likecount", async (req, res) => {
 // Handling HTTP POST requests to the "/like" path
 router.post("/like", async (req, res) => {
     try {
-        const { postID, userID } = req.body;
-        await Like.create({ PostID: postID, UserID: userID });
+        const { PostId, userid } = req.body;
+        const isExist = await Like.findOne({ where: { PostId: PostId, userid: userid } });
+        if (isExist) {
+            isExist.destroy();
+            const likeCount = await Like.count();
+            res.json({ likeCount });
+            return;
+        }
+        await Like.create({ PostId: PostId, userid: userid });
         const likeCount = await Like.count();
         res.json({ likeCount });
     } catch (error) {

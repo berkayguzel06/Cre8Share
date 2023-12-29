@@ -6,8 +6,12 @@ body {
     padding: 0;
     background-color: #1f1f1f; /* Dark background color */
     color: #fff; /* Text color */
+    
   }
-  
+  .create-post-body {
+    margin-top: 100px;
+
+  }
   .wrapper {
     max-width: 800px;
     margin: 0 auto;
@@ -15,10 +19,13 @@ body {
   }
   
   form {
-    background-color: #333; /* Dark form background color */
+    background-color: #161616; /* Dark form background color */
     border: 1px solid #555; /* Border color */
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 100px rgba(235, 229, 229, 0.1);
+    text-align: center;
+    border-radius: 15px; 
+    
   }
   
   h1, h2 {
@@ -27,6 +34,11 @@ body {
   
   label {
     color: #ccc; /* Label text color */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 5px;
+    font-family: 'Consolas', monospace;
   }
   
   input, textarea {
@@ -38,7 +50,7 @@ body {
   }
   
   button {
-    background-color: #4CAF50; /* Button background color */
+    background-color: #000000; /* Button background color */
     color: #fff; /* Button text color */
     padding: 10px 15px;
     border: none;
@@ -47,6 +59,6 @@ body {
   }
   
   button:hover {
-    background-color: #45a049; /* Button hover color */
+    background-color: #8b8d8b; /* Button hover color */
   }
   

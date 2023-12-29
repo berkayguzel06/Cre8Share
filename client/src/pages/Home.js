@@ -18,8 +18,11 @@ const Home = () => {
   const [searchType, setSearchType] = useState('username');
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [searchInput, setSearchInput] = useState('');
+  const [userSearchResults, setUserSearchResults] = useState([]);
   const { userData, setUserData } = useContext(UserContext);
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     axios
@@ -116,6 +119,30 @@ const Home = () => {
     };
   }, []);
 
+  const handleUserSearch = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/user/searchedusers/${searchInput}`);
+      setUserSearchResults(response.data.ListOfUsers);
+    } catch (error) {
+      console.error('Error searching users:', error);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setSearchInput(e.target.value);
+    // Trigger search on every input change
+    handleUserSearch();
+  };
+
+  const navigateToProfile = (userId) => {
+    navigate(`/profile/${userId}`);
+  };
+
+
+  const handleViewAllUsers = () => {
+    navigate('/listedprofiles', { state: { userSearchResults } });
+  };
+
   return (
     <div>
       <div className="header">
@@ -125,16 +152,36 @@ const Home = () => {
           </a>
         </div>
         <div className="header-middle">
-          <input type="text" placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`} />
+          <input
+          type="text"
+          placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`}
+          value={searchInput}
+           onChange={handleInputChange} // Triggered on every input change
+          />
           <button
             style={{
               backgroundColor: '#4b4242',
               color: '#000000',
             }}
-            onClick={() => setSearchType((prevType) => (prevType === 'username' ? 'post' : 'username'))}
+            onClick={handleViewAllUsers}
           >
-            Switch
+            Search
           </button>
+           {/* Show first 5 user search results */}
+           
+           {userSearchResults && userSearchResults.length > 0 && (
+         <div className="user-search-results">
+            <h2>User Search Results</h2>
+              <div className="search-results-list">
+              {userSearchResults.slice(0, 5).map((user, index) => (
+            <div className="search-result" key={index} onClick={() => navigateToProfile(user.id)}>
+               {user.username}
+         </div>
+          ))}
+            </div>
+         <button onClick={handleViewAllUsers}>View All Users</button>
+         </div>
+          )}
         </div>
         <button className="create-post-button" onClick={navigateCreatePost}>
           Create a Post
@@ -155,7 +202,7 @@ const Home = () => {
           )}
         </div>
       </div>
-
+  
       <div className="posts-container">
         {listOfPosts.length > 0 && (
           <div className="post-menu">
@@ -187,7 +234,7 @@ const Home = () => {
                   <div className="username-overlay">{post.User.username}</div>
                 </Link>
               )}
-
+  
               <Link to={`/post/${post.id}`}>
                 <img
                   src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}

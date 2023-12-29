@@ -3,7 +3,7 @@ const router = express.Router(); // Creating an instance of an Express router
 const { User, Friend, Comment, Post } = require('../models'); // Importing the 'User' model from the '../models' directory
 const {sign} = require("jsonwebtoken")
 const {validateToken} = require("../middlewares/UserAuth")
-
+const { Op } = require('sequelize');
 // Handling HTTP GET requests to the root path ("/")
 router.get("/", async (req, res) => {
     // Using Sequelize's 'findAll' method to retrieve all users from the database
@@ -54,6 +54,29 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.get("/searchedusers/:input", async (req, res) => {
+  console.log('Route accessed!');
+  const { input } = req.params;
+  console.log('Input:', input);
+  try {
+    if (!input) {
+      return res.json({ error: 'Input is required.' });
+    }
+
+    const ListOfUsers = await User.findAll({
+      where: { username: { [Op.like]: `%${input}%` } },
+    });
+
+    if (!ListOfUsers || ListOfUsers.length === 0) {
+      return res.json({ error: 'No Matching User' });
+    }
+    console.log('ListOfUsers:', ListOfUsers);
+    return res.json({ ListOfUsers });
+  } catch (error) {
+    console.error('Error during user search:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 router.post("/usernamewithid", async (req, res) => {
   const { id } = req.body;

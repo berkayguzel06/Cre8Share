@@ -68,7 +68,6 @@ button:hover {
 
 
 .posts-list {
-  
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* İstediğiniz sütun genişliğine göre ayarlayın */
   row-gap: 20px; /* İlgili elemanlar arasındaki boşluk */
@@ -80,13 +79,14 @@ button:hover {
 }
 
 .post-container {
-  margin-top: 100px;
-  margin-bottom: 20px;
   position: relative;
   overflow: hidden;
   border-radius: 30px;
   box-shadow: 0 16px 16px rgba(255, 255, 255, 0.1);
   transition: transform 0.3s ease-in-out;
+  width: calc(30% - 16px); 
+  margin: 20px; 
+  box-sizing: border-box; 
 }
 
 .post-container img {

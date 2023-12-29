@@ -6,7 +6,7 @@ router.get("/reportcount", async (req, res) => {
     const postId = req.query.postId;
     try {
         const reportCount = await PostReport.count({ where: { PostId: postId } });
-        res.json({ reportCount });
+        res.json( reportCount );
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');

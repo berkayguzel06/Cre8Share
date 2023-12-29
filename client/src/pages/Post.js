@@ -14,15 +14,22 @@ const Post = () => {
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState('');
   const { userData, setUserData } = useContext(UserContext);
+  const [likeCount, setLikeCount] = useState(null);
+  const [reportCount, setReportCount] = useState(null);
+
+  useEffect(() => {
+    fetchPost();
+    fetchComments();
+  }, [postId]);
 
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
       (binaryString, byte) => binaryString + String.fromCharCode(byte),
       ''
-    );
-    return window.btoa(binary);
-  };
-
+      );
+      return window.btoa(binary);
+    };
+    
   const fetchPost = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/post/${postId}`);
@@ -54,10 +61,6 @@ const Post = () => {
     }
   };
 
-  useEffect(() => {
-    fetchPost();
-    fetchComments();
-  }, [postId]);
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -130,7 +133,6 @@ const handleLike = (postId) => {
   .catch((error) => {
     console.error('Error like post:', error);
   });
-  countlike(postId);
 };
 
 const handleReport = (postId) => {
@@ -147,14 +149,16 @@ const handleReport = (postId) => {
   countReport(postId);
 };
 
-const countlike = (postId) => {
-  axios.get('http://localhost:5000/like/likecount', { params: { postId } }).then((response) => {
+const countlike = async (postId) => {
+  await axios.get('http://localhost:5000/like/likecount', { params: { postId } }).then((response) => {
+    console.log(response.data);
     return response.data;
   })
   .catch((error) => {
     console.error('Error like post:', error);
   });
 };
+
 
 const countReport = (postId) => {
   axios.get('http://localhost:5000/postreport/reportcount', { params: { postId } }).then((response) => {
@@ -172,6 +176,7 @@ const countReport = (postId) => {
     <div className='postbox'>
       <h2 className='post-details'>Post Details</h2>
       <p className='title'>Title: {post.title}</p>
+      <p >Like: {likeCount}</p>
       <img
 
         src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}

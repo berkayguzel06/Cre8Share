@@ -103,6 +103,7 @@ const handleCommentDelete = async (commentID) => {
     console.error('Error deleting comment:', error);
   }
 };
+
 const handlePostDelete = async (postID) => {
   try {
     console.log('Deleting post with ID:', postID);
@@ -118,7 +119,51 @@ const handlePostDelete = async (postID) => {
   }
 };
 
+const handleLike = (postId) => {
+  const like = {
+    PostId: postId,
+    userid: userData.id,
+  }
+  axios.post('http://localhost:5000/like/like', like).then((response) => {
+    console.log('Post submitted successfully');
+  })
+  .catch((error) => {
+    console.error('Error like post:', error);
+  });
+  countlike(postId);
+};
 
+const handleReport = (postId) => {
+  const report = {
+    PostId: postId,
+    userid: userData.id,
+  }
+  axios.post('http://localhost:5000/postreport/report', report).then((response) => {
+    console.log('Post report successfully');
+  })
+  .catch((error) => {
+    console.error('Error report post:', error);
+  });
+  countReport(postId);
+};
+
+const countlike = (postId) => {
+  axios.get('http://localhost:5000/like/likecount', { params: { postId } }).then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.error('Error like post:', error);
+  });
+};
+
+const countReport = (postId) => {
+  axios.get('http://localhost:5000/postreport/reportcount', { params: { postId } }).then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.error('Error report post:', error);
+  });
+};
 
   if (!post) {
     return <p>Loading...</p>;
@@ -133,7 +178,8 @@ const handlePostDelete = async (postID) => {
         alt={`Post ID: ${post.id}`}
         className='image'
       />
-
+      <button onClick={() => handleLike(post.id)}>Like</button>
+      <button onClick={() => handleReport(post.id)}>Report</button>
       {/* Comment input and submit button */}
       <div>
         <label htmlFor="comment">Make a Comment:</label>

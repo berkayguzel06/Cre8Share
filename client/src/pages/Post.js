@@ -222,7 +222,7 @@ const countReport = (postId) => {
             {comments.map(comment => (
               <li key={comment.id}>
                 {/* Display comment details as needed */}
-                <p>User: {comment.User.username}</p>handleCommentReport
+                <p>User: {comment.User.username}</p>
                 <button onClick={() => handleCommentReport(comment.id)}>Report</button>
                 {comment.User.id === userData.id && (
                   <button onClick={() => handleCommentDelete(comment.id)}>Delete</button>

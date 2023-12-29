@@ -146,7 +146,17 @@ const Home = () => {
       userid: userData.id,
     }
     axios.post('http://localhost:5000/like/like', like).then((response) => {
-      console.log('Post submitted successfully:', response.data.likeCount);
+      console.log('Post submitted successfully');
+    })
+    .catch((error) => {
+      console.error('Error like post:', error);
+    });
+    countlike(postId);
+  };
+
+  const countlike = (postId) => {
+    axios.get('http://localhost:5000/like/likecount', { params: { postId } }).then((response) => {
+      return response.data;
     })
     .catch((error) => {
       console.error('Error like post:', error);

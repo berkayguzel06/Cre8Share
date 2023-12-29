@@ -3,9 +3,9 @@ const router = express.Router();
 const { Like } = require('../models');
 
 router.get("/likecount", async (req, res) => {
+    const postId = req.query.postId;
     try {
-        const postID = req.body.postID;
-        const likeCount = await Like.count({ where: { PostID: postID } });
+        const likeCount = await Like.count({ where: { PostId: postId } });
         res.json({ likeCount });
     } catch (error) {
         console.error(error);

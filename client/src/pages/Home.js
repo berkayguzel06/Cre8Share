@@ -154,6 +154,20 @@ const Home = () => {
     countlike(postId);
   };
 
+  const handleReport = (postId) => {
+    const report = {
+      PostId: postId,
+      userid: userData.id,
+    }
+    axios.post('http://localhost:5000/postreport/report', report).then((response) => {
+      console.log('Post report successfully');
+    })
+    .catch((error) => {
+      console.error('Error report post:', error);
+    });
+    countReport(postId);
+  };
+
   const countlike = (postId) => {
     axios.get('http://localhost:5000/like/likecount', { params: { postId } }).then((response) => {
       return response.data;
@@ -163,8 +177,13 @@ const Home = () => {
     });
   };
 
-  const handleReport = () => {
-    console.log('Report');
+  const countReport = (postId) => {
+    axios.get('http://localhost:5000/postreport/reportcount', { params: { postId } }).then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.error('Error report post:', error);
+    });
   };
 
   return (

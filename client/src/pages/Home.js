@@ -74,6 +74,10 @@ const Home = () => {
     setSelectedCategory(category);
   };
 
+  const navigateImageGeneration = () => {
+    navigate('/ImageGenerator');
+  };
+
   useEffect(() => {
     const grid = document.querySelector('.posts-list');
     const masonry = new Masonry(grid, {
@@ -134,6 +138,9 @@ const Home = () => {
         </div>
         <button className="create-post-button" onClick={navigateCreatePost}>
           Create a Post
+        </button>
+        <button className="create-post-button" onClick={navigateImageGeneration}>
+          Cre8 and Share
         </button>
         <div className="header-right">
           <div className="profile-picture" onClick={toggleProfileMenu}>

@@ -1,5 +1,6 @@
 // ImageGenerator.js
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/ImageGenerator.css';
 
@@ -11,6 +12,7 @@ const ImageGenerator = () => {
     const [status, setStatus] = useState('');
     const [error, setError] = useState('');
     const [imageData, setImageData] = useState('');
+    const navigate = useNavigate();
     
     useEffect(() => {
       getImage();
@@ -54,6 +56,15 @@ const ImageGenerator = () => {
       }
   };
 
+  const shareImage = async () => {
+    if(imageData){
+        navigate('/createpost', { state: { imageData } });
+
+    }else{
+        setError('No image to share');
+    }
+  };
+
   // ... your existing JSX
 
 return (
@@ -78,7 +89,10 @@ return (
       <br />
       <input type="number" onChange={(e) => setHeight(e.target.value)} placeholder={"Height: 512"} />
       <br />
-      <button onClick={handleGenerateImage}>Generate Image</button>
+        <div className="button-container">
+          <button onClick={handleGenerateImage}>Cre8</button>
+          <button onClick={shareImage}>Share</button>
+        </div>
   </div>
 );
 

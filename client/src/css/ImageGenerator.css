@@ -43,3 +43,34 @@
     color: red;
     margin-top: 10px;
 }
+
+/* ImageGenerator.css */
+
+/* Your existing styles... */
+
+/* Style for the button container */
+.button-container {
+    display: flex;
+    margin-top: 10px;
+  }
+  
+  /* Style for the buttons */
+  .button-container button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #333; /* Background color for the buttons */
+    color: #fff; /* Text color for the buttons */
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover effect for the buttons */
+  .button-container button:hover {
+    background-color: #555; /* Adjust the color as needed */
+  }
+  
+  /* Add some spacing between buttons */
+  .button-container button + button {
+    margin-left: 0; /* No margin between buttons */
+  }
+  

@@ -1,25 +1,37 @@
 const express = require('express'); // Importing the 'express' library to create a router 
 const router = express.Router(); // Creating an instance of an Express router
-const { CommentReport } = require('../models'); // Importing the 'comment report' model from the '../models' directory
+const { CommentReport } = require('../models');
 
-// Handling HTTP GET requests to the root path ("/")
-router.get("/", async (req, res) => {
-    // Using Sequelize's 'findAll' method to retrieve all comment reports from the database
-    const listofCommentReports = await CommentReport.findAll();
-    // Sending the list of users as a JSON response
-    res.json(listofCommentReports);
+router.get("/reportcount", async (req, res) => {
+    const postId = req.query.postId;
+    try {
+        const reportCount = await CommentReport.count({ where: { PostId: postId } });
+        res.json( reportCount );
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
-// Handling HTTP POST requests to the root path ("/")
-router.post("/", async (req, res) => {
-    const commentID = req.body; // Extracting the request body, which should contain data for creating a new user
-    await CommentReport.create({ CommentID: commentID });
-    res.send("Report count created successfully");
-});
-router.post("/update", async (req, res) => {
-    const { commentID } = req.body; // Extracting the body if the user clicks on a button request, returning post id
-    await CommentReport.update({ reportCount: sequelize.literal('reportCount + 1') },{ where: { CommentID: commentID } });
-    res.send("Report count updated successfully");
+// Handling HTTP POST requests to the "/report" path
+router.post("/report", async (req, res) => {
+    try {
+        const { CommentId, userid } = req.body;
+        console.log(CommentId);
+        const isExist = await CommentReport.findOne({ where: { CommentId: CommentId, userid: userid } });
+        if (isExist) {
+            isExist.destroy();
+            const reportCount = await CommentReport.count();
+            res.json({ reportCount });
+            return;
+        }
+        await CommentReport.create({ CommentId: CommentId, userid: userid });
+        const reportCount = await CommentReport.count();
+        res.json({ reportCount });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 module.exports = router;

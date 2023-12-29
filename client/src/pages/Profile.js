@@ -9,6 +9,7 @@ const Profile = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [firendList, setFirendList] = useState(null);
   const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {

@@ -149,6 +149,20 @@ const handleReport = (postId) => {
   countReport(postId);
 };
 
+const handleCommentReport = (commentid) => {
+  const report = {
+    CommentId: commentid,
+    userid: userData.id,
+  }
+  axios.post('http://localhost:5000/commentreport/report', report).then((response) => {
+    console.log('Post report successfully');
+  })
+  .catch((error) => {
+    console.error('Error report post:', error);
+  });
+  countReport(postId);
+};
+
 const countlike = async (postId) => {
   await axios.get('http://localhost:5000/like/likecount', { params: { postId } }).then((response) => {
     console.log(response.data);
@@ -208,7 +222,8 @@ const countReport = (postId) => {
             {comments.map(comment => (
               <li key={comment.id}>
                 {/* Display comment details as needed */}
-                <p>User: {comment.User.username}</p>
+                <p>User: {comment.User.username}</p>handleCommentReport
+                <button onClick={() => handleCommentReport(comment.id)}>Report</button>
                 {comment.User.id === userData.id && (
                   <button onClick={() => handleCommentDelete(comment.id)}>Delete</button>
                 )}

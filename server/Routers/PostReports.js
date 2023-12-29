@@ -1,25 +1,37 @@
-const express = require('express'); // Importing the 'express' library to create a router 
-const router = express.Router(); // Creating an instance of an Express router
-const { PostReport } = require('../models'); // Importing the 'postreport' model from the '../models' directory
+const express = require('express');
+const router = express.Router();
+const { PostReport } = require('../models');
 
-// Handling HTTP GET requests to the root path ("/")
-router.get("/", async (req, res) => {
-    // Using Sequelize's 'findAll' method to retrieve all postreports from the database
-    const listofPostReports = await PostReport.findAll();
-    // Sending the list of users as a JSON response
-    res.json(listofPostReports);
+router.get("/reportcount", async (req, res) => {
+    const postId = req.query.postId;
+    try {
+        const reportCount = await PostReport.count({ where: { PostId: postId } });
+        res.json( reportCount );
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
-// Handling HTTP POST requests to the root path ("/")
-router.post("/", async (req, res) => {
-    const postID = req.body; // Extracting the request body, which should contain data for creating a new user
-    await Post.create({ PostID: postID });
-    res.send("Report count created successfully");
-});
-// Handling HTTP POST requests to the root path ("/")
-router.post("/update", async (req, res) => {
-    const { postID } = req.body; // Extracting the body if the user clicks on a button request, returning post id
-    await PostReport.update({ reportCount: sequelize.literal('reportCount + 1') },{ where: { PostID: postID } });
-    res.send("Report count updated successfully");
+
+// Handling HTTP POST requests to the "/report" path
+router.post("/report", async (req, res) => {
+    try {
+        const { PostId, userid } = req.body;
+        console.log(PostId);
+        const isExist = await PostReport.findOne({ where: { PostId: PostId, userid: userid } });
+        if (isExist) {
+            isExist.destroy();
+            const reportCount = await PostReport.count();
+            res.json({ reportCount });
+            return;
+        }
+        await PostReport.create({ PostId: PostId, userid: userid });
+        const reportCount = await PostReport.count();
+        res.json({ reportCount });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 module.exports = router;

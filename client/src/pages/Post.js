@@ -14,15 +14,22 @@ const Post = () => {
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState('');
   const { userData, setUserData } = useContext(UserContext);
+  const [likeCount, setLikeCount] = useState(null);
+  const [reportCount, setReportCount] = useState(null);
+
+  useEffect(() => {
+    fetchPost();
+    fetchComments();
+  }, [postId]);
 
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
       (binaryString, byte) => binaryString + String.fromCharCode(byte),
       ''
-    );
-    return window.btoa(binary);
-  };
-
+      );
+      return window.btoa(binary);
+    };
+    
   const fetchPost = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/post/${postId}`);
@@ -54,10 +61,6 @@ const Post = () => {
     }
   };
 
-  useEffect(() => {
-    fetchPost();
-    fetchComments();
-  }, [postId]);
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -103,6 +106,7 @@ const handleCommentDelete = async (commentID) => {
     console.error('Error deleting comment:', error);
   }
 };
+
 const handlePostDelete = async (postID) => {
   try {
     console.log('Deleting post with ID:', postID);
@@ -118,7 +122,66 @@ const handlePostDelete = async (postID) => {
   }
 };
 
+const handleLike = (postId) => {
+  const like = {
+    PostId: postId,
+    userid: userData.id,
+  }
+  axios.post('http://localhost:5000/like/like', like).then((response) => {
+    console.log('Post submitted successfully');
+  })
+  .catch((error) => {
+    console.error('Error like post:', error);
+  });
+};
 
+const handleReport = (postId) => {
+  const report = {
+    PostId: postId,
+    userid: userData.id,
+  }
+  axios.post('http://localhost:5000/postreport/report', report).then((response) => {
+    console.log('Post report successfully');
+  })
+  .catch((error) => {
+    console.error('Error report post:', error);
+  });
+  countReport(postId);
+};
+
+const handleCommentReport = (commentid) => {
+  const report = {
+    CommentId: commentid,
+    userid: userData.id,
+  }
+  axios.post('http://localhost:5000/commentreport/report', report).then((response) => {
+    console.log('Post report successfully');
+  })
+  .catch((error) => {
+    console.error('Error report post:', error);
+  });
+  countReport(postId);
+};
+
+const countlike = async (postId) => {
+  await axios.get('http://localhost:5000/like/likecount', { params: { postId } }).then((response) => {
+    console.log(response.data);
+    return response.data;
+  })
+  .catch((error) => {
+    console.error('Error like post:', error);
+  });
+};
+
+
+const countReport = (postId) => {
+  axios.get('http://localhost:5000/postreport/reportcount', { params: { postId } }).then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.error('Error report post:', error);
+  });
+};
 
   if (!post) {
     return <p>Loading...</p>;
@@ -127,13 +190,15 @@ const handlePostDelete = async (postID) => {
     <div className='postbox'>
       <h2 className='post-details'>Post Details</h2>
       <p className='title'>Title: {post.title}</p>
+      <p >Like: {likeCount}</p>
       <img
 
         src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
         alt={`Post ID: ${post.id}`}
         className='image'
       />
-
+      <button onClick={() => handleLike(post.id)}>Like</button>
+      <button onClick={() => handleReport(post.id)}>Report</button>
       {/* Comment input and submit button */}
       <div>
         <label htmlFor="comment">Make a Comment:</label>
@@ -158,6 +223,7 @@ const handlePostDelete = async (postID) => {
               <li key={comment.id}>
                 {/* Display comment details as needed */}
                 <p>User: {comment.User.username}</p>
+                <button onClick={() => handleCommentReport(comment.id)}>Report</button>
                 {comment.User.id === userData.id && (
                   <button onClick={() => handleCommentDelete(comment.id)}>Delete</button>
                 )}

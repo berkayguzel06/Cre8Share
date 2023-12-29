@@ -2,7 +2,7 @@
 
 module.exports = (sequelize, DataTypes) => {
     const CommentReport = sequelize.define("CommentReport", {
-        reportCount:{
+        userid:{
             type: DataTypes.INTEGER,
             allowNull: false
         }

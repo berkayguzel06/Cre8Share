@@ -23,7 +23,7 @@ const Home = () => {
   const { userData, setUserData } = useContext(UserContext);
   const navigate = useNavigate();
   
-
+  
   useEffect(() => {
     axios
       .get('http://localhost:5000/post', {
@@ -42,44 +42,6 @@ const Home = () => {
         console.error('Error fetching posts:', error);
       });
   }, []);
-
-  const arrayBufferToBase64 = (buffer) => {
-    const binary = new Uint8Array(buffer.data).reduce(
-      (binaryString, byte) => binaryString + String.fromCharCode(byte),
-      ''
-    );
-    return window.btoa(binary);
-  };
-
-  const navigateCreatePost = () => {
-    navigate('/createpost');
-  };
-
-  const toggleProfileMenu = (e) => {
-    e.stopPropagation();
-    setShowProfileMenu((prev) => !prev);
-  };
-
-  const handleProfileMenuClick = (option) => {
-    if (option === 'profile') {
-      navigate(`/profile/${userData.username}`);
-    } else if (option === 'settings') {
-      navigate('/settings');
-    } else if (option === 'logout') {
-      localStorage.removeItem('userData');
-      localStorage.removeItem('accessToken');
-      navigate('/');
-    }
-    setShowProfileMenu(false);
-  };
-
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-  };
-
-  const navigateImageGeneration = () => {
-    navigate('/ImageGenerator');
-  };
 
   useEffect(() => {
     const grid = document.querySelector('.posts-list');
@@ -112,13 +74,57 @@ const Home = () => {
       return filteredPosts;
     });
   }, [selectedCategory, originalListOfPosts]);
-
   useEffect(() => {
     return () => {
       setSelectedCategory(null);
     };
   }, []);
+  
+  const arrayBufferToBase64 = (buffer) => {
+    const binary = new Uint8Array(buffer.data).reduce(
+      (binaryString, byte) => binaryString + String.fromCharCode(byte),
+      ''
+      );
+      return window.btoa(binary);
+  };
+  
+  const navigateCreatePost = () => {
+    navigate('/createpost');
+  };
+  const navigateToProfile = (userId) => {
+    navigate(`/profile/${userId}`);
+  };
 
+
+  const handleViewAllUsers = () => {
+    navigate('/listedprofiles', { state: { userSearchResults } });
+  };
+  const navigateImageGeneration = () => {
+    navigate('/ImageGenerator');
+  };
+    
+  const toggleProfileMenu = (e) => {
+    e.stopPropagation();
+    setShowProfileMenu((prev) => !prev);
+  };
+
+  const handleProfileMenuClick = (option) => {
+    if (option === 'profile') {
+      navigate(`/profile/${userData.username}`);
+    } else if (option === 'settings') {
+      navigate('/settings');
+    } else if (option === 'logout') {
+      localStorage.removeItem('userData');
+      localStorage.removeItem('accessToken');
+      navigate('/');
+    }
+    setShowProfileMenu(false);
+  };
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
+  
   const handleUserSearch = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/user/searchedusers/${searchInput}`);
@@ -134,13 +140,50 @@ const Home = () => {
     handleUserSearch();
   };
 
-  const navigateToProfile = (userId) => {
-    navigate(`/profile/${userId}`);
+  const handleLike = (postId) => {
+    const like = {
+      PostId: postId,
+      userid: userData.id,
+    }
+    axios.post('http://localhost:5000/like/like', like).then((response) => {
+      console.log('Post submitted successfully');
+    })
+    .catch((error) => {
+      console.error('Error like post:', error);
+    });
+    countlike(postId);
   };
 
+  const handleReport = (postId) => {
+    const report = {
+      PostId: postId,
+      userid: userData.id,
+    }
+    axios.post('http://localhost:5000/postreport/report', report).then((response) => {
+      console.log('Post report successfully');
+    })
+    .catch((error) => {
+      console.error('Error report post:', error);
+    });
+    countReport(postId);
+  };
 
-  const handleViewAllUsers = () => {
-    navigate('/listedprofiles', { state: { userSearchResults } });
+  const countlike = (postId) => {
+    axios.get('http://localhost:5000/like/likecount', { params: { postId } }).then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.error('Error like post:', error);
+    });
+  };
+
+  const countReport = (postId) => {
+    axios.get('http://localhost:5000/postreport/reportcount', { params: { postId } }).then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.error('Error report post:', error);
+    });
   };
 
   return (
@@ -234,7 +277,10 @@ const Home = () => {
                   <div className="username-overlay">{post.User.username}</div>
                 </Link>
               )}
-  
+              <div>
+                <button onClick={() => handleLike(post.id)}>Like</button>
+                <button onClick={() => handleReport(post.id)}>Report</button>
+              </div>
               <Link to={`/post/${post.id}`}>
                 <img
                   src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}

@@ -9,6 +9,7 @@ const Profile = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [firendList, setFirendList] = useState(null);
   const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -108,11 +109,11 @@ const Profile = () => {
         </li>
       ))}
       
-      {userProfile.Comments.map(comments => (
+      {/*userProfile.Comments.map(comments => (
         <li key={comments.id} className="post-container">
           <p>{comments.content}</p>
         </li>
-      ))}
+      ))*/}
       
     </div>
   );

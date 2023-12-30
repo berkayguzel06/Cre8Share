@@ -257,7 +257,7 @@ const CreatePost = () => {
       {showPreview ? (
         <div>
           <h2>Post Preview</h2>
-          <p>Title: {title}</p>
+          <p>Tag: {title}</p>
           <p>Username: {username}</p>
           <img src={preview} alt="Post Preview" style={{ maxWidth: '100%' }} />
           {/* You can add more details from the preview if needed */}

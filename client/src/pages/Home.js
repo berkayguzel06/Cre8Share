@@ -7,6 +7,10 @@ import '../css/Home.css';
 import '../css/Header.css';
 import logoImage from '../images/cre8share-logo12.png';
 import profileImage from '../images/pp1.png';
+import likebuttonimage from '../images/like.png';
+import likebuttonimage2 from '../images/like2.png';
+import reportbuttonimage from '../images/rep.png';
+import reportbuttonimage2 from '../images/rep2.png';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../Helpers/UserContext.js';
@@ -21,9 +25,10 @@ const Home = () => {
   const [searchInput, setSearchInput] = useState('');
   const [userSearchResults, setUserSearchResults] = useState([]);
   const { userData, setUserData } = useContext(UserContext);
+  const [likeImages, setLikeImages] = useState({});
   const navigate = useNavigate();
-  
-  
+
+
   const fetchPosts = async () => {
     axios
       .get('http://localhost:5000/post', {
@@ -82,15 +87,15 @@ const Home = () => {
       setSelectedCategory(null);
     };
   }, []);
-  
+
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
       (binaryString, byte) => binaryString + String.fromCharCode(byte),
       ''
-      );
-      return window.btoa(binary);
+    );
+    return window.btoa(binary);
   };
-  
+
   const navigateCreatePost = () => {
     navigate('/createpost');
   };
@@ -103,7 +108,7 @@ const Home = () => {
   const navigateImageGeneration = () => {
     navigate('/ImageGenerator');
   };
-    
+
   const toggleProfileMenu = (e) => {
     e.stopPropagation();
     setShowProfileMenu((prev) => !prev);
@@ -125,7 +130,7 @@ const Home = () => {
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
-  
+
   const handleUserSearch = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/user/searchedusers/${searchInput}`);
@@ -141,31 +146,40 @@ const Home = () => {
     handleUserSearch();
   };
 
-  const handleLike = (postId) => {
+ const handleLike = async (postId) => {
+  try {
     const like = {
       PostId: postId,
       userid: userData.id,
-    }
-    axios.post('http://localhost:5000/like/like', like).then((response) => {
-      console.log('Post submitted successfully');
-    })
-    .catch((error) => {
-      console.error('Error like post:', error);
-    });
-  };
+    };
 
-  const handleReport = (postId) => {
-    const report = {
-      PostId: postId,
-      userid: userData.id,
+    // Check if the user has already liked the post
+    const alreadyLiked = listOfPosts.find(post => post.id === postId)?.Likes?.some(like => like.userid === userData.id);
+
+    // Toggle between two images based on the current state
+    setLikeImages(prevImages => ({
+      ...prevImages,
+      [postId]: prevImages[postId] === likebuttonimage ? likebuttonimage2 : likebuttonimage,
+    }));
+
+    if (alreadyLiked) {
+      // If already liked, remove the like
+      await axios.delete(`http://localhost:5000/like/like/${postId}`, {
+        data: { userid: userData.id },
+      });
+    } else {
+      // If not liked, add the like
+      await axios.post('http://localhost:5000/like/like', like);
     }
-    axios.post('http://localhost:5000/postreport/report', report).then((response) => {
-      console.log('Post report successfully');
-    })
-    .catch((error) => {
-      console.error('Error report post:', error);
-    });
-  };
+
+    // Fetch posts after liking or unliking
+    await fetchPosts();
+  } catch (error) {
+    console.error('Error like post:', error);
+  }
+};
+
+
 
   return (
     <div>
@@ -177,10 +191,10 @@ const Home = () => {
         </div>
         <div className="header-middle">
           <input
-          type="text"
-          placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`}
-          value={searchInput}
-           onChange={handleInputChange} // Triggered on every input change
+            type="text"
+            placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`}
+            value={searchInput}
+            onChange={handleInputChange} // Triggered on every input change
           />
           <button
             style={{
@@ -191,20 +205,20 @@ const Home = () => {
           >
             Search
           </button>
-           {/* Show first 5 user search results */}
-           
-           {userSearchResults && userSearchResults.length > 0 && (
-         <div className="user-search-results">
-            <h2>User Search Results</h2>
+          {/* Show first 5 user search results */}
+
+          {userSearchResults && userSearchResults.length > 0 && (
+            <div className="user-search-results">
+              <h2>User Search Results</h2>
               <div className="search-results-list">
-              {userSearchResults.slice(0, 5).map((user, index) => (
-            <div className="search-result" key={index} onClick={() => navigateToProfile(user.id)}>
-               {user.username}
-         </div>
-          ))}
+                {userSearchResults.slice(0, 5).map((user, index) => (
+                  <div className="search-result" key={index} onClick={() => navigateToProfile(user.id)}>
+                    {user.username}
+                  </div>
+                ))}
+              </div>
+              <button onClick={handleViewAllUsers}>View All Users</button>
             </div>
-         <button onClick={handleViewAllUsers}>View All Users</button>
-         </div>
           )}
         </div>
         <button className="create-post-button" onClick={navigateCreatePost}>
@@ -226,7 +240,7 @@ const Home = () => {
           )}
         </div>
       </div>
-  
+
       <div className="posts-container">
         {listOfPosts.length > 0 && (
           <div className="post-menu">
@@ -258,13 +272,13 @@ const Home = () => {
                   <div className="username-overlay">{post.User.username}</div>
                 </Link>
               )}
-              <div>
-                <label >Like: {post.like}</label>
-                <label >Report: {post.report}</label>
+              <div className="likenumber">
+                {post.like}
               </div>
               <div>
-                <button onClick={() => handleLike(post.id)}>Like</button>
-                <button onClick={() => handleReport(post.id)}>Report</button>
+                <button className="like-button" onClick={() => handleLike(post.id)}>
+                  <img src={likeImages[post.id] || likebuttonimage} alt="Like" />
+                </button>
               </div>
               <Link to={`/post/${post.id}`}>
                 <img

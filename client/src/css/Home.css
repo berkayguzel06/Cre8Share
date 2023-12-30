@@ -190,3 +190,30 @@ button:hover {
   color: #333; /* Başlık yazı rengi */
   font-size: 18px; /* Başlık yazı boyutu */
 }
+
+.like-button{
+  position: fixed;
+  bottom: 5px;
+  right: 8px;
+  background: none; /* Arka planı kaldır */
+  border: none; /* Çerçeveyi kaldır */
+  padding: 0; /* İç içe gelen alanları kaldır */
+  cursor: pointer; /* İmleci bir el simgesine dönüştür */
+
+}
+
+
+/* Buton içindeki img elementlerine uygulanacak stil */
+.like-button img {
+  width: 22px; /* İstediğiniz genişlik değeri */
+  height: 22px; /* İstediğiniz yükseklik değeri */
+}
+
+.likenumber {
+  position: fixed;
+  bottom: 5px;
+  right: 48px;
+  background: none; /* Arka planı kaldır */
+  border: none; /* Çerçeveyi kaldır */
+  padding: 0; /* İç içe gelen alanları kaldır */
+}

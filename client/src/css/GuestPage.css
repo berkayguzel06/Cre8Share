@@ -67,4 +67,26 @@ button:hover {
 a{
   
 }
+.my-masonry-grid {
+    display: flex;
+    margin-left: -30px; /* gutter size offset */
+    width: auto;
+  }
   
+  .my-masonry-grid_column {
+    padding-left: 30px; /* gutter size */
+  }
+  
+  .post-item {
+    margin-bottom: 20px;
+    width: 100%; /* or specify your preferred width */
+    max-width: 400px; /* or specify your preferred max-width */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .post-item img {
+    width: 100%; /* Resim genişliği %100 olarak ayarlanır */
+    height: auto; /* Resmin oranını korumak için otomatik yükseklik */
+  }

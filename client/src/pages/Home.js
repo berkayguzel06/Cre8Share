@@ -212,7 +212,7 @@ const Home = () => {
               <h2>User Search Results</h2>
               <div className="search-results-list">
                 {userSearchResults.slice(0, 5).map((user, index) => (
-                  <div className="search-result" key={index} onClick={() => navigateToProfile(user.id)}>
+                  <div className="search-result" key={index} onClick={() => navigateToProfile(user.username)}>
                     {user.username}
                   </div>
                 ))}

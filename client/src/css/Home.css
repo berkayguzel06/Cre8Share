@@ -145,7 +145,6 @@ button:hover {
   background-color: #1e1919; /* İstediğiniz arkaplan rengini ayarlayın */
   padding: 20px;
   box-shadow: 2px 0 5px rgba(205, 205, 205, 0.1); /* İsteğe bağlı olarak gölge ekleyebilirsiniz */
-  z-index: 1000; /* İsteğe bağlı olarak z-index değerini ayarlayabilirsiniz */
   overflow-y: auto; /* Eğer menü içeriği sığmazsa kaydırma çubuğu ekleyin */
   
 }

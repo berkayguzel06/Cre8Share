@@ -1,32 +1,43 @@
 const express = require('express'); // Importing the 'express' library to create a router 
 const router = express.Router(); // Creating an instance of an Express router
 const { sendResetPasswordEmail } = require('../middlewares/Mail');
+const { User } = require('../models');
 
-
-  router.post('/', (req, res) => {
-    try {
-      // Access the data sent from the client using req.body
-      const { email, username } = req.body;
-  
-      // Generate a unique reset link, you may use a token or a unique identifier
-      const resetLink = 'http://localhost:3000/resetpassword';
-  
-      // Send the reset password email
+router.post('/', async (req, res) => {
+  try {
+    // Access the data sent from the client using req.body
+    const { email, username } = req.body;
+    
+    const user = await User.findOne({ where: { email: email, username: username } })
+    if (!user) {
+      return res.json({ message: 'User not found.' });
+    }else{
+      res.json({ message: 'We send e-mail your password reset link .' });
+      const resetLink = `http://localhost:3000/resetpassword?username=${encodeURIComponent(username)}`;
       sendResetPasswordEmail(email, resetLink);
-  
-      // Respond to the client, e.g., send a success message
-      res.json({ message: 'Forgot password request received successfully.' });
-    } catch (error) {
-      console.error('Internal Server Error:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
-
-router.get("/", async (req, res) => {
-    // Using Sequelize's 'findAll' method to retrieve all comments from the database
-    // Sending the list of users as a JSON response
-    res.json(req.body);
+  } catch (error) {
+    console.error('Internal Server Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
+router.post('/reset', async (req, res) => {
+  try {
+    // Access the data sent from the client using req.body
+    const { password, username } = req.body;
+    
+    const user = await User.findOne({ where: { username: username } })
+    if (!user) {
+      return res.json({ message: 'User not found.' });
+    }else{
+      user.update({ password: password });
+      res.json({ message: 'Password Updated.' });
+    }
+  } catch (error) {
+    console.error('Internal Server Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;

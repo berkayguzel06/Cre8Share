@@ -12,6 +12,7 @@ import User from './pages/User.js';
 import Profile from './pages/Profile.js';
 import ListedProfiles from './pages/ListedProfiles.js';
 import ImageGenerator from './pages/ImageGenerator.js';
+import Admin from './pages/Admin.js';
 import { UserProvider } from './Helpers/UserContext.js'; // Update the path
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
             <Route path="/profile/:username" element={<Profile />} />
             <Route path="/ListedProfiles" element={<ListedProfiles />} />
             <Route path="/ImageGenerator" element={<ImageGenerator />} />
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<GuestPage />} />
           </Routes>
         </UserProvider>
       </Router>

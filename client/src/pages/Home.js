@@ -24,7 +24,7 @@ const Home = () => {
   const navigate = useNavigate();
   
   
-  useEffect(() => {
+  const fetchPosts = async () => {
     axios
       .get('http://localhost:5000/post', {
         headers: { accessToken: localStorage.getItem('accessToken') },
@@ -41,6 +41,9 @@ const Home = () => {
       .catch((error) => {
         console.error('Error fetching posts:', error);
       });
+  }
+  useEffect(() => {
+    fetchPosts();
   }, []);
 
   useEffect(() => {
@@ -94,8 +97,6 @@ const Home = () => {
   const navigateToProfile = (userId) => {
     navigate(`/profile/${userId}`);
   };
-
-
   const handleViewAllUsers = () => {
     navigate('/listedprofiles', { state: { userSearchResults } });
   };
@@ -151,7 +152,6 @@ const Home = () => {
     .catch((error) => {
       console.error('Error like post:', error);
     });
-    countlike(postId);
   };
 
   const handleReport = (postId) => {
@@ -161,25 +161,6 @@ const Home = () => {
     }
     axios.post('http://localhost:5000/postreport/report', report).then((response) => {
       console.log('Post report successfully');
-    })
-    .catch((error) => {
-      console.error('Error report post:', error);
-    });
-    countReport(postId);
-  };
-
-  const countlike = (postId) => {
-    axios.get('http://localhost:5000/like/likecount', { params: { postId } }).then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      console.error('Error like post:', error);
-    });
-  };
-
-  const countReport = (postId) => {
-    axios.get('http://localhost:5000/postreport/reportcount', { params: { postId } }).then((response) => {
-      return response.data;
     })
     .catch((error) => {
       console.error('Error report post:', error);
@@ -277,6 +258,10 @@ const Home = () => {
                   <div className="username-overlay">{post.User.username}</div>
                 </Link>
               )}
+              <div>
+                <label >Like: {post.like}</label>
+                <label >Report: {post.report}</label>
+              </div>
               <div>
                 <button onClick={() => handleLike(post.id)}>Like</button>
                 <button onClick={() => handleReport(post.id)}>Report</button>

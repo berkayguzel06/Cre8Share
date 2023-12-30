@@ -10,6 +10,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        like:{
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        },
+        report:{
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        },
     });
     Post.associate = (models) => {
         Post.hasMany(models.Comment, {

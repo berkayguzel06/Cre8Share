@@ -14,8 +14,6 @@ const Post = () => {
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState('');
   const { userData, setUserData } = useContext(UserContext);
-  const [likeCount, setLikeCount] = useState(null);
-  const [reportCount, setReportCount] = useState(null);
 
   useEffect(() => {
     fetchPost();
@@ -146,7 +144,6 @@ const handleReport = (postId) => {
   .catch((error) => {
     console.error('Error report post:', error);
   });
-  countReport(postId);
 };
 
 const handleCommentReport = (commentid) => {
@@ -160,27 +157,6 @@ const handleCommentReport = (commentid) => {
   .catch((error) => {
     console.error('Error report post:', error);
   });
-  countReport(postId);
-};
-
-const countlike = async (postId) => {
-  await axios.get('http://localhost:5000/like/likecount', { params: { postId } }).then((response) => {
-    console.log(response.data);
-    return response.data;
-  })
-  .catch((error) => {
-    console.error('Error like post:', error);
-  });
-};
-
-
-const countReport = (postId) => {
-  axios.get('http://localhost:5000/postreport/reportcount', { params: { postId } }).then((response) => {
-    return response.data;
-  })
-  .catch((error) => {
-    console.error('Error report post:', error);
-  });
 };
 
   if (!post) {
@@ -190,7 +166,8 @@ const countReport = (postId) => {
     <div className='postbox'>
       <h2 className='post-details'>Post Details</h2>
       <p className='title'>Title: {post.title}</p>
-      <p >Like: {likeCount}</p>
+      <p >Like: {post.like}</p>
+      <p >Report: {post.report}</p>
       <img
 
         src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}

@@ -6,6 +6,7 @@ import '../css/GuestPage.css';
 
 const GuestPage = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -26,8 +27,6 @@ const GuestPage = () => {
     // Your existing code for formatting time difference
   };
 
-  const navigate = useNavigate();
-
   const navigateLogin = () => {
     navigate('/login');
   };
@@ -37,10 +36,11 @@ const GuestPage = () => {
   };
 
   const breakpoints = {
-    3000: 4,
+    default: 3,
     1100: 2,
+    700: 1,
   };
-
+  
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
       (binaryString, byte) => binaryString + String.fromCharCode(byte),
@@ -49,10 +49,22 @@ const GuestPage = () => {
     return window.btoa(binary);
   };
 
+
   return (
     <div>
       <div className="wrapper">
         <form action="">
+          <div className="background-posts">
+            {listOfPosts.map((post, index) => (
+              <div
+                key={post.id}
+                className={`background-post-item animate-post-${index}`}
+                style={{
+                  backgroundImage: `url(data:image/png;base64,${arrayBufferToBase64(post.content)})`,
+                }}
+              />
+            ))}
+          </div>
           <div>
             <h2>Latest Posts</h2>
             {listOfPosts.length > 0 ? (

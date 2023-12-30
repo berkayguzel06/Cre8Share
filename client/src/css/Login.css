@@ -6,17 +6,17 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-body{
+.login-container .body{
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background:url('../images/night2.jpg') no-repeat;
+  /*background:url('../images/night2.jpg');*/
   background-size: cover;
   background-position: center;
 }
 
-.wrapper{
+.login-container .wrapper{
   width: 420px;
   background: transparent;
   border:2px solid rgba(255,255,255,.2);
@@ -27,19 +27,19 @@ body{
   padding: 30px 40px;
 }
 
-.wrapper h1{
+.login-container .wrapper h1{
   font-size: 36px;
   text-align: center;
 }
 
-.wrapper .inputbox{
+.login-container .wrapper .inputbox{
   position: relative;
   width: 100%;
   height: 50px;
   margin: 30px 0;
 }
 
-.input-box input{
+.login-container .input-box input{
   width: 100%;
   height: 100%;
   background: transparent;
@@ -55,19 +55,32 @@ body{
 
 }
 
-.input-box input::placeholder{
+.login-container .input-box input::placeholder{
   color:#fff;
 
 }
+.login-container .login-container {
+  position: relative;
+  width: 420px;
+  margin: auto;
+}
 
+.login-container .wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
 
-.wrapper .remember-forgot{
+.login-container .wrapper .remember-forgot{
   display: flex;
   justify-content: space-between;
   font-size: 14.5px;
   margin: 15px 0 15px;
 }
-.remember-forgot label input{
+.login-container .remember-forgot label input{
   accent-color: #fff;
   margin-right: 3px;
 
@@ -79,7 +92,7 @@ body{
 .remember-forgot a:hover{
   text-decoration: underline;
 }
-.wrapper .btn{
+.login-container .wrapper .btn{
   width: 100%;
   height: 45px;
   background: #fff;
@@ -106,4 +119,51 @@ body{
 .register-link p a:hover{
   text-decoration: underline;
 
+}
+
+.login-container .body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: transparent;
+  overflow: hidden;
+}
+
+.login-container .wrapper {
+  position: relative;
+  width: 420px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+  
+}
+
+.login-container .wrapper img {
+  position: absolute;
+  width: 100px;
+  height: auto;
+  opacity: 0.6;
+  animation: moveImage 15s infinite alternate linear;
+  border-radius: 15%; /* Oval kenarlar için */
+  
+}
+
+@keyframes moveImage {
+  0%, 100% {
+    transform: translate(0, 200px) scale(0.5);
+  }
+  25% {
+    transform: translate(800px, 0) scale(0.8);
+  }
+  50% {
+    transform: translate(0, -300px) scale(1.0);
+  }
+  75% {
+    transform: translate(-300px, 0) scale(0.9);
+  }
 }

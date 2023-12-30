@@ -182,7 +182,7 @@ const Home = () => {
 
 
   return (
-    <div>
+    <div class = "homee">
       <div className="header">
         <div className="header-left">
           <a href="/home">

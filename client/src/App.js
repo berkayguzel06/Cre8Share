@@ -33,7 +33,7 @@ function App() {
             <Route path="/profile/:username" element={<Profile />} />
             <Route path="/ListedProfiles" element={<ListedProfiles />} />
             <Route path="/ImageGenerator" element={<ImageGenerator />} />
-            <Route path="/" element={<GuestPage />} />
+            <Route path="/" element={<Login />} />
           </Routes>
         </UserProvider>
       </Router>

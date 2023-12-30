@@ -5,7 +5,7 @@ import { UserContext } from '../Helpers/UserContext.js';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/Post.css';
-
+import Header from './Header.js';
 
 const Post = () => {
   const navigate = useNavigate();
@@ -164,6 +164,7 @@ const handleCommentReport = (commentid) => {
   }
   return (
     <div className='postbox'>
+      <Header />
       <h2 className='post-details'>Post Details</h2>
       <p className='title'>Title: {post.title}</p>
       <p >Like: {post.like}</p>

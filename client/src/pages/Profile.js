@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import Header from './Header.js';
+import '../css/Profile.css';
 
 const Profile = () => {
   const { username } = useParams();
@@ -78,7 +80,8 @@ const Profile = () => {
 
   return (
     <div>
-      <h2>User Profile</h2>
+      <Header />
+      <h2 className='profilehead'>User Profile</h2>
       <p>Username: {userProfile.username}</p>
       <button onClick={handleUserDelete}>Delete account</button>
       {/* Dropdown for Friend List */}

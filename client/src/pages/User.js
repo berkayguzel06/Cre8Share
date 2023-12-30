@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useContext } from 'react';
 import { UserContext } from '../Helpers/UserContext.js';
+import Header from './Header.js';
 
 const User = () => {
   const { username } = useParams();
@@ -119,6 +120,7 @@ const User = () => {
 
   return (
     <div>
+      <Header />
       <h2>User Details</h2>
       <p>Username: {user.username}</p>
       <p>Name: {user.name}</p>

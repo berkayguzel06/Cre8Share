@@ -6,11 +6,14 @@
     height: 150px;
     resize: vertical;
     margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: center;
+    margin-right: center;
 }
 
 /* Style for the empty space for the generated image */
+.image-generator{
+  margin-top: 100px;
+}
 .generated-image {
     width: 100%;
     max-width: 512px;
@@ -52,7 +55,9 @@
 .button-container {
     display: flex;
     margin-top: 10px;
+    margin-bottom: 60px;
   }
+ 
   
   /* Style for the buttons */
   .button-container button {
@@ -62,11 +67,12 @@
     color: #fff; /* Text color for the buttons */
     border: none;
     transition: background-color 0.3s ease;
+    
   }
   
   /* Hover effect for the buttons */
   .button-container button:hover {
-    background-color: #555; /* Adjust the color as needed */
+    background-color: #0d0d0d; /* Adjust the color as needed */
   }
   
   /* Add some spacing between buttons */

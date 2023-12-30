@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/ImageGenerator.css';
+import Header from './Header.js';
 
 const ImageGenerator = () => {
     const defaultPrompt = 'Promt: Bears making a tea party in the forest';
@@ -69,7 +70,10 @@ const ImageGenerator = () => {
 
 return (
   <div>
-      <h1>Image Generator</h1>
+    <Header />
+    <div className="image-generator">
+      <h1 style={{ fontFamily: 'Consolas, monospace' }}>Image Generator</h1>
+      </div>
       <div className="generated-image">
           {imageData ? (
               <img src={imageData} alt="Generated Image" />

@@ -10,7 +10,13 @@
     width: auto;
     margin-bottom: 10px;
 }
-.post-details,.title{
+.post-details{
+    margin-top: 78px;
+}
+
+
+.title{
+   
     margin-bottom: 10px;
 }
 .comment-title{

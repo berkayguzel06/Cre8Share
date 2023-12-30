@@ -268,7 +268,7 @@ const Home = () => {
                   <div className="username-overlay">{post.User.username}</div>
                 </Link>
               ) : (
-                <Link to={`/user/${post.User.username}`}>
+                <Link to={`/profile/${post.User.username}`}>
                   <div className="username-overlay">{post.User.username}</div>
                 </Link>
               )}

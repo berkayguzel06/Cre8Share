@@ -1,15 +1,13 @@
 // Admin.js
 import React from 'react';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Admin = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
 
   useEffect(() => {
     fetchPosts();
-    fetchComments();
-    fetchUser();
   }, []);
 
   const fetchPosts = async () => {

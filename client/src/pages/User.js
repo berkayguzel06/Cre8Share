@@ -1,146 +1,137 @@
-// UserDetail.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../Helpers/UserContext.js';
 import Header from './Header.js';
+import '../css/Profile.css';
+import editProfileButtonPic from '../images/EditProfileButtonPic.png';
+import userBanner from '../images/UserBanner.jpg';
+import userProfilePicture from '../images/UserProfilePicture.jpg';
 
-const User = () => {
-  const { username } = useParams();
-  const [user, setUser] = useState(null);
-  const [ isFriend, setIsFriend ] = useState(null);
+const Profile = () => {
   const { userData, setUserData } = useContext(UserContext);
-
+  const { username } = useParams();
+  const [userProfile, setUserProfile] = useState(null);
+  const [firendList, setFirendList] = useState(null);
+  const [showEditBox, setShowEditBox] = useState(false);
+  const navigate = useNavigate();
+  
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUserProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/user/${username}`);
-        console.log(response.data);
-
+        const response = await axios.get(`http://localhost:5000/user/profile/${username}`);
         if (response.data) {
-          setUser(response.data);
+          setUserProfile(response.data);
         } else {
           console.error('Invalid data format:', response.data);
         }
       } catch (error) {
-        console.error('Error fetching user details:', error);
+        console.error('Error fetching user profile details:', error);
       }
     };
-    fetchUser();
+    
+    fetchUserProfile();
   }, [username]);
-  
-  useEffect(() => {
-    if (user) {
-      console.log(user);
-      checkFriend();
-    }
-  }, [user]);
 
-  const checkFriend = async () => {
-    const friendship = {
-      friendID: user.id,
-      userid: userData.id,
-    };
-    const isAddedResponse = await axios.get(`http://localhost:5000/friend/${userData.id}`, { params: friendship });
-    const isAdded = isAddedResponse.data;
-    console.log("set is freind: ",isAdded);
-    setIsFriend(isAdded);
-  };
-
-  const addFriend = async () => {
-    const friendship = {
-      friendID: user.id,
-      userid: userData.id,
-      status: false,
-    };
-    console.log(isFriend);
-    if(isFriend != null ){
-      if(isFriend.UserId===userData.id && isFriend.friendID===user.id || isFriend.UserId===user.id && isFriend.friendID===userData.id){
-        if(isFriend.status === true){
-          setIsFriend(isFriend);
-          alert("Already added");
-          return;
-        }
-      }
-      if(isFriend.UserId===userData.id && isFriend.friendID===user.id){
-        alert("Already sended");
-        return;
-      }
-    }
-    else{
-      const response = await axios.post('http://localhost:5000/friend',friendship).then((response) => {
-      console.log(response);
-      }, (error) => {
-          console.log(error);
-      });
-      console.log(response);
-      return;
-    }
-    checkFriend();
-  };
-  
-  const acceptFriend = async () => {
-    const friendship = {
-      friendID: userData.id,
-      userid: user.id,
-      status: true,
-    };
-    const response = await axios.post('http://localhost:5000/friend/update', friendship ).then((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error);
-    });
-    console.log(response);
-    checkFriend();
-  };
-
-  const declineFriend = async () => {
-    const friendship = {
-      userid: user.id,
-      friendID: userData.id,
-    };
-  
+  const fetchFriends = async () => {
     try {
-      const response = await axios.delete('http://localhost:5000/friend/', {
-        data: friendship,  // Send data in the request body
-      });
-  
-      console.log(response);
-      checkFriend();
+      const response = await axios.get(`http://localhost:5000/friend/profile/username/${userProfile.id}`);
+      if (response.data) {
+        setFirendList(response.data);
+      } else {
+        console.error('Invalid data format:', response.data);
+      }
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching user profile details:', error);
     }
   };
-  
 
-  if (!user) {
-    return <p>Loading...</p>;
-  }
+  const arrayBufferToBase64 = (buffer) => {
+    const binary = new Uint8Array(buffer.data).reduce(
+      (binaryString, byte) => binaryString + String.fromCharCode(byte),
+      ''
+    );
+    return window.btoa(binary);
+  };
+
+  const handleUserDelete = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/user/${userProfile.id}`);
+      const friendDelete = await axios.delete(`http://localhost:5000/friend/${userProfile.id}`);
+      if (response.data && response.data.message === 'User deleted') {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('userData');
+        alert('User deleted');
+        navigate('/');
+      } else {
+        console.error('Invalid data format:', response.data);
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+
+  const handleBannerUpload = async () => {
+
+  };
+  const handleProfileImageUpload= async () => {
+
+  };
 
   return (
     <div>
-      <Header />
-      <h2>User Details</h2>
-      <p>Username: {user.username}</p>
-      <p>Name: {user.name}</p>
-      <p>Lastname: {user.lastname}</p>
-      <p>Email: {user.email}</p>
-      {isFriend === null && (
-        <button onClick={addFriend}>Add Friend</button>
-      )}
-      {isFriend && isFriend.status === false && isFriend.friendID===userData.id && (
+      {console.log("userData?.username:", userData?.username)}
+      {console.log("userProfile?.username:", userProfile?.username)}
+    
+      {userProfile?.username !== userData?.username ? (
         <div>
-        <button onClick={acceptFriend}>Accept</button>
-        <button onClick={declineFriend}>Decline</button>
+          <h1>404 - Not Found</h1>
+          <p>The page you are looking for does not exist.</p>
+        </div>
+      ) : (
+        <div>
+          <Header />
+          <div className="user-details-container">
+            <div className="user-banner">
+              <div className="user-profile">
+                <img src={userProfilePicture} alt="Profile" className="user-profile-img" />
+                <h2>{userProfile?.username}</h2>
+                <button
+                  className="edit-profile-button"
+                  style={{ backgroundImage: `url(${editProfileButtonPic})` }}
+                  onClick={() => setShowEditBox(true)}
+                >
+                </button>
+              </div>
+              <div className={`edit-profile-box ${showEditBox ? 'active' : ''}`}>
+                <input type="text" placeholder="Username" value={userProfile?.username} />
+                <input type="text" placeholder="Email" value={userProfile?.email} />
+                <input type="file" onChange={handleBannerUpload} />
+                <input type="file" onChange={handleProfileImageUpload} />
+                <button className="save-changes-button">Save Changes</button>
+                <button className="delete-account-button" onClick={handleUserDelete}>Delete Account</button>
+                <span className="close-button" onClick={() => setShowEditBox(false)}>X</span>
+              </div>
+            </div>
+          </div>
+          <div className="user-posts">
+            {userProfile?.Posts.map((post) => (
+              <li key={post.id} className="post-container">
+                <Link to={`/post/${post.id}`}>
+                  <img
+                    src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
+                    alt={`Post ID: ${post.id}`}
+                  />
+                </Link>
+              </li>
+            ))}
+          </div>
         </div>
       )}
-      {isFriend && isFriend.status === true &&(
-        <button onClick={declineFriend}>Remove Friend</button>
-      )}
-      {/* Add more user details as needed */}
     </div>
-  );
+  );  
 };
 
-export default User;
+export default Profile;

@@ -20,6 +20,7 @@ router.get("/", validateToken, async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 router.get("/guestpage", async (req, res) => {
     try {
         // Using Sequelize's 'findAll' method to retrieve all posts from the database

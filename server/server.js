@@ -13,6 +13,7 @@ const likeRouter = require('./Routers/Likes');
 const postReportRouter = require('./Routers/PostReports');
 const imageGen = require('./Routers/ImageGen');
 const getImageData = require('./Routers/GetImage');
+const admin = require('./Routers/Admin');
 const bodyParser = require('body-parser');
 
 // Enable CORS with a custom configuration
@@ -36,6 +37,7 @@ app.use("/friend", friendRouter);
 app.use("/like", likeRouter);
 app.use("/postreport", postReportRouter);
 app.use("/imagegen", imageGen);
+app.use("/admin", admin);
 
 db.sequelize.sync().then(() => {
   // Synchronizing the database models and starting the server

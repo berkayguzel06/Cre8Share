@@ -10,7 +10,7 @@ const ListedProfiles = () => {
       <ul>
         {userSearchResults && userSearchResults.map((user) => (
           <li key={user.id}>
-            <Link to={`/profile/${user.username}`}>{user.username}</Link>
+            <Link to={`/user/${user.username}`}>{user.username}</Link>
           </li>
         ))}
       </ul>

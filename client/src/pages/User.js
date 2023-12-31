@@ -17,7 +17,7 @@ const Profile = () => {
   const [firendList, setFirendList] = useState(null);
   const [showEditBox, setShowEditBox] = useState(false);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -31,7 +31,7 @@ const Profile = () => {
         console.error('Error fetching user profile details:', error);
       }
     };
-    
+
     fetchUserProfile();
   }, [username]);
 
@@ -76,62 +76,53 @@ const Profile = () => {
   const handleBannerUpload = async () => {
 
   };
-  const handleProfileImageUpload= async () => {
+  const handleProfileImageUpload = async () => {
 
   };
 
   return (
     <div>
-      {console.log("userData?.username:", userData?.username)}
-      {console.log("userProfile?.username:", userProfile?.username)}
-    
-      {userProfile?.username !== userData?.username ? (
-        <div>
-          <h1>404 - Not Found</h1>
-          <p>The page you are looking for does not exist.</p>
-        </div>
-      ) : (
-        <div>
-          <Header />
-          <div className="user-details-container">
-            <div className="user-banner">
-              <div className="user-profile">
-                <img src={userProfilePicture} alt="Profile" className="user-profile-img" />
-                <h2>{userProfile?.username}</h2>
-                <button
-                  className="edit-profile-button"
-                  style={{ backgroundImage: `url(${editProfileButtonPic})` }}
-                  onClick={() => setShowEditBox(true)}
-                >
-                </button>
-              </div>
-              <div className={`edit-profile-box ${showEditBox ? 'active' : ''}`}>
-                <input type="text" placeholder="Username" value={userProfile?.username} />
-                <input type="text" placeholder="Email" value={userProfile?.email} />
-                <input type="file" onChange={handleBannerUpload} />
-                <input type="file" onChange={handleProfileImageUpload} />
-                <button className="save-changes-button">Save Changes</button>
-                <button className="delete-account-button" onClick={handleUserDelete}>Delete Account</button>
-                <span className="close-button" onClick={() => setShowEditBox(false)}>X</span>
-              </div>
-            </div>
+      <Header />
+      <div className="user-details-container">
+        <div className="user-banner">
+          <div className="user-profile">
+            <img src={userProfilePicture} alt="Profile" className="user-profile-img" />
+            <h2>{userProfile?.username}</h2>
+            {userProfile?.username === userData?.username && (
+              <button
+                className="edit-profile-button"
+                style={{ backgroundImage: `url(${editProfileButtonPic})` }}
+                onClick={() => setShowEditBox(true)}
+              >
+              </button>
+            )}
           </div>
-          <div className="user-posts">
-            {userProfile?.Posts.map((post) => (
-              <li key={post.id} className="post-container">
-                <Link to={`/post/${post.id}`}>
-                  <img
-                    src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
-                    alt={`Post ID: ${post.id}`}
-                  />
-                </Link>
-              </li>
-            ))}
+          <div className={`edit-profile-box ${showEditBox ? 'active' : ''}`}>
+            <input type="text" placeholder="Username" value={userProfile?.username} />
+            <input type="text" placeholder="Email" value={userProfile?.email} />
+            <input type="file" onChange={handleBannerUpload} />
+            <input type="file" onChange={handleProfileImageUpload} />
+            <button className="save-changes-button">Save Changes</button>
+            <button className="delete-account-button" onClick={handleUserDelete}>Delete Account</button>
+            <span className="close-button" onClick={() => setShowEditBox(false)}>X</span>
           </div>
         </div>
-      )}
+      </div>
+      <div className="user-posts">
+        {userProfile?.Posts.map((post) => (
+          <li key={post.id} className="post-container">
+            <Link to={`/post/${post.id}`}>
+              <img
+                src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
+                alt={`Post ID: ${post.id}`}
+              />
+            </Link>
+          </li>
+        ))}
+      </div>
     </div>
-  );  
+  );
+  
 };
 
 export default Profile;

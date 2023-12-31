@@ -92,6 +92,45 @@ router.post("/usernamewithid", async (req, res) => {
   }
 });
 
+router.post('/updatepfp/:id', async (req, res) => {
+  console.log("GELDİM LAN");
+  const { id } = req.params;
+  const { profilePicture } = req.body;
+  try {
+    const user = await User.findOne({where: { id: id }});
+    if (!user) {
+      return res.json({ error: 'User not found' });
+    }
+    const binaryContent = Buffer.from(String(profilePicture), 'base64');
+    user.pfp = binaryContent;
+    await user.save();
+    return res.json({ message: 'Profile picture updated successfully' });
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/updatebanner/:id', async (req, res) => {
+  console.log("GELDİM LAN2");
+  const { id } = req.params;
+  const { bannerPicture } = req.body;
+  try {
+    const user = await User.findOne({where: { id: id }});
+    if (!user) {
+      return res.json({ error: 'User not found' });
+    }
+    const binaryContent = Buffer.from(String(bannerPicture), 'base64');
+    user.banner = binaryContent;
+    await user.save();
+    return res.json({ message: 'Banner updated successfully' });
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 router.get('/:username', async (req, res) => {
   const { username } = req.params;
 
@@ -115,7 +154,7 @@ router.get('/profile/:username', async (req, res) => {
     const user = await User.findOne({where: { username: username },
       include: [
         { model: Post },
-        { model: Comment }
+        { model: Comment },
       ]
     });
     if (user) {
@@ -147,5 +186,9 @@ router.post("/", async (req, res) => {
 router.get("/auth", validateToken, (req, res) => {
   res.json(req.user);
 });
+
+
+
+
 
 module.exports = router;

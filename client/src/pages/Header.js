@@ -30,11 +30,11 @@ const Header = () => {
     setShowProfileMenu((prev) => !prev);
   };
   const navigateToProfile = (userId) => {
-    navigate(`/profile/${userId}`);
+    navigate(`/user/${userId}`);
   };
   const handleProfileMenuClick = (option) => {
     if (option === 'profile') {
-      navigate(`/profile/${userData.username}`);
+      navigate(`/user/${userData.username}`);
     } else if (option === 'settings') {
       navigate('/settings');
     } else if (option === 'logout') {

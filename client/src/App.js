@@ -9,7 +9,6 @@ import ForgotPassword from './pages/ForgotPassword.js';
 import ResetPassword from './pages/ResetPassword.js';
 import Post from './pages/Post.js';
 import User from './pages/User.js';
-import Profile from './pages/Profile.js';
 import ListedProfiles from './pages/ListedProfiles.js';
 import ImageGenerator from './pages/ImageGenerator.js';
 import Admin from './pages/Admin.js';
@@ -31,7 +30,6 @@ function App() {
             <Route path="/createpost" element={<CreatePost />} />
             <Route path="/post/:postId" element={<Post />} />
             <Route path="/user/:username" element={<User />} />
-            <Route path="/profile/:username" element={<Profile />} />
             <Route path="/ListedProfiles" element={<ListedProfiles />} />
             <Route path="/ImageGenerator" element={<ImageGenerator />} />
             <Route path="/admin" element={<Admin />} />

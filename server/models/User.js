@@ -31,7 +31,16 @@ module.exports = (sequelize, DataTypes) => {
         age:{
             type: DataTypes.INTEGER,
             allowNull: true,
+        },
+        pfp:{
+            type: DataTypes.BLOB('long'),
+            allowNull: true
+        },
+        banner:{
+            type: DataTypes.BLOB('long'),
+            allowNull: true
         }
+        
     });
     User.associate = (models) => {
         User.hasMany(models.Post, {

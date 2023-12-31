@@ -2,87 +2,85 @@
 
 /* Kullanıcı bilgileri container'ı */
 .user-details-container {
-    margin-top: 85px;
-  }
-  
-  /* Kullanıcı banner'ı */
-  .user-banner {
-    background-image: url('../images/UserBanner.jpg');
-    width: 100%;
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-  }
-  
-  /* Kullanıcı profil bilgileri container'ı */
-  .user-profile {
-    position: absolute;
-    bottom: -31px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-  }
-  
-  /* Kullanıcı profil fotoğrafı */
-  .user-profile img {
-    content: url('../images/UserProfilePicture.jpg');
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 3px solid #fff;
-  }
-  
-  /* Edit profile butonunun stili */
-  .edit-profile-button {
-    background: url('../images/EditProfileButtonPic.png') no-repeat center;
-    background-size: contain;
-    width: 30px;
-    height: 30px;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
-    border-radius: 50px;
-  }
-  
-  /* Kullanıcı bilgi güncelleme kutusu */
-  .edit-profile-box {
-    position: absolute;
-    top: calc(50% + 160px); /* Örnek bir değer, istediğiniz şekilde ayarlayabilirsiniz */
-    left: 50%;
-    transform: translate(-50%, +0%);
-    background-color: #000000;
-    padding: 20px;
-    border-radius: 10px;
-    display: none;
-    max-width: 700px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    z-index: 2;
-    border-radius: 50px;
-  }
-  
-  /* Save Changes ve Delete Account butonları */
-  .save-changes-button,
-  .delete-account-button {
-    margin-top: 11px;
-    padding: 8px 35px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #101b11;
-    color: rgb(184, 133, 133);
-  }
-  
-  /* Kapatma butonu */
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;
-  }
-  
-  /* Kullanıcı bilgi güncelleme kutusu aktif olduğunda görünür hale gelmeli */
-  .edit-profile-box.active {
-    display: block;
-  }
-  
+  margin-top: 85px;
+}
+
+/* Kullanıcı banner'ı */
+.user-banner {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background-color: #ccc; /* Default background color if no banner image */
+}
+
+/* Kullanıcı profil bilgileri container'ı */
+.user-profile {
+  position: absolute;
+  bottom: -31px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+/* Kullanıcı profil fotoğrafı */
+.user-profile img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+}
+
+/* Edit profile butonunun stili */
+.edit-profile-button {
+  background: url('../images/EditProfileButtonPic.png') no-repeat center;
+  background-size: contain;
+  width: 30px;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 50px;
+}
+
+/* Kullanıcı bilgi güncelleme kutusu */
+.edit-profile-box {
+  position: absolute;
+  top: calc(50% + 160px);
+  left: 50%;
+  transform: translate(-50%, +0%);
+  background-color: #000000;
+  padding: 20px;
+  border-radius: 10px;
+  display: none;
+  max-width: 700px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  border-radius: 50px;
+}
+
+/* Save Changes ve Delete Account butonları */
+.save-changes-button,
+.delete-account-button {
+  margin-top: 11px;
+  padding: 8px 35px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #101b11;
+  color: rgb(184, 133, 133);
+}
+
+/* Kapatma butonu */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
+/* Kullanıcı bilgi güncelleme kutusu aktif olduğunda görünür hale gelmeli */
+.edit-profile-box.active {
+  display: block;
+}

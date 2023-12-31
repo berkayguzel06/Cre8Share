@@ -5,18 +5,17 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../Helpers/UserContext.js';
 import Header from './Header.js';
-import '../css/Profile.css';
+import '../css/User.css';
 import editProfileButtonPic from '../images/EditProfileButtonPic.png';
-import userBanner from '../images/UserBanner.jpg';
-import userProfilePicture from '../images/UserProfilePicture.jpg';
 
 const Profile = () => {
   const { userData, setUserData } = useContext(UserContext);
   const { username } = useParams();
   const [userProfile, setUserProfile] = useState(null);
-  const [firendList, setFirendList] = useState(null);
   const [showEditBox, setShowEditBox] = useState(false);
   const navigate = useNavigate();
+  const [profilePictureFile, setProfilePictureFile] = useState(null);
+  const [bannerPictureFile, setBannerPictureFile] = useState(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -34,19 +33,6 @@ const Profile = () => {
 
     fetchUserProfile();
   }, [username]);
-
-  const fetchFriends = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/friend/profile/username/${userProfile.id}`);
-      if (response.data) {
-        setFirendList(response.data);
-      } else {
-        console.error('Invalid data format:', response.data);
-      }
-    } catch (error) {
-      console.error('Error fetching user profile details:', error);
-    }
-  };
 
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
@@ -73,20 +59,77 @@ const Profile = () => {
     }
   };
 
-  const handleBannerUpload = async () => {
+  // handleBannerUpload fonksiyonu
+  const handleSubmit = async () => {
+    try {
+      if (profilePictureFile) {
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+          if (reader.readyState === FileReader.DONE) {
+            const base64String = reader.result.split(',')[1];
+            try {
+              await axios.post(`http://localhost:5000/user/updatepfp/${userProfile.id}`, {
+                profilePicture: base64String,
+              });
+            } catch (error) {
+              console.error('Error uploading profile picture:', error);
+            }
+          }
+        };
+        reader.readAsDataURL(profilePictureFile);
+      }
 
+      if (bannerPictureFile) {
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+          if (reader.readyState === FileReader.DONE) {
+            const base64String = reader.result.split(',')[1];
+            try {
+              await axios.post(`http://localhost:5000/user/updatebanner/${userProfile.id}`, {
+                bannerPicture: base64String,
+              });
+            } catch (error) {
+              console.error('Error uploading banner:', error);
+            }
+          }
+        };
+        reader.readAsDataURL(bannerPictureFile);
+      }
+
+      // Diğer verilerin güncellenmesi için gerekli işlemler buraya eklenebilir...
+
+      setProfilePictureFile(null);
+      setBannerPictureFile(null);
+      setShowEditBox(false);
+    } catch (error) {
+      console.error('Error handling submit:', error);
+    }
   };
-  const handleProfileImageUpload = async () => {
+  console.log("userProfile?.pfp",userProfile?.pfp);
+  
 
-  };
-
+  
+  
   return (
     <div>
       <Header />
       <div className="user-details-container">
         <div className="user-banner">
+        {!userProfile || !userProfile.pfp ? (
+  // Yükleme durumu veya placeholder
+  <div>Loading...</div>
+) : (
+  // Profil resmini burada render et
+  <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.banner)}`} alt="Profile Picture" />
+)}
           <div className="user-profile">
-            <img src={userProfilePicture} alt="Profile" className="user-profile-img" />
+          {!userProfile || !userProfile.pfp ? (
+  // Yükleme durumu veya placeholder
+  <div>Loading...</div>
+) : (
+  // Profil resmini burada render et
+  <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.pfp)}`} alt="Profile Picture" />
+)}
             <h2>{userProfile?.username}</h2>
             {userProfile?.username === userData?.username && (
               <button
@@ -98,10 +141,9 @@ const Profile = () => {
             )}
           </div>
           <div className={`edit-profile-box ${showEditBox ? 'active' : ''}`}>
-            <input type="text" placeholder="Username" value={userProfile?.username} />
-            <input type="file" onChange={handleBannerUpload} />
-            <input type="file" onChange={handleProfileImageUpload} />
-            <button className="save-changes-button">Save Changes</button>
+            <input type="file" onChange={(e) => setProfilePictureFile(e.target.files[0])} />
+            <input type="file" onChange={(e) => setBannerPictureFile(e.target.files[0])} />
+            <button className="save-changes-button" onClick={handleSubmit}>Save Changes</button>
             <button className="delete-account-button" onClick={handleUserDelete}>Delete Account</button>
             <span className="close-button" onClick={() => setShowEditBox(false)}>X</span>
           </div>
@@ -121,7 +163,6 @@ const Profile = () => {
       </div>
     </div>
   );
-  
 };
 
 export default Profile;

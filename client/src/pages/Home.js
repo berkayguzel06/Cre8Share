@@ -100,11 +100,8 @@ const Home = () => {
     navigate('/createpost');
   };
   const navigateToProfile = (userId) => {
-    if (userId === userData.username) {
-      navigate(`/profile/${userId}`);
-    } else {
-      navigate(`/user/${userId}`);
-    }
+    navigate(`/user/${userId}`);
+
   };
   const handleViewAllUsers = () => {
     navigate('/listedprofiles', { state: { userSearchResults } });
@@ -120,7 +117,7 @@ const Home = () => {
 
   const handleProfileMenuClick = (option) => {
     if (option === 'profile') {
-      navigate(`/profile/${userData.username}`);
+      navigate(`/user/${userData.username}`);
     } else if (option === 'settings') {
       navigate('/settings');
     } else if (option === 'logout') {
@@ -271,7 +268,7 @@ const Home = () => {
           {listOfPosts.map((post) => (
             <li key={post.id} className="post-container">
               {post.User.id === userData.id ? (
-                <Link to={`/profile/${post.User.username}`}>
+                <Link to={`/user/${post.User.username}`}>
                   <div className="username-overlay">{post.User.username}</div>
                 </Link>
               ) : (

@@ -9,7 +9,7 @@ import editProfileButtonPic from '../images/EditProfileButtonPic.png';
 import userBanner from '../images/UserBanner.jpg';
 import userProfilePicture from '../images/UserProfilePicture.jpg';
 
-const Profile = () => {
+const Profileold = () => {
   const { username } = useParams();
   const [userProfile, setUserProfile] = useState(null);
   const [firendList, setFirendList] = useState(null);
@@ -94,8 +94,7 @@ const Profile = () => {
             </button>
           </div>
           <div className={`edit-profile-box ${showEditBox ? 'active' : ''}`}>
-        <input type="text" placeholder="Username" value={userProfile?.username} />
-        <input type="text" placeholder="Email" value={userProfile?.email} />
+        {/*<input type="text" placeholder="Username" value={userProfile?.username} />*/}
         <input type="file" onChange={handleBannerUpload} />
         <input type="file" onChange={handleProfileImageUpload} />
         <button className="save-changes-button">Save Changes</button>
@@ -120,4 +119,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Profileold;

@@ -2,22 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import Header from './Header.js';
 import '../css/Profile.css';
+import editProfileButtonPic from '../images/EditProfileButtonPic.png';
+import userBanner from '../images/UserBanner.jpg';
+import userProfilePicture from '../images/UserProfilePicture.jpg';
 
 const Profile = () => {
   const { username } = useParams();
   const [userProfile, setUserProfile] = useState(null);
   const [firendList, setFirendList] = useState(null);
+  const [showEditBox, setShowEditBox] = useState(false);
   const navigate = useNavigate();
   
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/user/profile/${username}`);
-        console.log(response.data);
-        
         if (response.data) {
           setUserProfile(response.data);
         } else {
@@ -34,8 +36,6 @@ const Profile = () => {
   const fetchFriends = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/friend/profile/username/${userProfile.id}`);
-      console.log(response.data);
-      
       if (response.data) {
         setFirendList(response.data);
       } else {
@@ -46,7 +46,6 @@ const Profile = () => {
     }
   };
 
-  // Function to convert binary data to base64
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
       (binaryString, byte) => binaryString + String.fromCharCode(byte),
@@ -59,8 +58,6 @@ const Profile = () => {
     try {
       const response = await axios.delete(`http://localhost:5000/user/${userProfile.id}`);
       const friendDelete = await axios.delete(`http://localhost:5000/friend/${userProfile.id}`);
-      console.log(response);
-      console.log(friendDelete);
       if (response.data && response.data.message === 'User deleted') {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('userData');
@@ -73,51 +70,52 @@ const Profile = () => {
       console.error('Error deleting user:', error);
     }
   };
-  
-  if (!userProfile) {
-    return <p>Loading...</p>;
-  }
+
+  const handleBannerUpload = async () => {
+
+  };
+  const handleProfileImageUpload= async () => {
+
+  };
 
   return (
     <div>
       <Header />
-      <h2 className='profilehead'>User Profile</h2>
-      <p>Username: {userProfile.username}</p>
-      <button onClick={handleUserDelete}>Delete account</button>
-      {/* Dropdown for Friend List */}
-      <div>
-        <button onClick={fetchFriends}>Toggle Friend List</button>
-        {firendList && (
-          <ul>
-            {firendList.map(friend => (
-              (friend.id !== userProfile.id) && (
-                <li key={friend.id} className="post-container">
-                  <Link to={`/user/${friend.username}`}>
-                   <p>Friend Username: {friend.username}</p>
-                  </Link>
-                </li>)
-            ))}
-          </ul>
-        )}
+      <div className="user-details-container">
+        <div className="user-banner">
+          <div className="user-profile">
+            <img src={userProfilePicture} alt="Profile" className="user-profile-img" />
+            <h2>{userProfile?.username}</h2>
+            <button
+              className="edit-profile-button"
+              style={{ backgroundImage: `url(${editProfileButtonPic})` }}
+              onClick={() => setShowEditBox(true)}
+            >
+            </button>
+          </div>
+          <div className={`edit-profile-box ${showEditBox ? 'active' : ''}`}>
+        <input type="text" placeholder="Username" value={userProfile?.username} />
+        <input type="text" placeholder="Email" value={userProfile?.email} />
+        <input type="file" onChange={handleBannerUpload} />
+        <input type="file" onChange={handleProfileImageUpload} />
+        <button className="save-changes-button">Save Changes</button>
+        <button className="delete-account-button" onClick={handleUserDelete}>Delete Account</button>
+        <span className="close-button" onClick={() => setShowEditBox(false)}>X</span>
+        </div>
+        </div>
       </div>
-      {/* Add more user details as needed */}
-      {userProfile.Posts.map(post => (
-        <li key={post.id} className="post-container">
-          <Link to={`/post/${post.id}`}>
-            <img
-              src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
-              alt={`Post ID: ${post.id}`}
-            />
-          </Link>
-        </li>
-      ))}
-      
-      {/*userProfile.Comments.map(comments => (
-        <li key={comments.id} className="post-container">
-          <p>{comments.content}</p>
-        </li>
-      ))*/}
-      
+      <div className="user-posts">
+        {userProfile?.Posts.map((post) => (
+          <li key={post.id} className="post-container">
+            <Link to={`/post/${post.id}`}>
+              <img
+                src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
+                alt={`Post ID: ${post.id}`}
+              />
+            </Link>
+          </li>
+        ))}
+      </div>
     </div>
   );
 };

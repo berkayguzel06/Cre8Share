@@ -86,7 +86,7 @@ const AppLogin = () => {
   };
 
   return (
-    <div class="login-container">
+    <div className="login-container">
       <meta charSet="UTF-8" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />

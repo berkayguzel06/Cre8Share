@@ -99,7 +99,6 @@ const Profile = () => {
           </div>
           <div className={`edit-profile-box ${showEditBox ? 'active' : ''}`}>
             <input type="text" placeholder="Username" value={userProfile?.username} />
-            <input type="text" placeholder="Email" value={userProfile?.email} />
             <input type="file" onChange={handleBannerUpload} />
             <input type="file" onChange={handleProfileImageUpload} />
             <button className="save-changes-button">Save Changes</button>

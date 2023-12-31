@@ -100,7 +100,11 @@ const Home = () => {
     navigate('/createpost');
   };
   const navigateToProfile = (userId) => {
-    navigate(`/profile/${userId}`);
+    if (userId === userData.username) {
+      navigate(`/profile/${userId}`);
+    } else {
+      navigate(`/user/${userId}`);
+    }
   };
   const handleViewAllUsers = () => {
     navigate('/listedprofiles', { state: { userSearchResults } });
@@ -268,7 +272,7 @@ const Home = () => {
                   <div className="username-overlay">{post.User.username}</div>
                 </Link>
               ) : (
-                <Link to={`/profile/${post.User.username}`}>
+                <Link to={`/user/${post.User.username}`}>
                   <div className="username-overlay">{post.User.username}</div>
                 </Link>
               )}

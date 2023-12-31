@@ -57,63 +57,65 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div className="header-left">
-        <Link to="/home">
-          <img src={logoImage} alt="Logo" />
-        </Link>
-      </div>
-      <div className="header-middle">
-        <input
-          type="text"
-          placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`}
-          value={searchInput}
-          onChange={handleInputChange}
-          style={{ borderRadius: '15%' }}
-        />
-        <button
-          style={{
-            marginLeft: '5px',
-            borderRadius: '25%',
-            backgroundColor: '#4b4242',
-            color: '#000000',
-          }}
-          onClick={handleViewAllUsers}
-        >
-          Search
-        </button>
-        {userSearchResults && userSearchResults.length > 0 && (
-          <div className="user-search-results">
-            <h2>User Search Results</h2>
-            <div className="search-results-list">
-              {userSearchResults.slice(0, 5).map((user, index) => (
-                <div className="search-result" key={index} onClick={() => navigateToProfile(user.id)}>
-                  {user.username}
-                </div>
-              ))}
-            </div>
-            <button onClick={handleViewAllUsers}>View All Users</button>
-          </div>
-        )}
-      </div>
-      <button className="create-post-button" style={{ borderRadius: '25%' }}onClick={navigateCreatePost}>
-        Create a Post
-      </button>
-      <button className="create-post-button" style={{ borderRadius: '25%' }}onClick={navigateImageGeneration}>
-        Cre8 and Share
-      </button>
-      <div className="header-right">
-        <div className="profile-picture"  onClick={toggleProfileMenu}>
-          <img src={profileImage} alt="Profile" />
+        <div className="header-left">
+          <a href="/home">
+            <img src={logoImage} alt="Logo" />
+          </a>
         </div>
-        {showProfileMenu && (
-          <div className="profile-menu">
-            <button onClick={() => handleProfileMenuClick('profile')}>My Profile</button>
-            <button onClick={() => handleProfileMenuClick('settings')}>Settings</button>
-            <button onClick={() => handleProfileMenuClick('logout')}>Log Out</button>
+        <div className="header-middle">
+          <input
+            type="text"
+            placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`}
+            value={searchInput}
+            onChange={handleInputChange} // Triggered on every input change
+            style={{ borderRadius: '15%' }}
+          />
+          <button
+            style={{
+              marginLeft: '5px',
+              borderRadius: '25%',
+              backgroundColor: '#4b4242',
+              color: '#000000',
+            }}
+            onClick={handleViewAllUsers}
+          >
+            Search
+          </button>
+          {/* Show first 5 user search results */}
+
+          {userSearchResults && userSearchResults.length > 0 && (
+            <div className="user-search-results">
+              <h2>User Search Results</h2>
+              <div className="search-results-list">
+                {userSearchResults.slice(0, 5).map((user, index) => (
+                  <div className="search-result" key={index} onClick={() => navigateToProfile(user.username)}>
+                    {user.username}
+                  </div>
+                ))}
+              </div>
+              <button onClick={handleViewAllUsers}>View All Users</button>
+            </div>
+          )}
+        </div>
+        <button className="create-post-button" style={{borderRadius: '25%',}} onClick={navigateCreatePost}>
+          Create a Post
+        </button>
+        <button className="create-post-button" style={{borderRadius: '25%',}} onClick={navigateImageGeneration}>
+          Cre8 and Share
+        </button>
+        <div className="header-right">
+          <div className="profile-picture" onClick={toggleProfileMenu}>
+            <img src={profileImage} alt="Profile" />
           </div>
-        )}
+          {showProfileMenu && (
+            <div className="profile-menu">
+              <button onClick={() => handleProfileMenuClick('profile')}>My Profile</button>
+              <button onClick={() => handleProfileMenuClick('settings')}>Settings</button>
+              <button onClick={() => handleProfileMenuClick('logout')}>Log Out</button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
   );
 };
 

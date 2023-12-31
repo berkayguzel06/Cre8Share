@@ -14,13 +14,23 @@
   /*background:url('../images/night2.jpg');*/
   background-size: cover;
   background-position: center;
+  
+}
+
+.login-container form {
+  background-color: #161616;
+  border: 1px solid #555;
+  padding: 20px;
+  box-shadow: 10px 10px 50px  rgba(255, 254, 254, 0.1);
+  text-align: center;
+  border-radius: 15px;
 }
 
 .login-container .wrapper{
   width: 420px;
   background: transparent;
   border:2px solid rgba(255,255,255,.2);
-  backdrop-filter:blur(20px);
+  backdrop-filter:blur(1000px);
   box-shadow: 0 0 10px rgba(0,0,0,.2);
   color: #fff;
   border-radius: 10px;
@@ -135,8 +145,8 @@
   width: 420px;
   background: transparent;
   border: 2px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(30px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(40px);
+  box-shadow: 0 0 10px rgba(238, 235, 235, 0.2);
   color: #fff;
   border-radius: 10px;
   padding: 30px 40px;
@@ -150,7 +160,7 @@
   opacity: 0.6;
   animation: moveImage 15s infinite alternate linear;
   border-radius: 15%; /* Oval kenarlar için */
-  
+  z-index: -100;
 }
 
 @keyframes moveImage {

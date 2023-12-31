@@ -6,9 +6,9 @@ body {
 
 .header {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
-  padding: 10px 20px; /* Adjust padding as needed */
+  padding: 15px 20px; /* Adjust padding as needed */
   background-color: #0c0505;
   border: 1px solid #220909;
   box-shadow: 0 0 10px rgba(253, 252, 252, 0.1);
@@ -18,7 +18,9 @@ body {
   width: 100%;
   z-index: 1000; /* Ensure the header is above other elements */
 }
-
+.header-left{
+  margin-top: 7px;
+}
 .header-left img,
 .header-right img {
   max-width: 120px; /* Adjust as needed */

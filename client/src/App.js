@@ -34,6 +34,7 @@ function App() {
             <Route path="/profile/:username" element={<Profile />} />
             <Route path="/ListedProfiles" element={<ListedProfiles />} />
             <Route path="/ImageGenerator" element={<ImageGenerator />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/" element={<Login />} />
           </Routes>
         </UserProvider>

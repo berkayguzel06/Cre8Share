@@ -1,0 +1,15 @@
+/* Admin.css */
+
+.posts-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .post-container {
+    width: 30%; /* Set the width of each post to 30% of the container */
+    margin: 1%; /* Add some margin between posts */
+    box-sizing: border-box; /* Include padding and border in the box's total width and height */
+  }
+  
+  /* Add other styles as needed */
+  

@@ -16,6 +16,9 @@ const Profile = () => {
   const navigate = useNavigate();
   const [profilePictureFile, setProfilePictureFile] = useState(null);
   const [bannerPictureFile, setBannerPictureFile] = useState(null);
+  const [friendList, setFriendList] = useState(null);
+  const [showFriend, setShowFriend] = useState(false);
+  const [ isFriend, setIsFriend ] = useState(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -30,9 +33,126 @@ const Profile = () => {
         console.error('Error fetching user profile details:', error);
       }
     };
-
+    
     fetchUserProfile();
   }, [username]);
+  
+    const checkFriend = async () => {
+      const friendship = {
+        friendID: userProfile.id,
+        userid: userData.id,
+      };
+      const isAddedResponse = await axios.get(`http://localhost:5000/friend/${userData.id}`, { params: friendship });
+      const isAdded = isAddedResponse.data;
+      console.log("set is freind: ",isAdded);
+      setIsFriend(isAdded);
+    };
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        if (userProfile && userData) {
+          try {
+            await checkFriend();
+          } catch (error) {
+            console.error('Error checking friend:', error);
+          }
+        }
+      };
+    
+      fetchData();
+    }, [userProfile, userData]); 
+
+  const fetchFriends = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/friend/profile/username/${userProfile.id}`);
+      if (response.data) {
+        console.log("firends: ",response.data);
+        setFriendList(response.data);
+      } else {
+        console.error('Invalid data format:', response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching user profile details:', error);
+    }
+  };
+
+  const getFriend = async () => {
+    try {
+      await fetchFriends();
+      if(showFriend===false){
+        setShowFriend(true);
+      }else{
+        setShowFriend(false);
+      }
+    } catch (error) {
+      console.error('Error fetching user profile details:', error);
+    }
+  };
+
+  const addFriend = async () => {
+    const friendship = {
+      friendID: userProfile.id,
+      userid: userData.id,
+      status: false,
+    };
+    console.log(isFriend);
+    if(isFriend != null ){
+      if(isFriend.UserId===userData.id && isFriend.friendID===userProfile.id || isFriend.UserId===userProfile.id && isFriend.friendID===userData.id){
+        if(isFriend.status === true){
+          setIsFriend(isFriend);
+          alert("Already added");
+          return;
+        }
+      }
+      if(isFriend.UserId===userData.id && isFriend.friendID===userProfile.id){
+        alert("Already sended");
+        return;
+      }
+    }
+    else{
+      const response = await axios.post('http://localhost:5000/friend',friendship).then((response) => {
+      console.log(response);
+      }, (error) => {
+          console.log(error);
+      });
+      console.log(response);
+      return;
+    }
+    checkFriend();
+ };
+
+ const acceptFriend = async () => {
+  const friendship = {
+    friendID: userData.id,
+    userid: userProfile.id,
+    status: true,
+  };
+  const response = await axios.post('http://localhost:5000/friend/update', friendship ).then((response) => {
+    console.log(response);
+  }, (error) => {
+    console.log(error);
+  });
+  console.log(response);
+  checkFriend();
+};
+
+const declineFriend = async () => {
+  const friendship = {
+    userid: userProfile.id,
+    friendID: userData.id,
+  };
+
+  try {
+    const response = await axios.delete('http://localhost:5000/friend/', {
+      data: friendship,  // Send data in the request body
+    });
+
+    console.log(response);
+    checkFriend();
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
@@ -96,28 +216,23 @@ const Profile = () => {
         reader.readAsDataURL(bannerPictureFile);
       }
 
-      // Diğer verilerin güncellenmesi için gerekli işlemler buraya eklenebilir...
-
       setProfilePictureFile(null);
       setBannerPictureFile(null);
       setShowEditBox(false);
     } catch (error) {
       console.error('Error handling submit:', error);
     }
-  };
-  console.log("userProfile?.pfp",userProfile?.pfp);
-  
+  };  
 
-  
   
   return (
     <div>
       <Header />
       <div className="user-details-container">
         <div className="user-banner">
-        {!userProfile || !userProfile.pfp ? (
+        {!userProfile || !userProfile.banner ? (
   // Yükleme durumu veya placeholder
-  <div>Loading...</div>
+  <div></div>
 ) : (
   // Profil resmini burada render et
   <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.banner)}`} alt="Profile Picture" />
@@ -125,7 +240,7 @@ const Profile = () => {
           <div className="user-profile">
           {!userProfile || !userProfile.pfp ? (
   // Yükleme durumu veya placeholder
-  <div>Loading...</div>
+  <div></div>
 ) : (
   // Profil resmini burada render et
   <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.pfp)}`} alt="Profile Picture" />
@@ -148,6 +263,41 @@ const Profile = () => {
             <span className="close-button" onClick={() => setShowEditBox(false)}>X</span>
           </div>
         </div>
+      </div>
+      <div>
+        <button onClick={getFriend}>Get Friends</button>
+        {userData && userProfile && userData.id !== userProfile.id && (
+          <>
+            {isFriend === null && (
+              <button onClick={addFriend}>Add Friend</button>
+            )}
+            {isFriend && isFriend.status === false && isFriend.friendID === userData.id && (
+              <div>
+                <button onClick={acceptFriend}>Accept</button>
+                <button onClick={declineFriend}>Decline</button>
+              </div>
+            )}
+            {isFriend && isFriend.status === true && (
+              <button onClick={declineFriend}>Remove Friend</button>
+            )}
+          </>
+        )}
+
+        {!showFriend ? (
+            <p>Click to see friends</p>
+          ) : (
+            <ul>
+              {friendList?.map((friend) => (
+                friend.username !== userProfile.username && (
+                  <li key={friend.id} className="friend-container">
+                    <Link to={`/user/${friend.username}`}>
+                      <p>{friend.username}</p>
+                    </Link>
+                  </li>
+                )
+              ))}
+            </ul>
+          )}
       </div>
       <div className="user-posts">
         {userProfile?.Posts.map((post) => (

@@ -175,7 +175,7 @@ const CreatePost = () => {
   
     const handleProfileMenuClick = (option) => {
       if (option === 'profile') {
-        navigate(`/profile/${userData.username}`);
+        navigate(`/user/${userData.username}`);
       } else if (option === 'settings') {
         navigate('/settings');
       } else if (option === 'logout') {

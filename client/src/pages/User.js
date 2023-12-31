@@ -232,19 +232,19 @@ const declineFriend = async () => {
         <div className="user-banner">
         {!userProfile || !userProfile.banner ? (
   // Yükleme durumu veya placeholder
-  <div></div>
-) : (
-  // Profil resmini burada render et
-  <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.banner)}`} alt="Profile Picture" />
-)}
-          <div className="user-profile">
-          {!userProfile || !userProfile.pfp ? (
-  // Yükleme durumu veya placeholder
-  <div></div>
-) : (
-  // Profil resmini burada render et
-  <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.pfp)}`} alt="Profile Picture" />
-)}
+            <div>User Banner</div>
+          ) : (
+            // Profil resmini burada render et
+            <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.banner)}`} alt="Profile Picture" />
+          )}
+                    <div className="user-profile">
+                    {!userProfile || !userProfile.pfp ? (
+            // Yükleme durumu veya placeholder
+            <div>User Profile Photo</div>
+          ) : (
+            // Profil resmini burada render et
+            <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.pfp)}`} alt="Profile Picture" />
+          )}
             <h2>{userProfile?.username}</h2>
             {userProfile?.username === userData?.username && (
               <button

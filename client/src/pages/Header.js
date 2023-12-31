@@ -68,9 +68,12 @@ const Header = () => {
           placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`}
           value={searchInput}
           onChange={handleInputChange}
+          style={{ borderRadius: '15%' }}
         />
         <button
           style={{
+            marginLeft: '5px',
+            borderRadius: '25%',
             backgroundColor: '#4b4242',
             color: '#000000',
           }}
@@ -92,14 +95,14 @@ const Header = () => {
           </div>
         )}
       </div>
-      <button className="create-post-button" onClick={navigateCreatePost}>
+      <button className="create-post-button" style={{ borderRadius: '25%' }}onClick={navigateCreatePost}>
         Create a Post
       </button>
-      <button className="create-post-button" onClick={navigateImageGeneration}>
+      <button className="create-post-button" style={{ borderRadius: '25%' }}onClick={navigateImageGeneration}>
         Cre8 and Share
       </button>
       <div className="header-right">
-        <div className="profile-picture" onClick={toggleProfileMenu}>
+        <div className="profile-picture"  onClick={toggleProfileMenu}>
           <img src={profileImage} alt="Profile" />
         </div>
         {showProfileMenu && (

@@ -207,9 +207,12 @@ const CreatePost = () => {
           placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`}
           value={searchInput}
            onChange={handleInputChange} // Triggered on every input change
+           style={{borderRadius: '15%',}}
           />
           <button
             style={{
+              marginLeft: '5px',
+              borderRadius: '25%',
               backgroundColor: '#4b4242',
               color: '#000000',
             }}
@@ -233,10 +236,10 @@ const CreatePost = () => {
          </div>
           )}
         </div>
-        <button className="create-post-button" onClick={navigateCreatePost}>
+        <button className="create-post-button" style={{borderRadius: '25%',}}onClick={navigateCreatePost}>
           Create a Post
         </button>
-        <button className="create-post-button" onClick={navigateImageGeneration}>
+        <button className="create-post-button" style={{borderRadius: '25%',}} onClick={navigateImageGeneration}>
           Cre8 and Share
         </button>
         <div className="header-right">
@@ -257,7 +260,7 @@ const CreatePost = () => {
       {showPreview ? (
         <div>
           <h2>Post Preview</h2>
-          <p>Tag: {title}</p>
+          <p>Title: {title}</p>
           <p>Username: {username}</p>
           <img src={preview} alt="Post Preview" style={{ maxWidth: '100%' }} />
           {/* You can add more details from the preview if needed */}
@@ -268,7 +271,7 @@ const CreatePost = () => {
       ) : (
         <form>
           <label>
-            Title:  
+            Tag:  
             <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
           </label>
           <br />

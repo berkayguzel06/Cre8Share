@@ -183,7 +183,8 @@ button:hover {
 
 
 .selected-category {
-  margin-top: 78px; /* İsteğe bağlı bir üst boşluk ekleyebilirsiniz */
+  margin-top: 100px; /* İsteğe bağlı bir üst boşluk ekleyebilirsiniz */
+  margin-left: 200px; /* İsteğe bağlı bir üst boşluk ekleyebilirsiniz */
   padding: 10px;
   background-color: #a9a9a9; /* Arka plan rengi */
   border: 1px solid #ccc; /* Kenarlık rengi ve kalınlığı */

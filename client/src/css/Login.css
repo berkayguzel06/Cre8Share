@@ -153,14 +153,15 @@
   box-shadow: 0 0 10px rgba(238, 235, 235, 0.2);
   color: #fff;
   border-radius: 10px;
-  padding: 30px 40px;
+  padding: 75px 45px ;
+  overflow: hidden; /* hareketli resimlerin sadece saydam alanda dönmesi için */
 }
 
 .login-container .wrapper img {
   position: absolute;
-  width: 100px;
-  height: auto;
-  opacity: 0.6;
+  width: 75px;
+  height: 80px;
+  opacity: 1.0;
   animation: moveImage 15s infinite alternate linear;
   border-radius: 15%; /* Oval kenarlar için */
   z-index: -100;
@@ -168,15 +169,15 @@
 
 @keyframes moveImage {
   0%, 100% {
-    transform: translate(0, 200px) scale(0.5);
+    transform: translate(0, 400px) scale(0.5);
   }
   25% {
-    transform: translate(800px, 0) scale(0.6);
+    transform: translate(900px, 0) scale(0.6);
   }
   50% {
     transform: translate(0, -300px) scale(0.8);
   }
   75% {
-    transform: translate(-300px, 0) scale(0.5);
+    transform: translate(-300px, 0) scale(0.4);
   }
 }

@@ -2,16 +2,38 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../Helpers/UserContext';
-import post1 from '../backgroundimages/post3.jpeg';
-import post2 from '../backgroundimages/post4.jpeg';
-import post3 from '../backgroundimages/post5.jpg';
-import post4 from '../backgroundimages/post6.jpg';
-import post5 from '../backgroundimages/post7.jpg';
-import post6 from '../backgroundimages/post8.jpg';
-import post7 from '../backgroundimages/post9.jpg';
-import post8 from '../backgroundimages/post10.jpg';
-import post9 from '../backgroundimages/post11.jpg';
-import post10 from '../backgroundimages/post12.jpg';
+import post1 from '../backgroundimages/post4.jpeg';
+import post2 from '../backgroundimages/post6.jpg';
+import post3 from '../backgroundimages/post7.jpg';
+import post4 from '../backgroundimages/post13.png';
+import post5 from '../backgroundimages/post14.png';
+import post6 from '../backgroundimages/post15.png';
+import post7 from '../backgroundimages/post16.png';
+import post8 from '../backgroundimages/post17.png';
+import post9 from '../backgroundimages/post18.png';
+import post10 from '../backgroundimages/post19.png';
+import post11 from '../backgroundimages/post20.png';
+import post12 from '../backgroundimages/post21.jpeg';
+import post13 from '../backgroundimages/post22.jpeg';
+import post14 from '../backgroundimages/post23.jpeg';
+import post15 from '../backgroundimages/post24.png';
+import post16 from '../backgroundimages/post25.jpeg';
+import post17 from '../backgroundimages/post26.png';
+import post18 from '../backgroundimages/post27.png';
+import post19 from '../backgroundimages/post28.png';
+import post20 from '../backgroundimages/post29.png';
+import post21 from '../backgroundimages/post30.jpeg';
+import post22 from '../backgroundimages/post31.jpeg';
+import post23 from '../backgroundimages/post32.jpeg';
+import post24 from '../backgroundimages/post33.jpeg';
+import post25 from '../backgroundimages/post34.jpeg';
+import post26 from '../backgroundimages/post35.png';
+import post27 from '../backgroundimages/post36.jpeg';
+import post28 from '../backgroundimages/post37.jpeg';
+
+
+
+
 import '../css/Login.css';
 
 const AppLogin = () => {
@@ -23,12 +45,13 @@ const AppLogin = () => {
 
   useEffect(() => {
     const imagePaths = [
-      post1, post2, post3, post4, post5, post6, post7, post8, post9, post10
+      post1, post2, post3, post4, post5, post6, post7, post8, post9, post10, post11, post12, post13,post14,
+      post15,post16,post17,post18,post19,post20,post21,post22,post23,post24,post25,post26,post27,post28
     ];
 
     const container = document.querySelector('.wrapper');
     const renderRandomImages = () => {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 50; i++) {
         const img = document.createElement('img');
         img.src = imagePaths[Math.floor(Math.random() * imagePaths.length)];
         container.appendChild(img);

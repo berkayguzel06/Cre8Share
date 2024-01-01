@@ -1,32 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import Masonry from 'masonry-layout';
 import imagesLoaded from 'imagesloaded';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/Home.css';
-import '../css/Header.css';
-import logoImage from '../images/cre8share-logo12.png';
-import profileImage from '../images/pp1.png';
 import likebuttonimage from '../images/like.png';
 import likebuttonimage2 from '../images/like2.png';
-import reportbuttonimage from '../images/rep.png';
-import reportbuttonimage2 from '../images/rep2.png';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../Helpers/UserContext.js';
+import Header from './Header.js';
+import griImage from '../images/gri.png';
+
 
 const Home = () => {
   const [originalListOfPosts, setOriginalListOfPosts] = useState([]);
   const [listOfPosts, setListOfPosts] = useState([]);
   const [uniqueTitles, setUniqueTitles] = useState([]);
-  const [searchType, setSearchType] = useState('username');
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [searchInput, setSearchInput] = useState('');
-  const [userSearchResults, setUserSearchResults] = useState([]);
   const { userData, setUserData } = useContext(UserContext);
   const [likeImages, setLikeImages] = useState({});
-  const navigate = useNavigate();
 
 
   const fetchPosts = async () => {
@@ -96,56 +88,12 @@ const Home = () => {
     return window.btoa(binary);
   };
 
-  const navigateCreatePost = () => {
-    navigate('/createpost');
-  };
-  const navigateToProfile = (userId) => {
-    navigate(`/user/${userId}`);
-
-  };
-  const handleViewAllUsers = () => {
-    navigate('/listedprofiles', { state: { userSearchResults } });
-  };
-  const navigateImageGeneration = () => {
-    navigate('/ImageGenerator');
-  };
-
-  const toggleProfileMenu = (e) => {
-    e.stopPropagation();
-    setShowProfileMenu((prev) => !prev);
-  };
-
-  const handleProfileMenuClick = (option) => {
-    if (option === 'profile') {
-      navigate(`/user/${userData.username}`);
-    } else if (option === 'settings') {
-      navigate('/settings');
-    } else if (option === 'logout') {
-      localStorage.removeItem('userData');
-      localStorage.removeItem('accessToken');
-      navigate('/');
-    }
-    setShowProfileMenu(false);
-  };
-
+  
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
 
-  const handleUserSearch = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/user/searchedusers/${searchInput}`);
-      setUserSearchResults(response.data.ListOfUsers);
-    } catch (error) {
-      console.error('Error searching users:', error);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    setSearchInput(e.target.value);
-    // Trigger search on every input change
-    handleUserSearch();
-  };
+  
 
  const handleLike = async (postId) => {
   try {
@@ -184,67 +132,8 @@ const Home = () => {
 
   return (
     <div class = "homee">
-      <div className="header">
-        <div className="header-left">
-          <a href="/home">
-            <img src={logoImage} alt="Logo" />
-          </a>
-        </div>
-        <div className="header-middle">
-          <input
-            type="text"
-            placeholder={`Search by ${searchType === 'username' ? 'Username' : 'Post'}`}
-            value={searchInput}
-            onChange={handleInputChange} // Triggered on every input change
-            style={{ borderRadius: '15%' }}
-          />
-          <button
-            style={{
-              marginLeft: '5px',
-              borderRadius: '25%',
-              backgroundColor: '#4b4242',
-              color: '#000000',
-            }}
-            onClick={handleViewAllUsers}
-          >
-            Search
-          </button>
-          {/* Show first 5 user search results */}
-
-          {userSearchResults && userSearchResults.length > 0 && (
-            <div className="user-search-results">
-              <h2>User Search Results</h2>
-              <div className="search-results-list">
-                {userSearchResults.slice(0, 5).map((user, index) => (
-                  <div className="search-result" key={index} onClick={() => navigateToProfile(user.username)}>
-                    {user.username}
-                  </div>
-                ))}
-              </div>
-              <button onClick={handleViewAllUsers}>View All Users</button>
-            </div>
-          )}
-        </div>
-        <button className="create-post-button" style={{borderRadius: '25%',}} onClick={navigateCreatePost}>
-          Create a Post
-        </button>
-        <button className="create-post-button" style={{borderRadius: '25%',}} onClick={navigateImageGeneration}>
-          Cre8 and Share
-        </button>
-        <div className="header-right">
-          <div className="profile-picture" onClick={toggleProfileMenu}>
-            <img src={profileImage} alt="Profile" />
-          </div>
-          {showProfileMenu && (
-            <div className="profile-menu">
-              <button onClick={() => handleProfileMenuClick('profile')}>My Profile</button>
-              <button onClick={() => handleProfileMenuClick('settings')}>Settings</button>
-              <button onClick={() => handleProfileMenuClick('logout')}>Log Out</button>
-            </div>
-          )}
-        </div>
-      </div>
-
+      <Header />
+      
       <div className="posts-container">
         {listOfPosts.length > 0 && (
           <div className="post-menu">
@@ -276,6 +165,7 @@ const Home = () => {
                   <div className="username-overlay">{post.User.username}</div>
                 </Link>
               )}
+              
               <div className="likenumber">
                 {post.like}
               </div>
@@ -294,7 +184,9 @@ const Home = () => {
           ))}
         </ul>
       </div>
+      <img className="gri-image" src={griImage} alt="Gri Resim" />
     </div>
+    
   );
 };
 

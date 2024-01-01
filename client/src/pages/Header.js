@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext,useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserContext } from '../Helpers/UserContext.js';
+import axios from 'axios';
 import logoImage from '../images/cre8share-logo12.png';
-import profileImage from '../images/pp1.png';
+import profileImage from '../images/pp.png';
 import '../css/Header.css';
 
 const Header = () => {
@@ -11,16 +12,22 @@ const Header = () => {
   const [searchInput, setSearchInput] = useState('');
   const [userSearchResults, setUserSearchResults] = useState([]);
   const { userData, setUserData } = useContext(UserContext);
+  const [userProfile, setUserProfile] = useState(null);
   const navigate = useNavigate();
 
-  const handleViewAllUsers = () => {
-    navigate('/listedprofiles', { state: { userSearchResults } });
-  };
+ 
+
 
   const navigateCreatePost = () => {
     navigate('/createpost');
   };
+  const navigateToProfile = (userId) => {
+    navigate(`/user/${userId}`);
 
+  };
+  const handleViewAllUsers = () => {
+    navigate('/listedprofiles', { state: { userSearchResults } });
+  };
   const navigateImageGeneration = () => {
     navigate('/ImageGenerator');
   };
@@ -29,9 +36,7 @@ const Header = () => {
     e.stopPropagation();
     setShowProfileMenu((prev) => !prev);
   };
-  const navigateToProfile = (userId) => {
-    navigate(`/user/${userId}`);
-  };
+
   const handleProfileMenuClick = (option) => {
     if (option === 'profile') {
       navigate(`/user/${userData.username}`);
@@ -45,14 +50,29 @@ const Header = () => {
     setShowProfileMenu(false);
   };
 
-  const handleUserSearch = async () => {
-    // Your user search logic here
-  };
+  
 
   const handleInputChange = (e) => {
     setSearchInput(e.target.value);
     // Trigger search on every input change
     handleUserSearch();
+  };
+
+  const handleUserSearch = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/user/searchedusers/${searchInput}`);
+      setUserSearchResults(response.data.ListOfUsers);
+    } catch (error) {
+      console.error('Error searching users:', error);
+    }
+  };
+
+  const arrayBufferToBase64 = (buffer) => {
+    const binary = new Uint8Array(buffer.data).reduce(
+      (binaryString, byte) => binaryString + String.fromCharCode(byte),
+      ''
+    );
+    return window.btoa(binary);
   };
 
   return (

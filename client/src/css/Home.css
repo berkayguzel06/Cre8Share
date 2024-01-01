@@ -1,4 +1,3 @@
-/* Style for the username overlay */
 .username-overlay {
   position: fixed;
   bottom: 5px;
@@ -10,15 +9,14 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  border-radius: 10px; /* Ovalleştirmek için istediğiniz piksel değeri */
+  border-radius: 10px; 
 }
 
-/* Rest of the existing styles */
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  background: #f0f0f0; /* Düz mat gri arka plan rengi */
+  background: #f0f0f0; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,13 +74,12 @@ button:hover {
 .posts-list {
   
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* İstediğiniz sütun genişliğine göre ayarlayın */
-  row-gap: 20px; /* İlgili elemanlar arasındaki boşluk */
-  column-gap: 20px; /* Sütunlar arasındaki boşluk */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+  column-gap: 20px;
   margin: 0 auto;
   max-width: 1300px;
   padding: 20px;
-  background-color: #120d0d; /* Mat gri arka plan rengi */
+  background-color: #120d0d; 
   margin-top: 80px;
 }
 
@@ -103,60 +100,58 @@ button:hover {
   object-fit: cover;
   display: block;
   transition: transform 0.3s ease-in-out;
-  border-radius: 20px; /* Ovalleştirmek için istediğiniz piksel değeri */
+  border-radius: 20px; 
 }
 
 .post-container:hover {
   transform: scale(1.08);
 }
 
-/* Dikey kaydırma çubuğu */
  ::-webkit-scrollbar {
-  width: 15px; /* Çubuk genişliği */
+  width: 15px; 
 }
 
 ::-webkit-scrollbar-track {
-  background: #141212; /* Çubuk arkaplan rengi */
+  background: #141212; 
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888; /* Çubuk rengi */
-  border-radius: 6px; /* Çubuk köşe yuvarlaklığı */
+  background: #888; 
+  border-radius: 6px; 
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Çubuk rengi (hover durumunda) */
+  background: #555; 
 }
 
-/* Yatay kaydırma çubuğu (isteğe bağlı) */
 ::-webkit-scrollbar-track-horizontal {
-  background: #000000; /* Çubuk arkaplan rengi (yatay) */
+  background: #000000; 
 }
 
 ::-webkit-scrollbar-thumb-horizontal {
-  background: #888; /* Çubuk rengi (yatay) */
-  border-radius: 6px; /* Çubuk köşe yuvarlaklığı (yatay) */
+  background: #888;
+  border-radius: 6px; 
 }
 
 ::-webkit-scrollbar-thumb-horizontal:hover {
-  background: #555; /* Çubuk rengi (yatay, hover durumunda) */
+  background: #555; 
 }
 
 .post-menu {
   position: fixed;
-  top: 75px; /* Header'ın yüksekliği kadar bir mesafe bırakın */
-  left: 0px; /* Header'dan istediğiniz uzaklıkta bir mesafe bırakın */
-  height: calc(100vh - 60px); /* Header'ın yüksekliği kadar düşürülmüş viewport yüksekliği */
-  width: 190px; /* İstediğiniz genişliği ayarlayın */
-  background-color: #1e1919; /* İstediğiniz arkaplan rengini ayarlayın */
+  top: 75px; 
+  left: 0px; 
+  height: calc(100vh - 60px); 
+  width: 190px; 
+  background-color: #1e1919; 
   padding: 20px;
-  box-shadow: 2px 0 5px rgba(205, 205, 205, 0.1); /* İsteğe bağlı olarak gölge ekleyebilirsiniz */
-  overflow-y: auto; /* Eğer menü içeriği sığmazsa kaydırma çubuğu ekleyin */
+  box-shadow: 2px 0 5px rgba(205, 205, 205, 0.1); 
+  overflow-y: auto; 
   
 }
 
 .post-menu h2 {
-  color: #d0c4c4; /* İstediğiniz başlık rengini ayarlayın */
+  color: #d0c4c4; 
   
 }
 
@@ -174,52 +169,60 @@ button:hover {
 
 .post-menu a {
   text-decoration: none;
-  color: #ddd; /* İstediğiniz bağlantı rengini ayarlayın */
+  color: #ddd; 
 }
 
 .post-menu a:hover {
-  color: #fff; /* İstediğiniz bağlantı rengini hover durumunda ayarlayın */
+  color: #fff; 
 }
 
 
 .selected-category {
-  margin-top: 100px; /* İsteğe bağlı bir üst boşluk ekleyebilirsiniz */
-  margin-left: 200px; /* İsteğe bağlı bir üst boşluk ekleyebilirsiniz */
+  margin-top: 100px; 
+  margin-left: 200px; 
   padding: 10px;
-  background-color: #a9a9a9; /* Arka plan rengi */
-  border: 1px solid #ccc; /* Kenarlık rengi ve kalınlığı */
-  border-radius: 5px; /* Köşeleri yuvarlama */
+  background-color: #a9a9a9; 
+  border: 1px solid #ccc;
+  border-radius: 5px; 
   
 }
 
 .selected-category h3 {
-  color: #333; /* Başlık yazı rengi */
-  font-size: 18px; /* Başlık yazı boyutu */
+  color: #333;
+  font-size: 18px; 
 }
 
 .like-button{
   position: fixed;
   bottom: 5px;
   right: 8px;
-  background: none; /* Arka planı kaldır */
-  border: none; /* Çerçeveyi kaldır */
-  padding: 0; /* İç içe gelen alanları kaldır */
-  cursor: pointer; /* İmleci bir el simgesine dönüştür */
+  background: none; 
+  border: none; 
+  padding: 0; 
+  cursor: pointer; 
 
 }
 
 
-/* Buton içindeki img elementlerine uygulanacak stil */
+
 .like-button img {
-  width: 22px; /* İstediğiniz genişlik değeri */
-  height: 22px; /* İstediğiniz yükseklik değeri */
+  width: 22px; 
+  height: 22px; 
 }
 
 .likenumber {
   position: fixed;
   bottom: 5px;
   right: 48px;
-  background: none; /* Arka planı kaldır */
-  border: none; /* Çerçeveyi kaldır */
-  padding: 0; /* İç içe gelen alanları kaldır */
+  background: none; 
+  border: none;
+  padding: 0; 
+}
+
+.gri-image {
+  position: fixed ;
+  bottom: 5px; 
+  right: 10px; 
+  width: 55px; 
+  height: 50px; 
 }

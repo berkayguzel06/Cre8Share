@@ -2,7 +2,7 @@ import React, { useState, useContext,useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserContext } from '../Helpers/UserContext.js';
 import axios from 'axios';
-import logoImage from '../images/cre8share-logo12.png';
+import logoImage from '../images/cre8share-logo.png';
 import profileImage from '../images/pp.png';
 import '../css/Header.css';
 

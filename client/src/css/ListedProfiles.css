@@ -1,0 +1,43 @@
+.listed-profiless-container {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .profiless-frame {
+    border: 2px solid #000000;
+    padding: 20px; 
+    border-radius: 8px;
+  }
+  
+  .profiless-list {
+    list-style: none;
+    padding: 0;
+    display: flex; 
+    flex-wrap: wrap; 
+  }
+  
+  .profiless-item {
+    margin: 10px;
+    width: calc(50% - 20px); 
+  }
+  
+  .profiless-item a {
+    color: #fdfafa;
+    display: block;
+    font-family: 'Consolas', monospace;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 10px;
+    border: 5px solid #000000;
+    border-radius: 50px;
+    text-decoration: none;
+  }
+  
+  .profiless-image {
+    width: 60px; /* ya da uygun boyut */
+    height: 60px; /* ya da uygun boyut */
+    border-radius: 50%; /* Yuvarlak çerçeve */
+    border: 2px solid #000000;
+    margin-right: 10px;
+    margin-top: 10px;
+  }

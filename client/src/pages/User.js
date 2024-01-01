@@ -7,6 +7,7 @@ import { UserContext } from '../Helpers/UserContext.js';
 import Header from './Header.js';
 import '../css/User.css';
 import editProfileButtonPic from '../images/EditProfileButtonPic.png';
+import profileImage from '../images/pp.png';
 
 const Profile = () => {
   const { userData, setUserData } = useContext(UserContext);
@@ -18,7 +19,7 @@ const Profile = () => {
   const [bannerPictureFile, setBannerPictureFile] = useState(null);
   const [friendList, setFriendList] = useState(null);
   const [showFriend, setShowFriend] = useState(false);
-  const [ isFriend, setIsFriend ] = useState(null);
+  const [isFriend, setIsFriend] = useState(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -33,40 +34,40 @@ const Profile = () => {
         console.error('Error fetching user profile details:', error);
       }
     };
-    
+
     fetchUserProfile();
   }, [username]);
-  
-    const checkFriend = async () => {
-      const friendship = {
-        friendID: userProfile.id,
-        userid: userData.id,
-      };
-      const isAddedResponse = await axios.get(`http://localhost:5000/friend/${userData.id}`, { params: friendship });
-      const isAdded = isAddedResponse.data;
-      console.log("set is freind: ",isAdded);
-      setIsFriend(isAdded);
+
+  const checkFriend = async () => {
+    const friendship = {
+      friendID: userProfile.id,
+      userid: userData.id,
     };
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        if (userProfile && userData) {
-          try {
-            await checkFriend();
-          } catch (error) {
-            console.error('Error checking friend:', error);
-          }
+    const isAddedResponse = await axios.get(`http://localhost:5000/friend/${userData.id}`, { params: friendship });
+    const isAdded = isAddedResponse.data;
+    console.log("set is freind: ", isAdded);
+    setIsFriend(isAdded);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (userProfile && userData) {
+        try {
+          await checkFriend();
+        } catch (error) {
+          console.error('Error checking friend:', error);
         }
-      };
-    
-      fetchData();
-    }, [userProfile, userData]); 
+      }
+    };
+
+    fetchData();
+  }, [userProfile, userData]);
 
   const fetchFriends = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/friend/profile/username/${userProfile.id}`);
       if (response.data) {
-        console.log("firends: ",response.data);
+        console.log("firends: ", response.data);
         setFriendList(response.data);
       } else {
         console.error('Invalid data format:', response.data);
@@ -79,9 +80,9 @@ const Profile = () => {
   const getFriend = async () => {
     try {
       await fetchFriends();
-      if(showFriend===false){
+      if (showFriend === false) {
         setShowFriend(true);
-      }else{
+      } else {
         setShowFriend(false);
       }
     } catch (error) {
@@ -96,63 +97,63 @@ const Profile = () => {
       status: false,
     };
     console.log(isFriend);
-    if(isFriend != null ){
-      if(isFriend.UserId===userData.id && isFriend.friendID===userProfile.id || isFriend.UserId===userProfile.id && isFriend.friendID===userData.id){
-        if(isFriend.status === true){
+    if (isFriend != null) {
+      if (isFriend.UserId === userData.id && isFriend.friendID === userProfile.id || isFriend.UserId === userProfile.id && isFriend.friendID === userData.id) {
+        if (isFriend.status === true) {
           setIsFriend(isFriend);
           alert("Already added");
           return;
         }
       }
-      if(isFriend.UserId===userData.id && isFriend.friendID===userProfile.id){
+      if (isFriend.UserId === userData.id && isFriend.friendID === userProfile.id) {
         alert("Already sended");
         return;
       }
     }
-    else{
-      const response = await axios.post('http://localhost:5000/friend',friendship).then((response) => {
-      console.log(response);
+    else {
+      const response = await axios.post('http://localhost:5000/friend', friendship).then((response) => {
+        console.log(response);
       }, (error) => {
-          console.log(error);
+        console.log(error);
       });
       console.log(response);
       return;
     }
     checkFriend();
- };
-
- const acceptFriend = async () => {
-  const friendship = {
-    friendID: userData.id,
-    userid: userProfile.id,
-    status: true,
-  };
-  const response = await axios.post('http://localhost:5000/friend/update', friendship ).then((response) => {
-    console.log(response);
-  }, (error) => {
-    console.log(error);
-  });
-  console.log(response);
-  checkFriend();
-};
-
-const declineFriend = async () => {
-  const friendship = {
-    userid: userProfile.id,
-    friendID: userData.id,
   };
 
-  try {
-    const response = await axios.delete('http://localhost:5000/friend/', {
-      data: friendship,  // Send data in the request body
+  const acceptFriend = async () => {
+    const friendship = {
+      friendID: userData.id,
+      userid: userProfile.id,
+      status: true,
+    };
+    const response = await axios.post('http://localhost:5000/friend/update', friendship).then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
     });
-
     console.log(response);
     checkFriend();
-  } catch (error) {
-    console.error(error);
-  }
-};
+  };
+
+  const declineFriend = async () => {
+    const friendship = {
+      userid: userProfile.id,
+      friendID: userData.id,
+    };
+
+    try {
+      const response = await axios.delete('http://localhost:5000/friend/', {
+        data: friendship,  // Send data in the request body
+      });
+
+      console.log(response);
+      checkFriend();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
@@ -222,29 +223,30 @@ const declineFriend = async () => {
     } catch (error) {
       console.error('Error handling submit:', error);
     }
-  };  
+  };
 
-  
+
+
   return (
     <div>
       <Header />
       <div className="user-details-container">
         <div className="user-banner">
-        {!userProfile || !userProfile.banner ? (
-  // Yükleme durumu veya placeholder
+          {!userProfile || !userProfile.banner ? (
+            // Yükleme durumu veya placeholder
             <div>User Banner</div>
           ) : (
             // Profil resmini burada render et
             <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.banner)}`} alt="Profile Picture" />
           )}
-                    <div className="user-profile">
-                    {!userProfile || !userProfile.pfp ? (
-            // Yükleme durumu veya placeholder
-            <div>User Profile Photo</div>
-          ) : (
-            // Profil resmini burada render et
-            <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.pfp)}`} alt="Profile Picture" />
-          )}
+          <div className="user-profile">
+            {!userProfile || !userProfile.pfp ? (
+              // Yükleme durumu veya placeholder
+              <div>User Profile Photo</div>
+            ) : (
+              // Profil resmini burada render et
+              <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.pfp)}`} alt="Profile Picture" />
+            )}
             <h2>{userProfile?.username}</h2>
             {userProfile?.username === userData?.username && (
               <button
@@ -265,7 +267,7 @@ const declineFriend = async () => {
         </div>
       </div>
       <div>
-        <button onClick={getFriend}>Get Friends</button>
+        <button className='follower-button' onClick={getFriend}>Followers</button>
         {userData && userProfile && userData.id !== userProfile.id && (
           <>
             {isFriend === null && (
@@ -284,33 +286,36 @@ const declineFriend = async () => {
         )}
 
         {!showFriend ? (
-            <p>Click to see friends</p>
-          ) : (
-            <ul>
-              {friendList?.map((friend) => (
-                friend.username !== userProfile.username && (
-                  <li key={friend.id} className="friend-container">
-                    <Link to={`/user/${friend.username}`}>
-                      <p>{friend.username}</p>
-                    </Link>
-                  </li>
-                )
-              ))}
-            </ul>
-          )}
+          <p></p>
+        ) : (
+          <ul>
+            {friendList?.map((friend) => (
+              friend.username !== userProfile.username && (
+                <li key={friend.id} className="friend-container">
+                  <Link to={`/user/${friend.username}`}>
+                    <p>{friend.username}</p>
+                  </Link>
+                </li>
+              )
+            ))}
+          </ul>
+        )}
       </div>
-      <div className="user-posts">
-        {userProfile?.Posts.map((post) => (
-          <li key={post.id} className="post-container">
-            <Link to={`/post/${post.id}`}>
-              <img
-                src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
-                alt={`Post ID: ${post.id}`}
-              />
-            </Link>
-          </li>
-        ))}
+      <div className="user-postsss">
+        <ul className="posts-containerrrr">
+          {userProfile?.Posts.map((post) => (
+            <li  className="post-containerrr" key={post.id}>
+              <Link to={`/post/${post.id}`}>
+                <img
+                  src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
+                  alt={`Post ID: ${post.id}`}
+                />
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
+
     </div>
   );
 };

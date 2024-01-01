@@ -175,10 +175,13 @@ const handleCommentReport = (commentid) => {
         alt={`Post ID: ${post.id}`}
         className='image'
       />
-      <button onClick={() => handleLike(post.id)}>Like</button>
-      <button onClick={() => handleReport(post.id)}>Report</button>
+      <div className='like-report'>
+        <button onClick={() => handleLike(post.id)}>Like</button>
+        <button onClick={() => handleReport(post.id)}>Report</button>
+      </div>
+      
       {/* Comment input and submit button */}
-      <div>
+      <div className='comment-box'>
         <label htmlFor="comment">Make a Comment:</label>
         <input
           type="text"
@@ -200,12 +203,13 @@ const handleCommentReport = (commentid) => {
             {comments.map(comment => (
               <li key={comment.id}>
                 {/* Display comment details as needed */}
-                <p>User: {comment.User.username}</p>
+                <p className='user'>{comment.User.username}:</p>
+                <p className='comment'>{comment.content}</p>
                 <button onClick={() => handleCommentReport(comment.id)}>Report</button>
                 {comment.User.id === userData.id && (
                   <button onClick={() => handleCommentDelete(comment.id)}>Delete</button>
                 )}
-                <p>{comment.content}</p>
+                
               </li>
             ))}
           </ul>

@@ -106,3 +106,17 @@
   box-shadow: none;
   margin-top: 30px;
 }
+.profiless-username {
+  color: #fdfafa;
+    display: block;
+    font-family: 'Consolas', monospace;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 10px;
+    border: 5px solid #000000;
+    border-radius: 30px;
+    text-decoration: none;
+}
+.profiless-image{
+  margin-left: 10px;
+}

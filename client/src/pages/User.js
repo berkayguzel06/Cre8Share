@@ -291,9 +291,21 @@ const Profile = () => {
           <ul>
             {friendList?.map((friend) => (
               friend.username !== userProfile.username && (
-                <li key={friend.id} className="friend-container">
+                <li className="friend-container" key={friend.id} >
                   <Link to={`/user/${friend.username}`}>
-                    <p>{friend.username}</p>
+                  {friend.pfp ? (
+                      <img
+                        src={`data:image/png;base64,${arrayBufferToBase64(friend.pfp)}`}
+                        className="profiless-image"
+                      />
+                    ) : (
+                      <img
+                        src={profileImage}
+                        className="profiless-image"
+                        alt="Default Profile Picture"
+                      />
+                    )}
+                    <span className="profiless-username">{friend.username}</span>
                   </Link>
                 </li>
               )

@@ -23,7 +23,7 @@ const Header = () => {
   };
   const navigateToProfile = (userId) => {
     navigate(`/user/${userId}`);
-
+    setUserSearchResults([]);
   };
   const handleViewAllUsers = () => {
     navigate('/listedprofiles', { state: { userSearchResults } });

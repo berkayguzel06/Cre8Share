@@ -20,7 +20,7 @@ const ListedProfiles = () => {
     <div>
       <Header />
       <div className="listed-profiless-container">
-        <h2>Listed Users</h2>
+        <h2 style={{ marginBottom: '15px' }}>Listed Users</h2>
         <div className="profiless-frame">
           <ul className="profiless-list">
             {userSearchResults &&

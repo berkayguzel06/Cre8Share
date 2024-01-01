@@ -8,7 +8,7 @@ body {
   display: flex;
   align-items: start;
   justify-content: space-between;
-  padding: 15px 20px; /* Adjust padding as needed */
+  padding: 11px 20px; /* Adjust padding as needed */
   background-color: #0c0505;
   border: 1px solid #220909;
   box-shadow: 0 0 10px rgba(253, 252, 252, 0.1);
@@ -42,7 +42,7 @@ body {
   position: absolute;
   top: 60px; /* Adjust top position as needed */
   right: 20px; /* Adjust right position as needed */
-  background-color: #601515;
+  background-color: #181717;
   border: 1px solid #000000;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

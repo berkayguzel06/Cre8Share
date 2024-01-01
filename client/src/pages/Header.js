@@ -15,7 +15,24 @@ const Header = () => {
   const [userProfile, setUserProfile] = useState(null);
   const navigate = useNavigate();
 
- 
+  const [Userpfp, setUserpfp] = useState(null);
+  const [Userbanner, setUserbanner] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/user/${userData.username}`);
+        setUserProfile(response.data);
+        setUserpfp(response.data.pfp);
+      } catch (error) {
+        console.error('Error fetching user profile picture:', error);
+      }
+    };
+
+    fetchData();
+  }, [userData.username]);
+
+
 
 
   const navigateCreatePost = () => {
@@ -66,7 +83,7 @@ const Header = () => {
       console.error('Error searching users:', error);
     }
   };
-
+  
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
       (binaryString, byte) => binaryString + String.fromCharCode(byte),
@@ -124,9 +141,11 @@ const Header = () => {
           Cre8 and Share
         </button>
         <div className="header-right">
-          <div className="profile-picture" onClick={toggleProfileMenu}>
-            <img src={profileImage} alt="Profile" />
-          </div>
+        {userProfile && userProfile && (
+  <div className="profile-picture" onClick={toggleProfileMenu}>
+    <img src={`data:image/png;base64,${arrayBufferToBase64(Userpfp)}`} alt="Profile" />
+  </div>
+)}
           {showProfileMenu && (
             <div className="profile-menu">
               <button onClick={() => handleProfileMenuClick('profile')}>My Profile</button>

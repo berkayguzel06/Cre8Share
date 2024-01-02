@@ -13,7 +13,7 @@ import pic6 from "../images/loginpagess.png";
 
 const AboutUs = () => {
     const [listOfPosts, setListOfPosts] = useState([]);
-    const [currentContent, setCurrentContent] = useState(0); // Şu anki içerik indeksi
+    const [currentContent, setCurrentContent] = useState(0);
     const [contents] = useState([
         'Cre8Share is a social media platform where users could share any image by uploading themselves or generating with our AI!',
         'We are glad that we have you as a visitor!'
@@ -21,13 +21,12 @@ const AboutUs = () => {
         '6'
         ,
         'Just start with couple words, the rest will show up!',
-        '1','2','Wanna see the home page? A detail might be more surprising than others!','3','Lets visit some profiles!','4','5','There is more things to find out! Enjoy Cre8Share!','DEVELOPED BY YIGIT ONLU, BERKAY GUZEL, AKIF SELIM ARSLAN, ONUR ADIGUZEL',
-        // Add more contents with images as needed
+        '1','2','Wanna see the home page? A detail might be more surprising than others!','3','Lets visit some profiles!','4','5','There is more things to find out! Enjoy Cre8Share!','DEVELOPED BY YIGIT ONLU, BERKAY GUZEL, AKIF SELIM ARSLAN, ONUR KARAL',
       ]);
   
-    // Açıklamaların döngüsel olarak ilerlemesini sağlayacak fonksiyon
+
     const handleNextContent = () => {
-      setCurrentContent((prevIndex) => (prevIndex + 1) % contents.length); // Dizinin sıfırdan başlayacak şekilde döngüsel olarak gezilmesi
+      setCurrentContent((prevIndex) => (prevIndex + 1) % contents.length);
     };
 
   const fetchPosts = async () => {

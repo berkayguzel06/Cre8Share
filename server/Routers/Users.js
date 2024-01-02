@@ -171,6 +171,26 @@ router.post("/", async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
 });
+router.post("/updatepassword/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId; 
+    const newPassword = req.body.newPassword; 
+
+    const user = await User.findOne({ where: { id: userId } });;
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    user.password = newPassword;
+
+    await user.save();
+
+    res.status(200).json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Error during changing password:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 router.get("/auth", validateToken, (req, res) => {
   res.json(req.user);

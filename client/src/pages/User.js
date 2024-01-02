@@ -17,6 +17,7 @@ const Profile = () => {
   const [showEditBox, setShowEditBox] = useState(false);
   const navigate = useNavigate();
   const [profilePictureFile, setProfilePictureFile] = useState(null);
+  const [newPassword, setNewPassword] = useState(null);
   const [bannerPictureFile, setBannerPictureFile] = useState(null);
   const [friendList, setFriendList] = useState(null);
   const [showFriend, setShowFriend] = useState(false);
@@ -218,8 +219,21 @@ const Profile = () => {
         reader.readAsDataURL(bannerPictureFile);
       }
 
+      if (newPassword) {
+        try {
+          // Update the password using an API call or a function
+          await axios.post(`http://localhost:5000/user/updatepassword/${userProfile.id}`, {
+            newPassword: newPassword,
+          });
+        } catch (error) {
+          console.error('Error updating password:', error);
+        }
+      }
+  
+      // Clearing state and closing the edit box
       setProfilePictureFile(null);
       setBannerPictureFile(null);
+      setNewPassword('');
       setShowEditBox(false);
     } catch (error) {
       console.error('Error handling submit:', error);
@@ -267,6 +281,7 @@ const Profile = () => {
             )}
           </div>
           <div className={`edit-profile-box ${showEditBox ? 'active' : ''}`}>
+          <input type="text" placeholder="New Password" onChange={(e) => setNewPassword(e.target.value)} />
             <input type="file" onChange={(e) => setProfilePictureFile(e.target.files[0])} />
             <input type="file" onChange={(e) => setBannerPictureFile(e.target.files[0])} />
             <button className="save-changes-button" onClick={handleSubmit}>Save Changes</button>

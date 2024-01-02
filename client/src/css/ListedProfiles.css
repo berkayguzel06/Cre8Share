@@ -20,16 +20,22 @@
   height: 120px;
   border-radius: 50%;
   margin-bottom: 10px; /* Adjusted margin between profile picture and username */
+  margin-right: 100px;
+  margin-top: 50px;
 }
 
 .profiless-username {
   font-size: 18px;
   font-weight: bold;
   border:none;
+  margin-right: 100px;
+  
 }
 
 .profiless-banner {
-  width: 50%;
-  height: 310%;
+  width: 200px;
+  height: 200px;
   border-radius: 8px;
+  margin-top: 50px;
+  margin-bottom: 10px;
 }

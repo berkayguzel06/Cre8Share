@@ -21,7 +21,7 @@ const ListedProfiles = () => {
     <div>
       <Header />
       <div className="listed-profiless-container">
-        <h2 style={{ marginBottom: '15px' }}>Listed Users</h2>
+        <h2 style={{marginTop:'77px' , marginLeft: '5px' }}>Listed Users</h2>
         <div className="profiless-frame">
           <ul className="profiless-list">
             {userSearchResults &&
@@ -29,6 +29,7 @@ const ListedProfiles = () => {
                 <li key={user.id} className="profiless-item">
                   <Link to={`/user/${user.username}`}>
                     <div className="profiless-info">
+                    
                       <div className="profiless-details">
                         {user.pfp ? (
                           <img

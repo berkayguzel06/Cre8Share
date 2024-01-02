@@ -1,24 +1,93 @@
-.postbox{
+.postboxx {
+    margin-top: 95px;
     display: flex;
     height: 100vh;
     flex-direction: column;
     align-items: center;
-
-}
-.image{
-    height: 250px;
+    border: 2px solid #0a0a0a; /* Border style */
+    padding: 20px; /* Add padding to create space between content and border */
+    border-radius: 10px; /* Optional: Add rounded corners to the border */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add box shadow for depth */
+    height:5000px;
+  }
+  
+.imageforpost {
+    height: 500px;
     width: auto;
     margin-bottom: 10px;
+    border-radius: 10px; 
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+  }
+  
+  .imageforpost:hover {
+    transform: scale(1.0); /* Enlarge on hover */
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2); /* Increase shadow on hover */
+  }
+
+  
+.post-detailsknk{
+    font-size: 35px; 
+    font-weight: bold; 
+    color: #ffffff;
+    font-feature-settings: "smcp", "zero";
 }
-.post-details{
-    margin-top: 78px;
+
+.likebuttonpost {
+    position: relative;
+    bottom: 18px;
+    right: 158px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 25px; /* İstenilen genişlik */
+    height: 25px; /* İstenilen yükseklik */
+  }
+
+  .reportbuttonpost {
+    position: relative;
+    bottom: 26px;
+    right: 130px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 17px; 
+  }
+
+.like-paragraph{
+    position: relative;
+    top: 6px;
+    right: 175px;
 }
-.comment{
-    margin-left: 5px;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
+.report-paragraph{
+    position: relative;
+    bottom: 50px;
+    right: 115px;
+    font-size: 17px; 
 }
+
+.comment-boxbox{
+    position: relative;
+    bottom: 80px;
+    left: 150px;
+}
+
+.deletebuttonpost {
+    position: relative;
+    top: 50px;
+    right: 440px;
+   
+  }
+
+  .delete-paragraph{
+    position: relative;
+    top: 16px;
+    right: 175px;
+}
+
 .user{
     display: flex;
     align-items: center;
@@ -37,4 +106,11 @@
 }
 .comment-title{
     text-align: center;
+}
+
+.commmentlistpost{
+    display: block;
+    list-style: none;
+  padding: 0;
+  margin: 0;
 }

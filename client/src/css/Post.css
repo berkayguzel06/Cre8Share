@@ -8,7 +8,8 @@
     padding: 20px; /* Add padding to create space between content and border */
     border-radius: 10px; /* Optional: Add rounded corners to the border */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add box shadow for depth */
-    height:5000px;
+    height:auto;
+    margin-bottom: 10px;
   }
   
 .imageforpost {

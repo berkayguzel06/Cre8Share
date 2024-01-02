@@ -1,68 +1,97 @@
-# Cre8Share
+# SocialMediaApp Project Report
+
+![image](https://github.com/berkayguzel06/Cre8Share/assets/98205992/1b748cec-f959-4b05-93f8-16d214d441a8)
 
 ## Project Overview
 
-This project aims to create a web-based content-sharing and social networking platform that resembles popular platforms like Pinterest or Civitai. The platform will provide users with the ability to share, discover, and organize visual and creative content. Users can create profiles, upload images, follow other users, like and comment on content items, and create collections. The project focuses on addressing challenges related to content discovery, organization, and collaboration in the realm of visual content.
+### Project Name: Cre8Share
 
-## Project Phases
+### Project Description
+The SocialMediaApp is a web-based social media application that enables users to connect with each other through a variety of features. The application is built with React for the frontend, Node.js for the backend, and MySQL for the database. Users can register, login, upload posts, manage profiles, engage in social interactions, categorize posts, and use an image generator.
 
-### Phase 1: Requirement Analysis and Specification
+## Technologies Used
 
-- **Project Topic:** Developing a content-sharing and social networking platform similar to Pinterest or Civitai.
-- **Goals:** Define project requirements, establish the problem domain, specify system features, and create a conceptual design.
-- **Deliverables:**
-  - Requirement analysis report
-  - Entity-Relationship (ER) diagram
-  - Initial database schema
-  - Use case scenarios and system transactions
-  - Identification of stakeholders and their roles
+- **Frontend:** React
+- **Backend:** Node.js
+- **Database:** MySQL
 
-### Phase 2: Database Implementation
+## Features
 
-- **Goals:** Create the database schema, define tables and relationships, and implement the logical model.
-- **Deliverables:**
-  - SQL scripts to create database tables
-  - Data models for entities
-  - Validation and testing of the database
+### User Authentication
+- User registration and account creation.
+- Login functionality.
 
-### Phase 3: Application Development
+<img src="https://github.com/berkayguzel06/Cre8Share/assets/98205992/da3e01b9-a42c-4494-b6cd-3ee21e9f6ae1" alt="Alt Text" width="600" height="550">
 
-- **Goals:** Develop the web application, including user registration, content management, social features, and content discovery.
-- **Deliverables:**
-  - Functional web application
-  - User interfaces for different features
-  - Backend logic for content management and user interactions
+### Post Management
+- Post creation and upload functionality.
+- Display of uploaded posts on the home page.
+- Post deletion capability.
 
-### Phase 4: Testing and Quality Assurance
+### User Profile
+- Account information editing for users.
+- Profile deletion functionality.
 
-- **Goals:** Ensure the system functions correctly, performs well, and meets all requirements.
-- **Deliverables:**
-  - Test plans and test cases
-  - Test results and bug reports
-  - Performance and security assessments
+### Social Interactions
+- Like and report features for posts.
+- User following functionality.
+- Comments can be added to posts.
 
-### Phase 5: Deployment and Launch
+### Post Categorization
+- Users can categorize posts by adding tags.
 
-- **Goals:** Deploy the platform to a production environment, prepare for a public launch, and handle user onboarding.
-- **Deliverables:**
-  - Deployed and live web application
-  - User guides and documentation
-  - Launch marketing strategy
+### Image Generator
+- Dedicated tab for image generation.
+- Users can input prompts and adjust image size.
+- Direct sharing of generated images.
 
-### Phase 6: Post-launch Support and Maintenance
+![image](https://github.com/berkayguzel06/Cre8Share/assets/98205992/a127f136-7193-4e12-b3a9-4881265add26)
 
-- **Goals:** Provide ongoing support, monitor system performance, and implement updates and enhancements as needed.
-- **Deliverables:**
-  - Maintenance plans and schedules
-  - System performance monitoring tools
-  - User feedback and issue resolution
+#### HuggingFace Diffusers Library
+The image generation feature in the SocialMediaApp is powered by the HuggingFace Diffusers library, utilizing advanced safetensor image models. This library enhances the quality and safety of image generation, providing a robust foundation for creating visually appealing and secure images.
 
-## Key Terminology
+#### Python Virtual Environment (venv) and Server-Side Process
+The image generation process involves a Python virtual environment (venv) that is dynamically created and managed by the server. The backend server executes a series of steps during the first run to ensure a controlled and isolated environment for image generation:
 
-- **Requirements Engineering:** The process of understanding, documenting, and specifying what the customer wants in a computer-based system.
-- **Problem Domain:** The context in which the system will be used, including an understanding of the problem, stakeholders, and their needs.
-- **Specifications:** Formal documentation of requirements, capturing objectives and needs.
-- **Solution Domain:** The domain where engineers design and build solutions to problems based on well-defined requirements.
-- **Constraints:** Limitations and bounds placed on proposed solutions, including schedule, budget, and technical constraints.
+1. **Creation of Virtual Environment (venv):**
+   - The server sends a command to create a virtual environment in the project folder.
+   - This virtual environment is essential for isolating dependencies and ensuring reproducibility.
 
-This Markdown file outlines the phases, goals, and key terminology for the project. It serves as a high-level project plan and overview.
+2. **Activation of Virtual Environment:**
+   - Once created, the server activates the virtual environment, isolating the image generation process.
+
+3. **Dependency Installation:**
+   - Dependencies required for image generation are installed into the virtual environment using a `requirements.txt` file.
+   - This step ensures that the necessary Python packages, including the HuggingFace Diffusers library, are available within the isolated environment.
+
+4. **Execution of Python Script:**
+   - With the virtual environment activated and dependencies installed, the server runs a Python script responsible for image generation.
+   - The data required for image generation is passed from the frontend to the backend.
+
+
+## Development Stack
+
+- **Frontend Development:**
+  - React for building the user interface.
+
+- **Backend Development:**
+  - Node.js for server-side development.
+
+- **Database:**
+  - MySQL for storing user and post-related data.
+
+## Project Structure
+
+1. **Frontend:**
+   - React components for the user interface.
+   - Routing for different pages and features.
+
+2. **Backend:**
+   - Node.js server handling authentication, post management, and social interactions.
+   - APIs for frontend-backend communication.
+
+3. **Database:**
+   - MySQL database for storing user profiles, posts, and related data.
+
+4. **Image Generator:**
+   - Module for image generation with adjustable parameters.

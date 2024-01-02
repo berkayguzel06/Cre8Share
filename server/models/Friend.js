@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     Friend.associate = (models) => {
         Friend.belongsTo(models.User, {
-            onDelete: "cascade", // Enable cascading delete for the association with User
+            onDelete: "cascade",
         });
     }
     return Friend;

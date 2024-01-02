@@ -12,11 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       });
   
       Comment.belongsTo(models.Post, {
-        onDelete: "cascade", // Enable cascading delete for the association with Post
+        onDelete: "cascade", // If post delete then delete all comments related to that post
       });
   
       Comment.belongsTo(models.User, {
-        onDelete: "cascade", // Enable cascading delete for the association with User
+        onDelete: "cascade",
       });
     };
   

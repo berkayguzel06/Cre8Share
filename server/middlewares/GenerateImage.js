@@ -1,4 +1,5 @@
-const { spawn } = require('child_process');
+// Child process allows us to run Python script in the background. Without blocking the Node.js event loop.
+const { spawn } = require('child_process'); 
 const path = require('path');
 
 async function generateImageInBackground(prompt, width, height) {
@@ -6,6 +7,8 @@ async function generateImageInBackground(prompt, width, height) {
       // Run the Python script in the virtual environment
       console.log('Start image generation.');
       const activationCommand = 'python\\venv\\Scripts\\activate && python python\\main.py';
+      // Run commands in the terminal to generate the image. With the prompt, width, and height as arguments
+      // Spawn a child process to run the commands
       const pythonProcess = spawn(activationCommand, [`"${prompt}"`, `${width}`, `${height}`], {
         shell: true,
         stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
@@ -14,6 +17,7 @@ async function generateImageInBackground(prompt, width, height) {
       let stdoutData = '';
       let stderrData = '';
   
+      // Collect data from script stdout and stderr streams
       pythonProcess.stdout.on('data', (data) => {
         stdoutData += data.toString();
       });
@@ -46,11 +50,11 @@ async function generateImageInBackground(prompt, width, height) {
 
 async function performSetup() {
     return new Promise((resolve, reject) => {
-      // Set the path to your virtual environment
+      // Set the path to your virtual environment in project folder
       const venvPath = 'python\\venv';
       console.error(`Creating virtual environment at ${venvPath}`);
       
-      // Check if the virtual environment exists
+      // Check if the virtual environment exists. If not create it
       const venvExistsCommand = `if not exist "${venvPath}" (python -m venv ${venvPath})`;
       const createVenvProcess = spawn(venvExistsCommand, { shell: true });
   
@@ -58,7 +62,7 @@ async function performSetup() {
         if (code === 0) {
           console.log('Virtual environment created successfully.');
           const requirementPath = 'python\\requirements.txt';
-          // Use the virtual environment's Python executable to install dependencies
+          // Use the virtual environment to install dependencies with using requirements.txt
           const installDependenciesCommand = `${venvPath}\\Scripts\\activate && pip install -r ${requirementPath}`;
           console.error(`Installing dependencies using command: ${installDependenciesCommand}`);
           const installDependenciesProcess = spawn(installDependenciesCommand, { shell: true });

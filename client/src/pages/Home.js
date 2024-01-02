@@ -17,11 +17,12 @@ const Home = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
   const [uniqueTitles, setUniqueTitles] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext); // Get the user data from context
   const [likeImages, setLikeImages] = useState({});
 
 
   const fetchPosts = async () => {
+    // Fetch all posts from the database and add them to state
     axios
       .get('http://localhost:5000/post', {
         headers: { accessToken: localStorage.getItem('accessToken') },
@@ -44,6 +45,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    // Masonry after the component mounts
     const grid = document.querySelector('.posts-list');
     const masonry = new Masonry(grid, {
       itemSelector: '.post-container',
@@ -56,6 +58,7 @@ const Home = () => {
   }, [listOfPosts]);
 
   useEffect(() => {
+    // Filter posts based on the selected category
     setListOfPosts((prevState) => {
       const filteredPosts = selectedCategory
         ? originalListOfPosts.filter((post) => post.title === selectedCategory)
@@ -105,7 +108,7 @@ const Home = () => {
     // Check if the user has already liked the post
     const alreadyLiked = listOfPosts.find(post => post.id === postId)?.Likes?.some(like => like.userid === userData.id);
 
-    // Toggle between two images based on the current state
+    // Switch between two images based on state
     setLikeImages(prevImages => ({
       ...prevImages,
       [postId]: prevImages[postId] === likebuttonimage ? likebuttonimage2 : likebuttonimage,

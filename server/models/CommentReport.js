@@ -1,4 +1,3 @@
-// Post model is used to create a table in the database about posts.
 
 module.exports = (sequelize, DataTypes) => {
     const CommentReport = sequelize.define("CommentReport", {
@@ -9,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     CommentReport.associate = (models) => {
         CommentReport.belongsTo(models.Comment,{
-            onDelete: "cascade", // Enable cascading delete for the association with User
+            onDelete: "cascade",
         });
     }
     return CommentReport;

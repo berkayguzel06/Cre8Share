@@ -5,12 +5,13 @@ const path = require('path');
 
 router.get('/', async (req, res) => {
   try {
+    // Image from local
     const imageBuffer = await fs.readFile(path.join(__dirname, '..', 'python', 'images', 'generated_image.jpg'));
     res.writeHead(200, {
       'Content-Type': 'image/jpeg',
       'Content-Length': imageBuffer.length,
     });
-    res.end(imageBuffer);
+    res.end(imageBuffer); // Send the image buffer to the client
   } catch (error) {
     console.error('Error reading image file:', error);
     res.status(500).json({ error: 'Internal Server Error' });

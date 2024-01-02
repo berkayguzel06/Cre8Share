@@ -44,6 +44,7 @@ const AppLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Random image animation
     const imagePaths = [
       post1, post2, post3, post4, post5, post6, post7, post8, post9, post10, post11, post12, post13,post14,
       post15,post16,post17,post18,post19,post20,post21,post22,post23,post24,post25,post26,post27,post28
@@ -104,7 +105,6 @@ const AppLogin = () => {
       }
     } catch (error) {
       console.error('Error during login:', error);
-      // Hataları uygun şekilde işleyin
     }
   };
 

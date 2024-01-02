@@ -7,21 +7,22 @@ import Header from './Header.js';
 
 const ImageGenerator = () => {
     const defaultPrompt = 'Promt: Bears making a tea party in the forest';
-    const [prompt, setPrompt] = useState('');
-    const [width, setWidth] = useState(512);
+    const [prompt, setPrompt] = useState('');        // Prompt for the image generation 
+    const [width, setWidth] = useState(512);         // width and height of the image
     const [height, setHeight] = useState(512);
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState('');        // Status of the image generation
     const [error, setError] = useState('');
-    const [imageData, setImageData] = useState('');
+    const [imageData, setImageData] = useState('');  // Generated image data to be displayed
     const navigate = useNavigate();
     
     useEffect(() => {
-      getImage();
+      getImage();     // Get the generated image from the server
     }, []);
 
     const getImage = async () => {
       axios.get('http://localhost:5000/getimages', { responseType: 'arraybuffer' })
       .then(response => {
+        // Convert the image data to base64 and set it to the state
         const base64 = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
         setImageData(`data:image/jpeg;base64,${base64}`);
       })
@@ -41,7 +42,7 @@ const ImageGenerator = () => {
               + prompt + '\n Sizes: ' + width + 'x' + height);
           setError('');
   
-          // Make a POST request to your backend endpoint
+          // Send info to server to generate the image
           const response = await axios.post('http://localhost:5000/imagegen/generateImage', {
               prompt,
               width,
@@ -59,14 +60,13 @@ const ImageGenerator = () => {
 
   const shareImage = async () => {
     if(imageData){
+        // Navigate to the create post page with the image data
         navigate('/createpost', { state: { imageData } });
 
     }else{
         setError('No image to share');
     }
   };
-
-  // ... your existing JSX
 
 return (
   <div>

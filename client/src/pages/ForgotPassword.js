@@ -7,7 +7,7 @@ import { useState } from 'react';
 const ForgotPassword = () => {
   const [state, setState] = useState('');
   const onSubmit = (values) => {
-      // Now, values.email and values.username contain the input values
+    // send new password to backend
       axios.post('http://localhost:5000/forgotpassword', values)
         .then(response => {
           console.log("message: ",response.data.message);

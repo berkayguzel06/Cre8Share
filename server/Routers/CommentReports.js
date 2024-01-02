@@ -1,5 +1,5 @@
-const express = require('express'); // Importing the 'express' library to create a router 
-const router = express.Router(); // Creating an instance of an Express router
+const express = require('express'); 
+const router = express.Router(); 
 const { CommentReport } = require('../models');
 
 router.get("/reportcount", async (req, res) => {
@@ -13,7 +13,7 @@ router.get("/reportcount", async (req, res) => {
     }
 });
 
-// Handling HTTP POST requests to the "/report" path
+
 router.post("/report", async (req, res) => {
     try {
         const { CommentId, userid } = req.body;

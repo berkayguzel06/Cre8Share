@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { Like, Post } = require('../models');
 
-// Handling HTTP POST requests to the "/like" path
 router.post("/like", async (req, res) => {
     try {
         const { PostId, userid } = req.body;

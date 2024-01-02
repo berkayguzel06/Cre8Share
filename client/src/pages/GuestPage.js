@@ -8,6 +8,7 @@ const GuestPage = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
   const navigate = useNavigate();
 
+  // Get all posts from the database
   useEffect(() => {
     axios
       .get('http://localhost:5000/post/guestpage')
@@ -23,10 +24,6 @@ const GuestPage = () => {
       });
   }, []);
 
-  const getTimeAgo = (createdAt) => {
-    // Your existing code for formatting time difference
-  };
-
   const navigateLogin = () => {
     navigate('/login');
   };
@@ -35,6 +32,7 @@ const GuestPage = () => {
     navigate('/register');
   };
 
+  // breakpoints for the masonry layout
   const breakpoints = {
     default: 3,
     1100: 2,
@@ -75,12 +73,10 @@ const GuestPage = () => {
               >
                 {listOfPosts.map((post) => (
                   <div key={post.id} className="post-item">
-                    {/* Display post content here */}
                     <img
                       src={`data:image/png;base64,${arrayBufferToBase64(post.content)}`}
                       alt={`Post: ${post.id}`}
                     />
-                    {/* Other post details */}
                   </div>
                 ))}
               </Masonry>

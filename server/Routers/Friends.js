@@ -1,10 +1,10 @@
-const express = require('express'); // Importing the 'express' library to create a router 
-const router = express.Router(); // Creating an instance of an Express router
-const { User, Friend } = require('../models'); // Importing the 'friend' model from the '../models' directory
+const express = require('express');  
+const router = express.Router(); 
+const { User, Friend } = require('../models'); 
 const { Op } = require('sequelize');
-// Handling HTTP GET requests to the root path ("/")
 router.get("/profile/username/:userid", async (req, res) => {
-    const userID = req.params.userid; // Extracting the post ID from the URL parameters
+    const userID = req.params.userid; 
+    // Find all friends of the user
     const listofFriends = await Friend.findAll({
         where: {
             [Op.or]: [
@@ -18,20 +18,17 @@ router.get("/profile/username/:userid", async (req, res) => {
         uniqueFriendIDs.add(friend.UserId);
         uniqueFriendIDs.add(friend.friendID);
     });
-    // Fetch usernames based on unique friend IDs
     const friendUsernames = await User.findAll({
         where: {
             id: Array.from(uniqueFriendIDs)
         },
-        attributes: ['id', 'username'] // Adjust attributes as needed
+        attributes: ['id', 'username'] 
     });
     res.json(friendUsernames);
 });
 
-// Handling HTTP GET requests to the root path ("/")
 router.get("/:userID", async (req, res) => {
-    const friendship = req.query; // Change this line to retrieve the object from the request body
-    // Using Sequelize's 'findAll' method to retrieve all friends from the database
+    const friendship = req.query; 
     const user = await Friend.findOne({ where: { UserId: friendship.userid, friendID: friendship.friendID }});
     const friend = await Friend.findOne({ where: { UserId: friendship.friendID, friendID: friendship.userid }});
     if(user!=null){
@@ -48,7 +45,6 @@ router.delete("/", async (req, res) => {
     console.log(userid, friendID);
 
     try {
-        // Assuming Friend is your Sequelize model
         let friend = await Friend.findOne(
             { where: { UserId: userid, friendID: friendID } }
         );
@@ -78,6 +74,7 @@ router.delete("/:id", async (req, res) => {
 
         if (friends.length > 0) {
             for (const friend of friends) {
+                // If user decline or detele firendship
                 await friend.destroy();
             }
             res.status(200).send("Friendships deleted successfully");
@@ -91,18 +88,17 @@ router.delete("/:id", async (req, res) => {
 });
 
 
-// Handling HTTP POST requests to the root path ("/")
 router.post("/", async (req, res) => {
-    const {friendID, userid, status} = req.body; // Extracting the request body, which should contain data for creating a new user
-    await Friend.create({UserId:userid, status:status, friendID:friendID}); // Using Sequelize's 'create' method to add a new friend to the database
-    res.send("Succesfully Send"); // Sending the friend data as a response
+    const {friendID, userid, status} = req.body; 
+    // Create a new friend in the database
+    await Friend.create({UserId:userid, status:status, friendID:friendID}); 
+    res.send("Succesfully Send"); 
 });
 
-// Handling HTTP POST requests to the root path ("/")
 router.post("/update", async (req, res) => {
     const { userid, friendID, status } = req.body;
     try {
-        // Assuming Friend is your Sequelize model
+        // Update if user accept friendship
         const updatedRows = await Friend.update(
             { status: status },
             { where: { UserId: userid, friendID: friendID } }

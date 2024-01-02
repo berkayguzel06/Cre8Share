@@ -5,13 +5,13 @@ import "../css/Admin.css";
 import Header from './Header';
 
 const Admin = () => {
-  const [listOfPosts, setListOfPosts] = useState([]);
-  const [listOfUsers, setListOfUsers] = useState([]);
-  const [listOfComments, setListOfComments] = useState([]);
+  const [listOfPosts, setListOfPosts] = useState([]); // holds the posts
+  const [listOfUsers, setListOfUsers] = useState([]); // holds the users
+  const [listOfComments, setListOfComments] = useState([]); // holds the comments
   const [isAdminAuthenticated, setAdminAuthentication] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedAction, setSelectedAction] = useState(null);
+  const [selectedAction, setSelectedAction] = useState(null); // which data will shown
 
   useEffect(() => {
     if (isAdminAuthenticated && selectedAction) {
@@ -22,6 +22,7 @@ const Admin = () => {
   const fetchData = async () => {
     try {
       let response;
+      // fetch data based on selected action
       switch (selectedAction) {
         case 'posts':
           response = await axios.get('http://localhost:5000/admin/post');
@@ -42,7 +43,7 @@ const Admin = () => {
       console.error(`Error fetching ${selectedAction}:`, error);
     }
   };
-
+  // convert array buffer to base64 string for image display
   const arrayBufferToBase64 = (buffer) => {
     const binary = new Uint8Array(buffer.data).reduce(
       (binaryString, byte) => binaryString + String.fromCharCode(byte),

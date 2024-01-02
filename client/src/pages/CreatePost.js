@@ -19,7 +19,7 @@ const CreatePost = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('accessToken');
 
-
+   // Get the username using userid
   const getUsernameById = async (userId) => {
     try {
       const response = await axios.post('http://localhost:5000/user/usernamewithid', { id: userId });
@@ -32,7 +32,8 @@ const CreatePost = () => {
       throw error; // Rethrow the error to be handled by the caller
     }
   };
-  
+
+  // Get the username from the token
   const getUsernameFromToken = () => {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
@@ -51,6 +52,7 @@ const CreatePost = () => {
 
   useEffect(() => {
     if (image) {
+      // Convert the image file to a data URL
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
@@ -87,6 +89,7 @@ const CreatePost = () => {
 
   
   const uploadFromFile = () => {
+    // Convert the image file to a base64 string and return a promise
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -106,6 +109,7 @@ const CreatePost = () => {
         setError('Image is required for preview');
         return;
       }
+      // Get the user ID from the token
       const id = JSON.parse(atob(token.split('.')[1]))['id'];
       setError('');
       let base64String = null;

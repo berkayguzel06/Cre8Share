@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { PostReport, Post } = require('../models');
 
-// Handling HTTP POST requests to the "/report" path
 router.post("/report", async (req, res) => {
     try {
         const { PostId, userid } = req.body;

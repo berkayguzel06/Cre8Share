@@ -1,11 +1,10 @@
-const express = require('express'); // Importing the 'express' library to create a router 
-const router = express.Router(); // Creating an instance of an Express router
+const express = require('express');
+const router = express.Router();
 const { sendResetPasswordEmail } = require('../middlewares/Mail');
 const { User } = require('../models');
 
 router.post('/', async (req, res) => {
   try {
-    // Access the data sent from the client using req.body
     const { email, username } = req.body;
     
     const user = await User.findOne({ where: { email: email, username: username } })
@@ -13,6 +12,7 @@ router.post('/', async (req, res) => {
       return res.json({ message: 'User not found.' });
     }else{
       res.json({ message: 'We send e-mail your password reset link .' });
+      // Send reset password email to user
       const resetLink = `http://localhost:3000/resetpassword?username=${encodeURIComponent(username)}`;
       sendResetPasswordEmail(email, resetLink);
     }
@@ -24,8 +24,8 @@ router.post('/', async (req, res) => {
 
 router.post('/reset', async (req, res) => {
   try {
-    // Access the data sent from the client using req.body
-    const { password, username } = req.body;
+
+    const { password, username } = req.body; // Get data
     
     const user = await User.findOne({ where: { username: username } })
     if (!user) {

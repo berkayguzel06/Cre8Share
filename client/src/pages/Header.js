@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { UserContext } from '../Helpers/UserContext.js';
 import axios from 'axios';
 import logoImage from '../images/cre8share-logo.png';
-import profileImage from '../images/pp.png';
 import '../css/Header.css';
 
 const Header = () => {
@@ -11,14 +10,13 @@ const Header = () => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [userSearchResults, setUserSearchResults] = useState([]);
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext); // Get the user data from context
   const [userProfile, setUserProfile] = useState(null);
   const navigate = useNavigate();
-
   const [Userpfp, setUserpfp] = useState(null);
-  const [Userbanner, setUserbanner] = useState(null);
 
   useEffect(() => {
+    // Fetch user profile and picture
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/user/${userData.username}`);
@@ -76,6 +74,7 @@ const Header = () => {
   };
 
   const handleUserSearch = async () => {
+    // Search for users based on search input
     try {
       const response = await axios.get(`http://localhost:5000/user/searchedusers/${searchInput}`);
       setUserSearchResults(response.data.ListOfUsers);
@@ -118,8 +117,6 @@ const Header = () => {
           >
             Search
           </button>
-          {/* Show first 5 user search results */}
-
           {userSearchResults && userSearchResults.length > 0 && (
             <div className="user-search-results">
               <h2>User Search Results</h2>

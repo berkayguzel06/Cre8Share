@@ -1,4 +1,3 @@
-// Post model is used to create a table in the database about posts.
 
 module.exports = (sequelize, DataTypes) => {
     const Post = sequelize.define("Post", {

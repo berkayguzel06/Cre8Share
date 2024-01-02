@@ -1,18 +1,16 @@
-// router.js
 const express = require('express');
 const router = express.Router();
 const {performSetup, generateImageInBackground} = require('../middlewares/GenerateImage')
 
-// Variable to track whether setup has been performed
-let isSetupCompleted = false;
+let isSetupCompleted = false; // Flag to check if setup is completed
 
 router.post('/generateImage', async (req, res) => {
   try {
     const { prompt, width, height } = req.body;
 
-    // Perform setup only on the first run
+    // Perform setup only first run
     if (!isSetupCompleted) {
-      await performSetup();
+      await performSetup(); // Make setup to user local if it is not completed
       isSetupCompleted = true;
     }
 

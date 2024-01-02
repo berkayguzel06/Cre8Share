@@ -1,4 +1,4 @@
-// Post model is used to create a table in the database about posts.
+// Admin Model
 
 module.exports = (sequelize, DataTypes) => {
     const Admin = sequelize.define("Admin", {

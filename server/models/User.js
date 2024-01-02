@@ -1,4 +1,3 @@
-// User model is used to create a table in the database about users.
 
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define("User", {

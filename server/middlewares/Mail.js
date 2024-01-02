@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-
+// Transporter to send mails
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   secure: false,
@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Function to send password reset email
+// If user wants to reset password then send email with reset link
 const sendResetPasswordEmail = (recipientEmail, resetLink) => {
   const mailOptions = {
     from: 'cre8share.noreply@gmail.com',

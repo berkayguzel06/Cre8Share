@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('./models'); // Importing the database models
 const cors = require('cors'); // Importing the CORS middleware
 const app = express(); // Creating an instance of the Express application
-const PORT = process.env.PORT || 5000; // Setting the port for the server
+const PORT = process.env.PORT || 5000; // Port number for the server
 const postRouter = require('./Routers/Posts'); // Importing the router for handling posts
 const userRouter = require('./Routers/Users'); // Importing the router for handling users
 const forgotpasswordRouter = require('./Routers/ForgotPassword');
@@ -16,12 +16,11 @@ const getImageData = require('./Routers/GetImage');
 const admin = require('./Routers/Admin');
 const bodyParser = require('body-parser');
 
-// Enable CORS with a custom configuration
 app.use(cors({
-  origin: 'http://localhost:3000', // Allowing requests from 'http://localhost:3000'
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowing specified HTTP methods
-  credentials: true, // Allowing credentials (e.g., cookies, authorization headers)
-  optionsSuccessStatus: 204, // Setting the HTTP status code for preflight requests
+  origin: 'http://localhost:3000', // Allowed address 'http://localhost:3000'
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed http methods
+  credentials: true,
+  optionsSuccessStatus: 204,
 }));
 
 
@@ -45,5 +44,3 @@ db.sequelize.sync().then(() => {
     console.log(`Server is running on port ${PORT}`);
   });
 });
-
-// End of the server setup

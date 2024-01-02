@@ -154,7 +154,6 @@ const CreatePost = () => {
           <p>Title: {title}</p>
           <p>Username: {username}</p>
           <img src={preview} alt="Post Preview" style={{ maxWidth: '100%' }} />
-          {/* You can add more details from the preview if needed */}
           <button type="button" onClick={() => setShowPreview(false)}>
             Back to Edit
           </button>

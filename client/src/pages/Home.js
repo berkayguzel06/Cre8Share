@@ -30,7 +30,7 @@ const Home = () => {
       .then((response) => {
         if (Array.isArray(response.data)) {
           setOriginalListOfPosts(response.data);
-          setListOfPosts(response.data);
+          setListOfPosts(response.data.reverse());
           setUniqueTitles([...new Set(response.data.map((post) => post.title))]);
         } else {
           console.error('Invalid data format:', response.data);

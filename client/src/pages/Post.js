@@ -183,9 +183,10 @@ const Post = () => {
         </button>
 
        
-
-        <button className='reportbuttonpost' onClick={() => handleReport(post.id)}>Report</button>
         <p className="report-paragraph"> {post.report}</p>
+        <button className='reportbuttonpost' onClick={() => handleReport(post.id)}>Report</button>
+
+       
       </div>
 
       {/* Comment input and submit button */}

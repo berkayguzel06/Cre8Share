@@ -49,8 +49,8 @@
 
   .reportbuttonpost {
     position: relative;
-    bottom: 26px;
-    right: 130px;
+    bottom: 75px;
+    right: 90px;
     background: none;
     border: none;
     padding: 0;
@@ -72,7 +72,7 @@
 
 .comment-boxbox{
     position: relative;
-    bottom: 80px;
+    bottom: 110px;
     left: 150px;
 }
 

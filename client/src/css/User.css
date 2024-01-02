@@ -95,9 +95,20 @@
   height: 60px;
   border: none;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 50px;
   border-radius: 50px;
 }
+
+.addfriend-button {
+  background-size: contain;
+  width: 150px;
+  height: 60px;
+  border: none;
+  cursor: pointer;
+  margin-top: 50px;
+  border-radius: 50px;
+}
+
 
 .post-containerrr {
   display: flex;

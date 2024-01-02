@@ -295,12 +295,12 @@ const Profile = () => {
         {userData && userProfile && userData.id !== userProfile.id && (
           <>
             {isFriend === null && (
-              <button className='follower-button' onClick={addFriend}>Add Friend</button>
+              <button onClick={addFriend}>Add Friend</button>
             )}
             {isFriend && isFriend.status === false && isFriend.friendID === userData.id && (
               <div>
-                <button className='follower-button' onClick={acceptFriend}>Accept</button>
-                <button className='follower-button' onClick={declineFriend}>Decline</button>
+                <button onClick={acceptFriend}>Accept</button>
+                <button onClick={declineFriend}>Decline</button>
               </div>
             )}
             {isFriend && isFriend.status === true && (

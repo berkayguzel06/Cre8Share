@@ -138,17 +138,17 @@ const Header = () => {
       <button className="create-post-button" style={{ borderRadius: '25%', }} onClick={navigateImageGeneration}>
         Cre8 and Share
       </button>
-      
-        <div className="header-right">
-  {userProfile && userProfile && (
-    <div className="profile-picture" onClick={toggleProfileMenu}>
-      {Userpfp ? (
-        <img src={`data:image/png;base64,${arrayBufferToBase64(Userpfp)}`} alt="Profile" />
-      ) : (
-        <img src={profileImage} alt="Default Profile" />
-      )}
-    </div>
-  )}
+
+      <div className="header-right">
+        {userProfile && userProfile && (
+          <div className="profile-picture" onClick={toggleProfileMenu}>
+            {Userpfp ? (
+              <img src={`data:image/png;base64,${arrayBufferToBase64(Userpfp)}`} alt="Profile" />
+            ) : (
+              <img src={profileImage} alt="Default Profile" />
+            )}
+          </div>
+        )}
         {showProfileMenu && (
           <div className="profile-menu">
             <button onClick={() => handleProfileMenuClick('profile')}>My Profile</button>

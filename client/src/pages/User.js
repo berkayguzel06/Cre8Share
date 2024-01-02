@@ -247,7 +247,7 @@ const Profile = () => {
               // Profil resmini burada render et
               <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.pfp)}`} alt="Profile Picture" />
             )}
-            <h2>{userProfile?.username}</h2>
+            <h2 className="profiless-username">{userProfile?.username}</h2>
             {userProfile?.username === userData?.username && (
               <button
                 className="edit-profile-button"
@@ -280,7 +280,11 @@ const Profile = () => {
               </div>
             )}
             {isFriend && isFriend.status === true && (
-              <button onClick={declineFriend}>Remove Friend</button>
+               <button
+               className="follower-button" /* Added class for styling */
+               onClick={declineFriend}
+               style={{ float: 'right' }} /* Move the button to the right */
+             >Remove Friend</button>
             )}
           </>
         )}

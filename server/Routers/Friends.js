@@ -22,7 +22,7 @@ router.get("/profile/username/:userid", async (req, res) => {
         where: {
             id: Array.from(uniqueFriendIDs)
         },
-        attributes: ['id', 'username'] 
+        attributes: ['id', 'username','pfp','banner'] 
     });
     res.json(friendUsernames);
 });

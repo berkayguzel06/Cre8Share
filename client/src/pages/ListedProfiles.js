@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import '../css/ListedProfiles.css';
 import Header from './Header';
 import profileImage from '../images/pp.png';
+import profileBanner from '../images/gri.png';
 
 const ListedProfiles = () => {
   const location = useLocation();
@@ -27,19 +28,39 @@ const ListedProfiles = () => {
               userSearchResults.map((user) => (
                 <li key={user.id} className="profiless-item">
                   <Link to={`/user/${user.username}`}>
-                    {user.pfp ? (
-                      <img
-                        src={`data:image/png;base64,${arrayBufferToBase64(user.pfp)}`}
-                        className="profiless-image"
-                      />
-                    ) : (
-                      <img
-                        src={profileImage}
-                        className="profiless-image"
-                        alt="Default Profile Picture"
-                      />
-                    )}
-                    <span className="profiless-username">{user.username}</span>
+                    <div className="profiless-info">
+                      <div className="profiless-details">
+                        {user.pfp ? (
+                          <img
+                            src={`data:image/png;base64,${arrayBufferToBase64(
+                              user.pfp
+                            )}`}
+                            className="profiless-image"
+                          />
+                        ) : (
+                          <img
+                            src={profileImage}
+                            className="profiless-image"
+                            alt="Default Profile Picture"
+                          />
+                        )}
+                        <span className="profiless-username">{user.username}</span>
+                      </div>
+                      {user.banner ? (
+                        <img
+                          src={`data:image/png;base64,${arrayBufferToBase64(
+                            user.banner
+                          )}`}
+                          className="profiless-banner"
+                        />
+                      ) : (
+                        <img
+                          src={profileBanner}
+                          className="profiless-banner"
+                          alt="Default Banner"
+                        />
+                      )}
+                    </div>
                   </Link>
                 </li>
               ))}
@@ -48,6 +69,7 @@ const ListedProfiles = () => {
       </div>
     </div>
   );
+  
 };
 
 export default ListedProfiles;

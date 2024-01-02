@@ -1,5 +1,11 @@
 from diffusers import StableDiffusionPipeline
-
+"""
+    Custom pipeline latent text to img
+    Diffusers is a pipeline library that allows the user use pretrained models and generate from them
+    num_inference_steps="How many times will work on image"
+    guidance_scale="What is the ratio that model wroks based on the prompt"
+    use_safetensors="Model extension"
+"""
 class text2img:
     def __init__(self, model, custom_pipeline="latent_consistency_txt2img"):
         self.images = []
@@ -16,13 +22,6 @@ class text2img:
                                 height=height, width=width,num_images_per_prompt=num_images_per_prompt)
         self.images = output.images
 
+    # Save img after generation
     def save_image(self, path, idx=0):
         self.images[idx].save(path)
-
-    def show_image(self, idx=0):
-        self.images[idx].show()
-
-    def get_image(self,idx=0):
-        return self.images[idx]
-
-

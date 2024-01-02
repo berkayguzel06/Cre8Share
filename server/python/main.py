@@ -4,6 +4,7 @@ import sys
 import os
 from text2img import text2img
 
+# Generate image with the model, prompt, width and height
 def generate_image(prompt, width, height):
     model = "SimianLuo/LCM_Dreamshaper_v7"
     t2i = text2img(model=model)

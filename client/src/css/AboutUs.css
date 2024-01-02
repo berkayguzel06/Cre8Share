@@ -1,0 +1,86 @@
+/* About Us Page Styles */
+.about-us-page {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #000000;
+  }
+  
+  .post-list-containerx2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 10px;
+    max-width: 1920px;
+    margin-top: 80px;
+  }
+  
+  .post-itemx2 {
+    opacity: 0.2;
+    cursor: pointer;
+    display: inline-block;
+    width: calc(25% - 10px);
+    margin-bottom: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .post-itemx2:hover {
+    transform: scale(1.06);
+  }
+  
+  .post-itemx2 img {
+    width: 100%;
+    height: 550px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+  
+  .about-section {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 800px;
+    padding: 20px;
+    background-color: none; /* Arka plan rengi */
+    box-shadow: 0 0 10px rgba(39, 39, 39, 0.1); /* Gölge efekti */
+    z-index: 1000; /* Diğer elementlerin üzerinde olması için */
+  }
+  
+  .about-content {
+    display: block;
+    transition: opacity 0.5s ease;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .about-content p {
+    opacity: 1;
+  }
+  
+  .hidden {
+    opacity: 0;
+    display: none;
+  }
+  
+  .arrow-icon {
+    opacity:2;
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    right: -400px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  .image-sizee {
+    width: 600px;
+    height: auto;
+  }
+  .image-sizee2 {
+    width: auto;
+    height: 500px;
+  }

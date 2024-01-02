@@ -56,8 +56,8 @@ const Header = () => {
   const handleProfileMenuClick = (option) => {
     if (option === 'profile') {
       navigate(`/user/${userData.username}`);
-    } else if (option === 'settings') {
-      navigate('/settings');
+    } else if (option === 'aboutus') {
+      navigate('/aboutus');
     } else if (option === 'logout') {
       localStorage.removeItem('userData');
       localStorage.removeItem('accessToken');
@@ -152,7 +152,7 @@ const Header = () => {
         {showProfileMenu && (
           <div className="profile-menu">
             <button onClick={() => handleProfileMenuClick('profile')}>My Profile</button>
-            <button onClick={() => handleProfileMenuClick('settings')}>Settings</button>
+            <button onClick={() => handleProfileMenuClick('aboutus')}>ABOUT US</button>
             <button onClick={() => handleProfileMenuClick('logout')}>Log Out</button>
           </div>
         )}

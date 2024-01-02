@@ -8,6 +8,7 @@ import Header from './Header.js';
 import '../css/User.css';
 import editProfileButtonPic from '../images/EditProfileButtonPic.png';
 import profileImage from '../images/pp.png';
+import profileBanner from '../images/gri.png';
 
 const Profile = () => {
   const { userData, setUserData } = useContext(UserContext);
@@ -234,15 +235,23 @@ const Profile = () => {
         <div className="user-banner">
           {!userProfile || !userProfile.banner ? (
             // Yükleme durumu veya placeholder
-            <div>User Banner</div>
+            <img
+            src={profileBanner}
+            className="user-profile"
+            alt="Default Banner Picture"
+          />
           ) : (
             // Profil resmini burada render et
-            <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.banner)}`} alt="Profile Picture" />
+            <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.banner)}`} alt="Banner" />
           )}
           <div className="user-profile">
             {!userProfile || !userProfile.pfp ? (
               // Yükleme durumu veya placeholder
-              <div>User Profile Photo</div>
+              <img
+              src={profileImage}
+              className="user-profile"
+              alt="Default Profile Picture"
+            />
             ) : (
               // Profil resmini burada render et
               <img src={`data:image/png;base64,${arrayBufferToBase64(userProfile.pfp)}`} alt="Profile Picture" />

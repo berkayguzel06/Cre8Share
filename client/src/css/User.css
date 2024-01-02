@@ -13,7 +13,7 @@
   width: 100%;
   max-width: 600px;
   height: 200px;
-  background-color: #afafaf;
+  background-color: none;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -32,7 +32,9 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 3px solid #fff;
+  border: none;
+  position:relative;
+  padding-bottom:10px;
 }
 
 /* Edit profile butonunun stili */

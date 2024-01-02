@@ -319,7 +319,7 @@ const Profile = () => {
       </div>
       <div className="user-postsss">
         <ul className="posts-containerrrr">
-          {userProfile?.Posts.map((post) => (
+        {userProfile?.Posts.slice().reverse().map((post) => (
             <li  className="post-containerrr" key={post.id}>
               <Link to={`/post/${post.id}`}>
                 <img

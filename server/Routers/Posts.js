@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Post, User } = require('../models');
 const {validateToken} = require("../middlewares/UserAuth");
-s
+
 router.get("/", validateToken, async (req, res) => {
     try {
         const listOfPosts = await Post.findAll({

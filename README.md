@@ -1,4 +1,3 @@
-# SocialMediaApp Project Report
 
 ![image](https://github.com/berkayguzel06/Cre8Share/assets/98205992/1b748cec-f959-4b05-93f8-16d214d441a8)
 

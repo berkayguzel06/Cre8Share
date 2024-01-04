@@ -20,7 +20,8 @@ The SocialMediaApp is a web-based social media application that enables users to
 - User registration and account creation.
 - Login functionality.
 
-<img src="https://github.com/berkayguzel06/Cre8Share/assets/98205992/da3e01b9-a42c-4494-b6cd-3ee21e9f6ae1" alt="Alt Text" width="600" height="550">
+![İsimsiz video ‐ Clipchamp ile yapıldı](https://github.com/berkayguzel06/Cre8Share/assets/134441532/3b75ad9e-8671-4451-8d20-2d17bf977b4d)
+
 
 ### Post Management
 - Post creation and upload functionality.
